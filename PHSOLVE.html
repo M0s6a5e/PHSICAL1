@@ -433,10 +433,10 @@
         </div>
     </footer>
 
-   <script type="module">
+ <script type="module">
   // استيراد مكتبات فايربيس
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } 
+  import { getFirestore, collection, addDoc, query, where, orderBy, onSnapshot, serverTimestamp } 
     from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
   // بيانات مشروعك
@@ -461,14 +461,18 @@
     localStorage.setItem("userId", userId);
   }
 
-  // بعد تحميل الصفحة
   document.addEventListener("DOMContentLoaded", () => {
     const messagesDiv = document.getElementById("chatMessages"); 
     const input = document.getElementById("messageInput");
     const sendBtn = document.getElementById("sendMessage"); 
 
-    // عرض الرسائل من Firestore
-    const q = query(collection(db, "messages"), orderBy("timestamp", "asc"));
+    // عرض الرسائل الخاصة بالمستخدم فقط
+    const q = query(
+      collection(db, "messages"),
+      where("recipientId", "==", userId),
+      orderBy("timestamp", "asc")
+    );
+
     onSnapshot(q, (snapshot) => {
       messagesDiv.innerHTML = "";
       snapshot.forEach((doc) => {
@@ -480,8 +484,6 @@
           msg.classList.add("user-message");
         } else if (data.userId === "bot") {
           msg.classList.add("bot-message");
-        } else {
-          msg.classList.add("other-message");
         }
 
         msg.textContent = data.text;
@@ -490,23 +492,24 @@
       messagesDiv.scrollTop = messagesDiv.scrollHeight;
     });
 
-    // إرسال الرسالة
+    // إرسال رسالة المستخدم
     sendBtn.onclick = async () => {
       const text = input.value.trim();
       if (text !== "") {
-        // رسالة المستخدم
         await addDoc(collection(db, "messages"), {
           userId: userId,
+          recipientId: userId, // الرسالة خاصة لهذا المستخدم
           text: text,
           timestamp: serverTimestamp()
         });
 
-        input.value = ""; 
+        input.value = "";
 
         // رد تلقائي من البوت بعد ثانيتين
         setTimeout(async () => {
           await addDoc(collection(db, "messages"), {
             userId: "bot",
+            recipientId: userId, // الرد يذهب فقط للمستخدم الذي أرسل الرسالة
             text: "تم استلام رسالتك ✅",
             timestamp: serverTimestamp()
           });
@@ -519,12 +522,14 @@
 
 
 
+
 </body>
 
 
 </body>
 
 </html>
+
 
 
 
