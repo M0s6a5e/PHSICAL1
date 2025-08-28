@@ -434,80 +434,69 @@
     </footer>
 
     
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script>
+  <script type="module">
+  // استيراد مكتبات فايربيس
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } 
+    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-  <script>
-    // إعداد Firebase
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT_ID.appspot.com",
-      messagingSenderId: "YOUR_SENDER_ID",
-      appId: "YOUR_APP_ID"
-    };
+  // بيانات مشروعك
+  const firebaseConfig = {
+    apiKey: "AIzaSyCyZprH9RyN6KT8YNAOCcssED8UlUnX2cc",
+    authDomain: "fasical.firebaseapp.com",
+    projectId: "fasical",
+    storageBucket: "fasical.firebasestorage.app",
+    messagingSenderId: "736317749127",
+    appId: "1:736317749127:web:0995df0a8a2b7716bd4522",
+    measurementId: "G-DV2N8TCF5G"
+  };
 
-    const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+  // تهيئة Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
 
-    // إنشاء userId ثابت لكل مستخدم (يتخزن في localStorage)
-    let userId = localStorage.getItem("userId");
-    if (!userId) {
-      userId = "user_" + Date.now();
-      localStorage.setItem("userId", userId);
-    }
+  // تحديد المستخدم وحفظه في localStorage
+  let userId = localStorage.getItem("userId");
+  if (!userId) {
+    userId = "user_" + Date.now();
+    localStorage.setItem("userId", userId);
+  }
 
+  // بعد تحميل الصفحة
+  document.addEventListener("DOMContentLoaded", () => {
     const messagesDiv = document.getElementById("messages");
-    const input = document.getElementById("message-input");
-    const sendBtn = document.getElementById("send-button");
+    const input = document.getElementById("messageInput");
+    const sendBtn = document.getElementById("sendBtn");
 
-    // جلب الرسائل بشكل مباشر (Realtime)
-    db.collection("messages")
-      .where("userId", "==", userId)
-      .orderBy("timestamp", "asc")
-      .onSnapshot(snapshot => {
-        messagesDiv.innerHTML = "";
-        snapshot.forEach(doc => {
-          const msg = doc.data();
-          const div = document.createElement("div");
-          div.classList.add("message", msg.sender);
-          div.innerText = msg.text;
-          messagesDiv.appendChild(div);
-        });
-        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    // عرض الرسائل من Firestore
+    const q = query(collection(db, "messages"), orderBy("timestamp", "asc"));
+    onSnapshot(q, (snapshot) => {
+      messagesDiv.innerHTML = "";
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+        const msg = document.createElement("div");
+        msg.style.margin = "5px 0";
+        msg.textContent = `${data.userId}: ${data.text}`;
+        messagesDiv.appendChild(msg);
       });
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    });
 
-    // إرسال رسالة
-    function sendMessage(text, sender="user") {
-      db.collection("messages").add({
-        userId: userId,
-        sender: sender,
-        text: text,
-        timestamp: Date.now()
-      });
-    }
-
-    // زر الإرسال
-    sendBtn.onclick = () => {
+    // إرسال الرسالة
+    sendBtn.onclick = async () => {
       const text = input.value.trim();
       if (text !== "") {
-        sendMessage(text, "user");
-        input.value = "";
-
-        // رد البوت
-        setTimeout(() => {
-          sendMessage("تمام! استلمت رسالتك 👌", "bot");
-        }, 1000);
+        await addDoc(collection(db, "messages"), {
+          userId: userId,
+          text: text,
+          timestamp: serverTimestamp()
+        });
+        input.value = ""; // مسح الخانة بعد الإرسال
       }
     };
+  });
+</script>
 
-    // إرسال بالضغط على Enter
-    input.addEventListener("keypress", e => {
-      if (e.key === "Enter") sendBtn.click();
-    });
-  </script>
 
 
 
@@ -517,6 +506,7 @@
 </body>
 
 </html>
+
 
 
 
