@@ -433,127 +433,81 @@
         </div>
     </footer>
 
-    <!-- Firebase -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-  import {
-    getFirestore,
-    collection,
-    addDoc,
-    query,
-    where,
-    orderBy,
-    onSnapshot
-  } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+    
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script>
 
-  // ====== ضع هنا إعدادات مشروعك الحقيقية (حصلت عليها منك سابقًا) ======
-  const firebaseConfig = {
-    apiKey: "AIzaSyCyZprH9RyN6KT8YNAOCcssED8UlUnX2cc",
-    authDomain: "fasical.firebaseapp.com",
-    projectId: "fasical",
-    storageBucket: "fasical.firebasestorage.app",
-    messagingSenderId: "736317749127",
-    appId: "1:736317749127:web:0995df0a8a2b7716bd4522",
-    measurementId: "G-DV2N8TCF5G"
-  };
-  // ===================================================================
+  <script>
+    // إعداد Firebase
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
 
-  // تهيئة Firebase
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
 
-  // HTML عناصر
-  const chatMessages = document.getElementById("chatMessages");
-  const messageInput = document.getElementById("messageInput");
-  const sendMessageBtn = document.getElementById("sendMessage");
+    // إنشاء userId ثابت لكل مستخدم (يتخزن في localStorage)
+    let userId = localStorage.getItem("userId");
+    if (!userId) {
+      userId = "user_" + Date.now();
+      localStorage.setItem("userId", userId);
+    }
 
-  if (!chatMessages || !messageInput || !sendMessageBtn) {
-    console.error("خطأ: العناصر chatMessages أو messageInput أو sendMessage غير موجودة في الصفحة.");
-  }
+    const messagesDiv = document.getElementById("messages");
+    const input = document.getElementById("message-input");
+    const sendBtn = document.getElementById("send-button");
 
-  // توليد userId ثابت في localStorage (يبقى مع المستخدم حتى لو عمل ريفرش أو قفل المتصفح)
-  let userId = localStorage.getItem("userId");
-  if (!userId) {
-    userId = "user_" + Math.floor(Math.random() * 1e9) + "_" + Date.now();
-    localStorage.setItem("userId", userId);
-  }
-  console.log("chat userId =", userId);
-
-  // مرجع collection الرسائل
-  const messagesColl = collection(db, "messages");
-
-  // Query لجلب رسائل هذا اليوزر فقط، مرتبة حسب الحقل timestamp (رقم ملى ثانية)
-  const myQuery = query(
-    messagesColl,
-    where("userId", "==", userId),
-    orderBy("timestamp", "asc")
-  );
-
-  // دالة لتفريغ وعرض الرسائل
-  function renderMessages(docs) {
-    chatMessages.innerHTML = "";
-    docs.forEach(doc => {
-      const msg = doc.data();
-      const div = document.createElement("div");
-      div.classList.add("message");
-      if (msg.sender === "user") div.classList.add("user-message");
-      else div.classList.add("bot-message");
-      div.textContent = msg.text;
-      chatMessages.appendChild(div);
-    });
-    // نزّل للصورة الأخيرة
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-  }
-
-  // استماع realtime لرسائل اليوزر
-  onSnapshot(myQuery, snapshot => {
-    const docs = [];
-    snapshot.forEach(d => docs.push(d));
-    renderMessages(docs);
-  }, err => {
-    console.error("Firestore onSnapshot error:", err);
-  });
-
-  // إرسال رسالة المستخدم وحفظها كرقم timestamp (Date.now())
-  async function sendUserMessage() {
-    const text = messageInput.value.trim();
-    if (!text) return;
-    try {
-      // أضف رسالة المستخدم
-      await addDoc(messagesColl, {
-        userId,
-        sender: "user",
-        text,
-        timestamp: Date.now()
+    // جلب الرسائل بشكل مباشر (Realtime)
+    db.collection("messages")
+      .where("userId", "==", userId)
+      .orderBy("timestamp", "asc")
+      .onSnapshot(snapshot => {
+        messagesDiv.innerHTML = "";
+        snapshot.forEach(doc => {
+          const msg = doc.data();
+          const div = document.createElement("div");
+          div.classList.add("message", msg.sender);
+          div.innerText = msg.text;
+          messagesDiv.appendChild(div);
+        });
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
       });
 
-      // مسح الحقل فوراً
-      messageInput.value = "";
-
-      // إضافة رد بوت تلقائي (يُخزن بنفس userId ويظهر بعد رسالة المستخدم)
-      setTimeout(async () => {
-        try {
-          await addDoc(messagesColl, {
-            userId,
-            sender: "bot",
-            text: "📘 تمام — جاري تحضير محاضرتك عن: " + text,
-            timestamp: Date.now()
-          });
-        } catch (e) {
-          console.error("خطأ في إضافة رد البوت:", e);
-        }
-      }, 800); // 800ms تأخير بسيط ليظهر الرد بعد المستخدم
-    } catch (e) {
-      console.error("خطأ في إرسال الرسالة:", e);
-      alert("حصل خطأ أثناء إرسال الرسالة. افتح Console للمزيد.");
+    // إرسال رسالة
+    function sendMessage(text, sender="user") {
+      db.collection("messages").add({
+        userId: userId,
+        sender: sender,
+        text: text,
+        timestamp: Date.now()
+      });
     }
-  }
 
-  sendMessageBtn.addEventListener("click", sendUserMessage);
-  messageInput.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") sendUserMessage();
-  });
-</script>
+    // زر الإرسال
+    sendBtn.onclick = () => {
+      const text = input.value.trim();
+      if (text !== "") {
+        sendMessage(text, "user");
+        input.value = "";
+
+        // رد البوت
+        setTimeout(() => {
+          sendMessage("تمام! استلمت رسالتك 👌", "bot");
+        }, 1000);
+      }
+    };
+
+    // إرسال بالضغط على Enter
+    input.addEventListener("keypress", e => {
+      if (e.key === "Enter") sendBtn.click();
+    });
+  </script>
 
 
 
@@ -563,5 +517,6 @@
 </body>
 
 </html>
+
 
 
