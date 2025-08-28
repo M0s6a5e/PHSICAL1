@@ -467,11 +467,12 @@
     const sendBtn = document.getElementById("sendMessage"); 
 
     // عرض الرسائل الخاصة بالمستخدم فقط
-    const q = query(
-      collection(db, "messages"),
-      where("recipientId", "==", userId),
-      orderBy("timestamp", "asc")
-    );
+  const q = query(
+  collection(db, "messages"),
+  where("recipientId", "==", userId),
+  orderBy("timestamp", "asc")
+);
+
 
     onSnapshot(q, (snapshot) => {
       messagesDiv.innerHTML = "";
@@ -507,12 +508,12 @@
 
         // رد تلقائي من البوت بعد ثانيتين
         setTimeout(async () => {
-          await addDoc(collection(db, "messages"), {
-            userId: "bot",
-            recipientId: userId, // الرد يذهب فقط للمستخدم الذي أرسل الرسالة
-            text: "تم استلام رسالتك ✅",
-            timestamp: serverTimestamp()
-          });
+        await addDoc(collection(db, "messages"), {
+  userId: userId,
+  text: text,
+  timestamp: serverTimestamp()
+});
+
         }, 2000);
       }
     };
@@ -529,6 +530,7 @@
 </body>
 
 </html>
+
 
 
 
