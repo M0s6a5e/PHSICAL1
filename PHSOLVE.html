@@ -433,8 +433,7 @@
         </div>
     </footer>
 
-    
-  <script type="module">
+   <script type="module">
   // استيراد مكتبات فايربيس
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } 
@@ -464,9 +463,9 @@
 
   // بعد تحميل الصفحة
   document.addEventListener("DOMContentLoaded", () => {
-    const messagesDiv = document.getElementById("messages");
+    const messagesDiv = document.getElementById("chatMessages"); 
     const input = document.getElementById("messageInput");
-    const sendBtn = document.getElementById("sendBtn");
+    const sendBtn = document.getElementById("sendMessage"); 
 
     // عرض الرسائل من Firestore
     const q = query(collection(db, "messages"), orderBy("timestamp", "asc"));
@@ -475,8 +474,17 @@
       snapshot.forEach((doc) => {
         const data = doc.data();
         const msg = document.createElement("div");
-        msg.style.margin = "5px 0";
-        msg.textContent = `${data.userId}: ${data.text}`;
+        msg.classList.add("message");
+
+        if (data.userId === userId) {
+          msg.classList.add("user-message");
+        } else if (data.userId === "bot") {
+          msg.classList.add("bot-message");
+        } else {
+          msg.classList.add("other-message");
+        }
+
+        msg.textContent = data.text;
         messagesDiv.appendChild(msg);
       });
       messagesDiv.scrollTop = messagesDiv.scrollHeight;
@@ -486,12 +494,23 @@
     sendBtn.onclick = async () => {
       const text = input.value.trim();
       if (text !== "") {
+        // رسالة المستخدم
         await addDoc(collection(db, "messages"), {
           userId: userId,
           text: text,
           timestamp: serverTimestamp()
         });
-        input.value = ""; // مسح الخانة بعد الإرسال
+
+        input.value = ""; 
+
+        // رد تلقائي من البوت بعد ثانيتين
+        setTimeout(async () => {
+          await addDoc(collection(db, "messages"), {
+            userId: "bot",
+            text: "تم استلام رسالتك ✅",
+            timestamp: serverTimestamp()
+          });
+        }, 2000);
       }
     };
   });
@@ -506,6 +525,7 @@
 </body>
 
 </html>
+
 
 
 
