@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أداة التحضير الآلي</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #6d28d9;
+            --primary-light: #8b5cf6;
+            --text-color: #1f2937;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --gradient: linear-gradient(135deg, #6d28d9 0%, #8b5cf6 100%);
+            --chat-user-bg: #e0e7ff;
+            --chat-bot-bg: #f1f5f9;
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #8b5cf6;
+            --primary-light: #a78bfa;
+            --text-color: #e2e8f0;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            --gradient: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+            --chat-user-bg: #3730a3;
+            --chat-bot-bg: #1e293b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: var(--transition);
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Tajawal', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: background-color 0.5s ease;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* الديناميك آيلاند - شريط التنقل */
+        .dynamic-island {
+            position: fixed;
+            top: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--card-bg);
+            border-radius: 50px;
+            padding: 12px 25px;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .dynamic-island a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 25px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dynamic-island a:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 100%;
+            background: var(--gradient);
+            transition: var(--transition);
+            z-index: -1;
+            border-radius: 25px;
+        }
+
+        .dynamic-island a:hover:before {
+            width: 100%;
+            right: auto;
+            left: 0;
+        }
+
+        .dynamic-island a:hover {
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .dynamic-island a.active {
+            background: var(--gradient);
+            color: white;
+            box-shadow: 0 4px 10px rgba(109, 40, 217, 0.4);
+        }
+
+        .dynamic-island a.active:before {
+            display: none;
+        }
+
+        /* زر تبديل الوضع */
+        .theme-toggle {
+            background: var(--gradient);
+            border: none;
+            cursor: pointer;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(45deg) scale(1.1);
+        }
+
+        /* المحتوى الرئيسي */
+        .main-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 0 80px;
+        }
+
+        .content-box {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 25px;
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            width: 100%;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content-box:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient);
+        }
+
+        .content-box h1 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            font-size: 2.2rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+        }
+
+        .content-box p {
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            text-align: center;
+        }
+
+        /* شات التحضير */
+        .chat-container {
+            background: var(--card-bg);
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .bot-message {
+            background: var(--chat-bot-bg);
+            align-self: flex-start;
+            border-bottom-right-radius: 5px;
+        }
+
+        .user-message {
+            background: var(--chat-user-bg);
+            align-self: flex-end;
+            border-bottom-left-radius: 5px;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid var(--border-color);
+            background: var(--card-bg);
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        .chat-input input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .chat-input button {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 20px;
+            margin-right: 10px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .chat-input button:hover {
+            transform: scale(1.05);
+        }
+
+        /* التذييل */
+        footer {
+            background-color: var(--card-bg);
+            padding: 25px 0;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+        }
+
+        footer p {
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gradient);
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            transform: translateY(-5px);
+        }
+        
+
+        /* التكيف مع الشاشات الصغيرة */
+        @media (max-width: 768px) {
+            .dynamic-island {
+                padding: 10px 15px;
+                gap: 10px;
+                width: 90%;
+            }
+            
+            .dynamic-island a {
+                font-size: 14px;
+                padding: 6px 12px;
+            }
+            
+            .dynamic-island a span {
+                display: none;
+            }
+            
+            .content-box {
+                padding: 20px;
+                margin: 0 15px;
+            }
+            
+            .content-box h1 {
+                font-size: 1.8rem;
+            }
+            
+            .content-box p {
+                font-size: 1rem;
+            }
+            
+            .chat-container {
+                height: 350px;
+            }
+            
+            .message {
+                max-width: 90%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dynamic-island {
+                flex-wrap: wrap;
+                justify-content: center;
+                width: 90%;
+                top: 10px;
+            }
+            
+            .theme-toggle {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .content-box {
+                padding: 15px;
+            }
+            
+            .content-box h1 {
+                font-size: 1.6rem;
+            }
+            
+            .chat-input {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .chat-input button {
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- الديناميك آيلاند (شريط التنقل) -->
+    <nav class="dynamic-island">
+        <a href="index.html"><i class="fas fa-home"></i> الرئيسية</a>
+      <!-- قم بتعديل رابط "عنّا" في الديناميك آيلاند -->
+        <!-- استبدل رابط "عنّا" في الديناميك آيلاند بهذا -->
+        <!-- استبدل رابط "عنّا" بهذا -->
+        <a href="#courses-section"><i class="fas fa-book"></i> المقرارات الدراسية</a>
+        <!-- استبدل رابط الخدمات في الديناميك آيلاند بهذا -->
+        <a href="PHSOLVE.html"><i class="fas fa-cogs"></i> مساعد التحضير</a>
+        <a href="#student-forum"><i class="fas fa-users"></i> المنتدى</a>
+        <button class="theme-toggle" id="themeToggle">
+            <i class="fas fa-moon"></i>
+        </button>
+    </nav>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="main-content">
+        <div class="container">
+            <div class="content-box">
+                <h1><i class="fas fa-robot"></i> أداة التحضير الآلي</h1>
+                <p>من خلال هذه الأداة يمكنك كتابة موضوع المحاضرة وسيتم تحضيرها لك تلقائياً مع الشرح المفصل.</p>
+                
+                <div class="chat-container">
+                    <div class="chat-messages" id="chatMessages">
+                        <!-- الرسائل هتظهر هنا -->
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" id="messageInput" placeholder="اكتب موضوع المحاضرة هنا...">
+                        <button id="sendMessage"><i class="fas fa-paper-plane"></i> إرسال</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+   
+    <!-- التذييل -->
+    <footer>
+        <div class="container">
+            <p>© <span id="copyright-year">2025</span>جميع الحقوق محفوظة لدى M0S7A5E</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } 
+        from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+        // Firebase Config الحقيقي
+        const firebaseConfig = {
+            apiKey: "AIzaSyCyZprH9RyN6KT8YNAOCcssED8UlUnX2cc",
+            authDomain: "fasical.firebaseapp.com",
+            projectId: "fasical",
+            storageBucket: "fasical.firebasestorage.app",
+            messagingSenderId: "736317749127",
+            appId: "1:736317749127:web:0995df0a8a2b7716bd4522",
+            measurementId: "G-DV2N8TCF5G"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const chatMessages = document.getElementById("chatMessages");
+        const messageInput = document.getElementById("messageInput");
+        const sendMessageBtn = document.getElementById("sendMessage");
+
+        // توليد userId لكل مستخدم في الجلسة
+        let userId = sessionStorage.getItem("userId");
+        if (!userId) {
+            userId = "user_" + Date.now() + Math.floor(Math.random() * 1000);
+            sessionStorage.setItem("userId", userId);
+        }
+
+        // إرسال رسالة المستخدم
+        sendMessageBtn.addEventListener("click", async () => {
+            const text = messageInput.value.trim();
+            if (text) {
+                await addDoc(collection(db, "messages"), {
+                    text: text,
+                    sender: "user",
+                    userId: userId,
+                    timestamp: serverTimestamp()
+                });
+
+                // رد تلقائي من البوت لنفس المستخدم
+                setTimeout(async () => {
+                    await addDoc(collection(db, "messages"), {
+                        text: "📘 تمام! جاري تحضير محاضرة عن: " + text,
+                        sender: "bot",
+                        userId: userId,
+                        timestamp: serverTimestamp()
+                    });
+                }, 1000);
+
+                messageInput.value = "";
+            }
+        });
+
+        // عرض الرسائل الخاصة بهذا المستخدم فقط
+        const q = query(collection(db, "messages"), orderBy("timestamp", "asc"));
+        onSnapshot(q, (snapshot) => {
+            chatMessages.innerHTML = "";
+            snapshot.forEach((doc) => {
+                const msg = doc.data();
+                if(msg.userId === userId){  // فقط رسائل هذا المستخدم
+                    const div = document.createElement("div");
+                    div.classList.add("message");
+                    div.classList.add(msg.sender === "user" ? "user-message" : "bot-message");
+                    div.textContent = msg.text;
+                    chatMessages.appendChild(div);
+                }
+            });
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        });
+    </script>
+</body>
+
+
+</body>
+</html>
