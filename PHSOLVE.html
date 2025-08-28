@@ -434,7 +434,7 @@
     </footer>
 
     <!-- Firebase -->
-   <script type="module">
+<script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
   import { 
     getFirestore, 
@@ -484,9 +484,9 @@
 
       // تلوين الرسالة حسب المرسل
       if (msg.userId === userId) {
-        div.classList.add("user-message");
+        div.classList.add("message", "user-message");
       } else {
-        div.classList.add("bot-message");
+        div.classList.add("message", "bot-message");
       }
 
       div.textContent = msg.text;
@@ -498,18 +498,34 @@
   });
 
   // ✅ إرسال رسالة جديدة
-  sendMessage.addEventListener("click", async () => {
+  async function sendUserMessage() {
     const text = messageInput.value.trim();
     if (text) {
+      // رسالة المستخدم
       await addDoc(messagesRef, {
         userId,
         text,
         timestamp: Date.now()
       });
+
+      // مسح الخانة بعد الإرسال
       messageInput.value = "";
+
+      // رد البوت (مؤقت للتجربة)
+      await addDoc(messagesRef, {
+        userId: "bot",
+        text: "تم استلام رسالتك: " + text,
+        timestamp: Date.now() + 1 // عشان يظهر بعدها
+      });
     }
+  }
+
+  sendMessage.addEventListener("click", sendUserMessage);
+  messageInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") sendUserMessage();
   });
 </script>
+
 
 </body>
 
