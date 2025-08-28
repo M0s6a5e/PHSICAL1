@@ -4,24 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>أداة التحضير الآلي</title>
-
-    <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-  import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "YOUR_KEY",
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT.appspot.com",
-    messagingSenderId: "SENDER_ID",
-    appId: "APP_ID"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-</script>
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -451,108 +433,82 @@
         </div>
     </footer>
 
- <script type="module">
-  // استيراد مكتبات فايربيس
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getFirestore, collection, addDoc, query, where, orderBy, onSnapshot, serverTimestamp } 
-    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    <!-- Firebase -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } 
+        from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-  // بيانات مشروعك
-  const firebaseConfig = {
-    apiKey: "AIzaSyCyZprH9RyN6KT8YNAOCcssED8UlUnX2cc",
-    authDomain: "fasical.firebaseapp.com",
-    projectId: "fasical",
-    storageBucket: "fasical.firebasestorage.app",
-    messagingSenderId: "736317749127",
-    appId: "1:736317749127:web:0995df0a8a2b7716bd4522",
-    measurementId: "G-DV2N8TCF5G"
-  };
+        // Firebase Config الحقيقي
+        const firebaseConfig = {
+            apiKey: "AIzaSyCyZprH9RyN6KT8YNAOCcssED8UlUnX2cc",
+            authDomain: "fasical.firebaseapp.com",
+            projectId: "fasical",
+            storageBucket: "fasical.firebasestorage.app",
+            messagingSenderId: "736317749127",
+            appId: "1:736317749127:web:0995df0a8a2b7716bd4522",
+            measurementId: "G-DV2N8TCF5G"
+        };
 
-  // تهيئة Firebase
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-  // تحديد المستخدم وحفظه في localStorage
-  let userId = localStorage.getItem("userId");
-  if (!userId) {
-    userId = "user_" + Date.now();
-    localStorage.setItem("userId", userId);
-  }
+        const chatMessages = document.getElementById("chatMessages");
+        const messageInput = document.getElementById("messageInput");
+        const sendMessageBtn = document.getElementById("sendMessage");
 
-  document.addEventListener("DOMContentLoaded", () => {
-    const messagesDiv = document.getElementById("chatMessages"); 
-    const input = document.getElementById("messageInput");
-    const sendBtn = document.getElementById("sendMessage"); 
-
-    // عرض الرسائل الخاصة بالمستخدم فقط
-  const q = query(
-  collection(db, "messages"),
-  where("recipientId", "==", userId),
-  orderBy("timestamp", "asc")
-);
-
-
-    onSnapshot(q, (snapshot) => {
-      messagesDiv.innerHTML = "";
-      snapshot.forEach((doc) => {
-        const data = doc.data();
-        const msg = document.createElement("div");
-        msg.classList.add("message");
-
-        if (data.userId === userId) {
-          msg.classList.add("user-message");
-        } else if (data.userId === "bot") {
-          msg.classList.add("bot-message");
+        // توليد userId لكل مستخدم في الجلسة
+        let userId = sessionStorage.getItem("userId");
+        if (!userId) {
+            userId = "user_" + Date.now() + Math.floor(Math.random() * 1000);
+            sessionStorage.setItem("userId", userId);
         }
 
-        msg.textContent = data.text;
-        messagesDiv.appendChild(msg);
-      });
-      messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    });
+        // إرسال رسالة المستخدم
+        sendMessageBtn.addEventListener("click", async () => {
+            const text = messageInput.value.trim();
+            if (text) {
+                await addDoc(collection(db, "messages"), {
+                    text: text,
+                    sender: "user",
+                    userId: userId,
+                    timestamp: serverTimestamp()
+                });
 
-    // إرسال رسالة المستخدم
-    sendBtn.onclick = async () => {
-      const text = input.value.trim();
-      if (text !== "") {
-        await addDoc(collection(db, "messages"), {
-          userId: userId,
-          recipientId: userId, // الرسالة خاصة لهذا المستخدم
-          text: text,
-          timestamp: serverTimestamp()
+                // رد تلقائي من البوت لنفس المستخدم
+                setTimeout(async () => {
+                    await addDoc(collection(db, "messages"), {
+                        text: "📘 تمام! جاري تحضير محاضرة عن: " + text,
+                        sender: "bot",
+                        userId: userId,
+                        timestamp: serverTimestamp()
+                    });
+                }, 1000);
+
+                messageInput.value = "";
+            }
         });
 
-        input.value = "";
-
-        // رد تلقائي من البوت بعد ثانيتين
-        setTimeout(async () => {
-        await addDoc(collection(db, "messages"), {
-  userId: userId,
-  text: text,
-  timestamp: serverTimestamp()
-});
-
-        }, 2000);
-      }
-    };
-  });
-</script>
-
-
-
-
-
+        // عرض الرسائل الخاصة بهذا المستخدم فقط
+        const q = query(collection(db, "messages"), orderBy("timestamp", "asc"));
+        onSnapshot(q, (snapshot) => {
+            chatMessages.innerHTML = "";
+            snapshot.forEach((doc) => {
+                const msg = doc.data();
+                if(msg.userId === userId){  // فقط رسائل هذا المستخدم
+                    const div = document.createElement("div");
+                    div.classList.add("message");
+                    div.classList.add(msg.sender === "user" ? "user-message" : "bot-message");
+                    div.textContent = msg.text;
+                    chatMessages.appendChild(div);
+                }
+            });
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        });
+    </script>
 </body>
 
 
 </body>
-
 </html>
-
-
-
-
-
-
-
-
