@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https:/M0s6a5e/.github.io/PHSICAL1/sitemap.xml
