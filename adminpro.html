@@ -1,0 +1,1855 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم الإدارة - منصة تعلم</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --accent: #f72585;
+            --success: #4cc9f0;
+            --dark: #1d3557;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --gray-light: #e9ecef;
+            --border-radius: 12px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f5f7fb;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+        }
+
+        .admin-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .admin-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .logout-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .logout-btn:hover {
+            background: #d81b60;
+        }
+
+        /* Admin Layout */
+        .admin-layout {
+            display: flex;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: var(--dark);
+            color: white;
+            padding: 20px 0;
+            transition: var(--transition);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .menu-item {
+            padding: 15px 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .menu-item.active {
+            background: var(--primary);
+            border-right: 4px solid var(--accent);
+        }
+
+        .menu-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            background: #f5f7fb;
+        }
+
+        .content-section {
+            display: none;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--dark);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #3aa8d0;
+        }
+
+        .btn-danger {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #d81b60;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 12px 15px;
+            text-align: right;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .data-table th {
+            background: var(--light);
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .data-table tr:hover {
+            background: var(--gray-light);
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: none;
+            font-size: 0.85rem;
+            transition: var(--transition);
+        }
+
+        .edit-btn {
+            background: var(--primary);
+            color: white;
+        }
+
+        .delete-btn {
+            background: var(--accent);
+            color: white;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--border-radius);
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .form-help {
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin-top: 5px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1100;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--gray-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid var(--gray-light);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        /* Login Page */
+        .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+        }
+
+        .login-box {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--dark);
+        }
+
+        .alert {
+            padding: 12px 15px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+        }
+
+        .alert-error {
+            background: #ffeaea;
+            color: #d32f2f;
+            border: 1px solid #ffcdd2;
+        }
+
+        .alert-info {
+            background: #e3f2fd;
+            color: #1976d2;
+            border: 1px solid #bbdefb;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .admin-layout {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+            }
+            
+            .sidebar-menu {
+                display: flex;
+                overflow-x: auto;
+            }
+            
+            .menu-item {
+                white-space: nowrap;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .actions {
+                flex-direction: column;
+            }
+        }
+
+        /* Loading */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--gray-light);
+            border-left: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--gray-light);
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab.active {
+            border-bottom-color: var(--primary);
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Code Editor */
+        .code-editor {
+            font-family: 'Courier New', monospace;
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin: 10px 0;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            line-height: 1.5;
+        }
+
+        .code-help {
+            background: var(--light);
+            padding: 10px 15px;
+            border-radius: var(--border-radius);
+            margin: 10px 0;
+            font-size: 0.9rem;
+        }
+
+        .code-help code {
+            background: #e9ecef;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Course Cards */
+        .course-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .course-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .course-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .course-category {
+            background: var(--light);
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        .course-description {
+            color: var(--gray);
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .course-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        .course-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .course-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        /* Badges */
+        .badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-beginner { background: #e3f2fd; color: #1976d2; }
+        .badge-intermediate { background: #e8f5e8; color: #2e7d32; }
+        .badge-advanced { background: #ffebee; color: #c62828; }
+
+        /* محتوى الدرس */
+        .lesson-content {
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        .lesson-content p {
+            margin-bottom: 15px;
+        }
+
+        .lesson-content pre {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .lesson-content code {
+            background: #f1f3f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .lesson-content .regular-code {
+            background: transparent;
+            padding: 0;
+            border-radius: 0;
+            font-family: 'Courier New', monospace;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <!-- صفحة تسجيل الدخول -->
+    <div id="loginPage" class="login-container">
+        <div class="login-box">
+            <div class="login-logo">
+                <div class="logo">
+                    <i class="fas fa-laptop-code"></i>
+                    <span>منصة تعلم - الإدارة</span>
+                </div>
+            </div>
+            <h2 class="login-title">تسجيل الدخول للإدارة</h2>
+            <div id="loginAlert" class="alert alert-error" style="display: none;"></div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label" for="adminEmail">البريد الإلكتروني</label>
+                    <input type="email" class="form-control" id="adminEmail" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="adminPassword">كلمة المرور</label>
+                    <input type="password" class="form-control" id="adminPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">تسجيل الدخول</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- لوحة التحكم -->
+    <div id="adminPanel" style="display: none;">
+        <header>
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">
+                        <i class="fas fa-laptop-code"></i>
+                        <span>منصة تعلم - الإدارة</span>
+                    </div>
+                    <div class="admin-info">
+                        <div class="admin-avatar">م</div>
+                        <span id="adminName">مسؤول النظام</span>
+                        <button class="logout-btn" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="admin-layout">
+            <!-- الشريط الجانبي -->
+            <div class="sidebar">
+                <ul class="sidebar-menu">
+                    <li class="menu-item active" data-section="dashboard">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>لوحة التحكم</span>
+                    </li>
+                    <li class="menu-item" data-section="courses">
+                        <i class="fas fa-book"></i>
+                        <span>إدارة الكورسات</span>
+                    </li>
+                    <li class="menu-item" data-section="lessons">
+                        <i class="fas fa-file-alt"></i>
+                        <span>إدارة الدروس</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- المحتوى الرئيسي -->
+            <div class="main-content">
+                <!-- لوحة التحكم -->
+                <div id="dashboard" class="content-section active">
+                    <div class="section-header">
+                        <h2 class="section-title">لوحة التحكم</h2>
+                    </div>
+                    <div class="stats-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px;">
+                        <div class="stat-card" style="background: white; padding: 20px; border-radius: var(--border-radius); box-shadow: var(--shadow); text-align: center;">
+                            <div class="stat-value" style="font-size: 2.5rem; font-weight: 700; color: var(--primary);" id="categoriesCount">4</div>
+                            <div class="stat-label" style="color: var(--gray);">الفئات</div>
+                        </div>
+                        <div class="stat-card" style="background: white; padding: 20px; border-radius: var(--border-radius); box-shadow: var(--shadow); text-align: center;">
+                            <div class="stat-value" style="font-size: 2.5rem; font-weight: 700; color: var(--success);" id="coursesCount">0</div>
+                            <div class="stat-label" style="color: var(--gray);">الكورسات</div>
+                        </div>
+                        <div class="stat-card" style="background: white; padding: 20px; border-radius: var(--border-radius); box-shadow: var(--shadow); text-align: center;">
+                            <div class="stat-value" style="font-size: 2.5rem; font-weight: 700; color: var(--accent);" id="lessonsCount">0</div>
+                            <div class="stat-label" style="color: var(--gray);">الدروس</div>
+                        </div>
+                    </div>
+                    
+                    <h3 style="margin-bottom: 15px;">آخر الكورسات المضافة</h3>
+                    <div id="recentCourses">
+                        <div class="loading">
+                            <div class="loading-spinner"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- إدارة الكورسات -->
+                <div id="courses" class="content-section">
+                    <div class="tabs">
+                        <div class="tab active" data-tab="coursesList">قائمة الكورسات</div>
+                        <div class="tab" data-tab="addCourse">إضافة كورس جديد</div>
+                    </div>
+                    
+                    <div class="tab-content active" id="coursesList">
+                        <div class="section-header">
+                            <h3 class="section-title">جميع الكورسات</h3>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">فلترة حسب الفئة</label>
+                            <select class="form-control" id="categoryFilter">
+                                <option value="">جميع الفئات</option>
+                                <option value="programming">برمجة وتطوير</option>
+                                <option value="office">برامج المكاتب</option>
+                                <option value="design">تصميم المواقع</option>
+                                <option value="gamedev">تطوير الألعاب</option>
+                            </select>
+                        </div>
+                        <div id="coursesContainer">
+                            <div class="loading">
+                                <div class="loading-spinner"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="addCourse">
+                        <div class="section-header">
+                            <h3 class="section-title">إضافة كورس جديد</h3>
+                        </div>
+                        <form id="addCourseForm">
+                            <div class="form-group">
+                                <label class="form-label" for="courseCategory">الفئة</label>
+                                <select class="form-control" id="courseCategory" required>
+                                    <option value="">اختر الفئة</option>
+                                    <option value="programming">برمجة وتطوير</option>
+                                    <option value="office">برامج المكاتب</option>
+                                    <option value="design">تصميم المواقع</option>
+                                    <option value="gamedev">تطوير الألعاب</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="courseTitle">عنوان الكورس</label>
+                                <input type="text" class="form-control" id="courseTitle" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="courseDescription">وصف الكورس</label>
+                                <textarea class="form-control" id="courseDescription" required></textarea>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label" for="courseLevel">المستوى</label>
+                                    <select class="form-control" id="courseLevel" required>
+                                        <option value="beginner">مبتدئ</option>
+                                        <option value="intermediate">متوسط</option>
+                                        <option value="advanced">متقدم</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="courseDuration">المدة (ساعات)</label>
+                                    <input type="number" class="form-control" id="courseDuration" min="1" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label" for="courseOrder">ترتيب الكورس</label>
+                                    <input type="number" class="form-control" id="courseOrder" min="1" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="courseIcon">أيقونة الكورس</label>
+                                    <select class="form-control" id="courseIcon">
+                                        <option value="fa-code">Code</option>
+                                        <option value="fa-python">Python</option>
+                                        <option value="fa-js">JavaScript</option>
+                                        <option value="fa-react">React</option>
+                                        <option value="fa-mobile-alt">Mobile</option>
+                                        <option value="fa-file-excel">Excel</option>
+                                        <option value="fa-file-word">Word</option>
+                                        <option value="fa-file-powerpoint">PowerPoint</option>
+                                        <option value="fa-palette">Design</option>
+                                        <option value="fa-image">Photoshop</option>
+                                        <option value="fa-figma">Figma</option>
+                                        <option value="fa-gamepad">Game</option>
+                                        <option value="fa-cube">3D</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">إضافة الكورس</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- إدارة الدروس -->
+                <div id="lessons" class="content-section">
+                    <div class="tabs">
+                        <div class="tab active" data-tab="lessonsList">قائمة الدروس</div>
+                        <div class="tab" data-tab="addLesson">إضافة درس جديد</div>
+                    </div>
+                    
+                    <div class="tab-content active" id="lessonsList">
+                        <div class="section-header">
+                            <h3 class="section-title">جميع الدروس</h3>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">اختر الكورس</label>
+                            <select class="form-control" id="courseFilter">
+                                <option value="">جميع الكورسات</option>
+                            </select>
+                        </div>
+                        <div id="lessonsContainer">
+                            <div class="loading">
+                                <div class="loading-spinner"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="addLesson">
+                        <div class="section-header">
+                            <h3 class="section-title">إضافة درس جديد</h3>
+                        </div>
+                        <form id="addLessonForm">
+                            <div class="form-group">
+                                <label class="form-label" for="lessonCourse">الكورس</label>
+                                <select class="form-control" id="lessonCourse" required>
+                                    <option value="">اختر الكورس</option>
+                                </select>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label" for="lessonOrder">ترتيب الدرس</label>
+                                    <input type="number" class="form-control" id="lessonOrder" min="1" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="lessonDuration">مدة الدرس (دقيقة)</label>
+                                    <input type="number" class="form-control" id="lessonDuration" min="1">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="lessonTitle">عنوان الدرس</label>
+                                <input type="text" class="form-control" id="lessonTitle" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="lessonDescription">وصف الدرس</label>
+                                <textarea class="form-control" id="lessonDescription"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="lessonContent">محتوى الدرس</label>
+                                <textarea class="form-control" id="lessonContent" required></textarea>
+                                <div class="form-help">
+                                    يمكنك استخدام <code>{}</code> لوضع محتوى يشبه الـ Terminal. مثال: <code>{npm install react}</code><br>
+                                    <strong>الأسطر البرمجية خارج {} ستبقى كما هي بدون تحويل</strong>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="lessonExercises">عدد التمارين</label>
+                                <input type="number" class="form-control" id="lessonExercises" min="0" value="0">
+                            </div>
+                            <button type="submit" class="btn btn-primary">إضافة الدرس</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal تعديل كورس -->
+    <div id="editCourseModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">تعديل الكورس</h3>
+                <button class="close-modal" onclick="closeEditCourseModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="editCourseForm">
+                    <input type="hidden" id="editCourseId">
+                    <div class="form-group">
+                        <label class="form-label" for="editCourseCategory">الفئة</label>
+                        <select class="form-control" id="editCourseCategory" required>
+                            <option value="">اختر الفئة</option>
+                            <option value="programming">برمجة وتطوير</option>
+                            <option value="office">برامج المكاتب</option>
+                            <option value="design">تصميم المواقع</option>
+                            <option value="gamedev">تطوير الألعاب</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="editCourseTitle">عنوان الكورس</label>
+                        <input type="text" class="form-control" id="editCourseTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="editCourseDescription">وصف الكورس</label>
+                        <textarea class="form-control" id="editCourseDescription" required></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="editCourseLevel">المستوى</label>
+                            <select class="form-control" id="editCourseLevel" required>
+                                <option value="beginner">مبتدئ</option>
+                                <option value="intermediate">متوسط</option>
+                                <option value="advanced">متقدم</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="editCourseDuration">المدة (ساعات)</label>
+                            <input type="number" class="form-control" id="editCourseDuration" min="1" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="editCourseOrder">ترتيب الكورس</label>
+                            <input type="number" class="form-control" id="editCourseOrder" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="editCourseIcon">أيقونة الكورس</label>
+                            <select class="form-control" id="editCourseIcon">
+                                <option value="fa-code">Code</option>
+                                <option value="fa-python">Python</option>
+                                <option value="fa-js">JavaScript</option>
+                                <option value="fa-react">React</option>
+                                <option value="fa-mobile-alt">Mobile</option>
+                                <option value="fa-file-excel">Excel</option>
+                                <option value="fa-file-word">Word</option>
+                                <option value="fa-file-powerpoint">PowerPoint</option>
+                                <option value="fa-palette">Design</option>
+                                <option value="fa-image">Photoshop</option>
+                                <option value="fa-figma">Figma</option>
+                                <option value="fa-gamepad">Game</option>
+                                <option value="fa-cube">3D</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeEditCourseModal()">إلغاء</button>
+                <button class="btn btn-primary" onclick="updateCourse()">تحديث الكورس</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal عرض محتوى الدرس -->
+    <div id="viewLessonModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3 class="modal-title" id="viewLessonTitle">عرض محتوى الدرس</h3>
+                <button class="close-modal" onclick="closeViewLessonModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="viewLessonContent" class="lesson-content">
+                    <!-- سيتم تعبئة محتوى الدرس هنا -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeViewLessonModal()">إغلاق</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- إضافة مكتبة Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        // تهيئة Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyBWKhdd3INeAdPRocDzIpiWV_opev--kiQ",
+            authDomain: "physicals-6e967.firebaseapp.com",
+            projectId: "physicals-6e967",
+            storageBucket: "physicals-6e967.firebasestorage.app",
+            messagingSenderId: "1044063949",
+            appId: "1:1044063949:web:c23c7d28afaaa3cbdc2b84",
+            measurementId: "G-WH172YM7WZ"
+        };
+
+        // Initialize Firebase
+        let auth, db;
+        try {
+            if (!firebase.apps.length) {
+                firebase.initializeApp(firebaseConfig);
+            }
+            auth = firebase.auth();
+            db = firebase.firestore();
+            console.log("Firebase initialized successfully");
+        } catch (error) {
+            console.error("Firebase initialization error:", error);
+        }
+
+        // عناصر DOM
+        const loginPage = document.getElementById('loginPage');
+        const adminPanel = document.getElementById('adminPanel');
+        const loginForm = document.getElementById('loginForm');
+        const loginAlert = document.getElementById('loginAlert');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const menuItems = document.querySelectorAll('.menu-item');
+        const contentSections = document.querySelectorAll('.content-section');
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        // المتغيرات العامة
+        let allCourses = [];
+
+        // تهيئة الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            // التحقق من حالة تسجيل الدخول
+            checkAdminAuth();
+            
+            // تهيئة الأحداث
+            initializeEvents();
+        });
+
+        // التحقق من حالة تسجيل الدخول
+        function checkAdminAuth() {
+            if (!auth) return;
+            
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    showAdminPanel(user, { name: 'مسؤول النظام' });
+                } else {
+                    showLoginPage();
+                }
+            });
+        }
+
+        // عرض صفحة تسجيل الدخول
+        function showLoginPage() {
+            loginPage.style.display = 'flex';
+            adminPanel.style.display = 'none';
+        }
+
+        // عرض لوحة الإدارة
+        function showAdminPanel(user, adminData) {
+            loginPage.style.display = 'none';
+            adminPanel.style.display = 'block';
+            
+            document.getElementById('adminName').textContent = adminData.name || 'مسؤول النظام';
+            
+            // تحميل البيانات من Firebase
+            loadDashboardData();
+            loadCourses();
+            loadLessons();
+        }
+
+        // تهيئة الأحداث
+        function initializeEvents() {
+            // تسجيل الدخول
+            loginForm.addEventListener('submit', handleLogin);
+            
+            // تسجيل الخروج
+            logoutBtn.addEventListener('click', handleLogout);
+            
+            // التنقل بين الأقسام
+            menuItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const sectionId = item.getAttribute('data-section');
+                    switchSection(sectionId);
+                    
+                    menuItems.forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+                });
+            });
+            
+            // التنقل بين التبويبات
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.getAttribute('data-tab');
+                    switchTab(tabId);
+                    
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                });
+            });
+            
+            // إدارة الكورسات
+            document.getElementById('addCourseForm').addEventListener('submit', addCourse);
+            document.getElementById('categoryFilter').addEventListener('change', filterCourses);
+            
+            // إدارة الدروس
+            document.getElementById('addLessonForm').addEventListener('submit', addLesson);
+            document.getElementById('courseFilter').addEventListener('change', filterLessons);
+        }
+
+        // تسجيل الدخول
+        async function handleLogin(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
+            
+            try {
+                await auth.signInWithEmailAndPassword(email, password);
+            } catch (error) {
+                console.error('Login error:', error);
+                showAlert('خطأ في تسجيل الدخول: ' + error.message, 'error');
+            }
+        }
+
+        // تسجيل الخروج
+        async function handleLogout() {
+            try {
+                await auth.signOut();
+                showLoginPage();
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
+        }
+
+        // تبديل الأقسام
+        function switchSection(sectionId) {
+            contentSections.forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+        }
+
+        // تبديل التبويبات
+        function switchTab(tabId) {
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        // عرض رسالة تنبيه
+        function showAlert(message, type) {
+            loginAlert.textContent = message;
+            loginAlert.className = `alert alert-${type}`;
+            loginAlert.style.display = 'block';
+            
+            setTimeout(() => {
+                loginAlert.style.display = 'none';
+            }, 5000);
+        }
+
+        // تحميل بيانات لوحة التحكم
+        async function loadDashboardData() {
+            try {
+                // إحصائيات الكورسات
+                const coursesSnapshot = await db.collection('courses').get();
+                document.getElementById('coursesCount').textContent = coursesSnapshot.size;
+                
+                // إحصائيات الدروس
+                let lessonsCount = 0;
+                coursesSnapshot.forEach(courseDoc => {
+                    lessonsCount += courseDoc.data().lessonsCount || 0;
+                });
+                document.getElementById('lessonsCount').textContent = lessonsCount;
+                
+                // آخر الكورسات المضافة
+                loadRecentCourses();
+                
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+            }
+        }
+
+        // تحميل آخر الكورسات المضافة
+        async function loadRecentCourses() {
+            try {
+                const coursesSnapshot = await db.collection('courses')
+                    .orderBy('createdAt', 'desc')
+                    .limit(5)
+                    .get();
+                
+                const recentCoursesContainer = document.getElementById('recentCourses');
+                
+                if (coursesSnapshot.empty) {
+                    recentCoursesContainer.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-book"></i>
+                            <h3>لا توجد كورسات</h3>
+                            <p>لم يتم إضافة أي كورسات بعد</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                let html = '';
+                coursesSnapshot.forEach(doc => {
+                    const course = doc.data();
+                    html += `
+                        <div class="course-card">
+                            <div class="course-header">
+                                <div>
+                                    <div class="course-title">${course.title}</div>
+                                    <div class="course-category">${getCategoryTypeName(course.categoryId)}</div>
+                                </div>
+                                <span class="badge badge-${course.level}">${getLevelName(course.level)}</span>
+                            </div>
+                            <div class="course-description">${course.description}</div>
+                            <div class="course-meta">
+                                <span><i class="fas fa-clock"></i> ${course.duration} ساعة</span>
+                                <span><i class="fas fa-file-alt"></i> ${course.lessonsCount || 0} درس</span>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                recentCoursesContainer.innerHTML = html;
+                
+            } catch (error) {
+                console.error('Error loading recent courses:', error);
+            }
+        }
+
+        // تحميل الكورسات
+        async function loadCourses() {
+            try {
+                const coursesContainer = document.getElementById('coursesContainer');
+                const courseFilter = document.getElementById('courseFilter');
+                const lessonCourse = document.getElementById('lessonCourse');
+                
+                coursesContainer.innerHTML = '<div class="loading"><div class="loading-spinner"></div></div>';
+                
+                const coursesSnapshot = await db.collection('courses').orderBy('order').get();
+                allCourses = [];
+                
+                // تحديث قوائم الاختيار
+                courseFilter.innerHTML = '<option value="">جميع الكورسات</option>';
+                lessonCourse.innerHTML = '<option value="">اختر الكورس</option>';
+                
+                if (coursesSnapshot.empty) {
+                    coursesContainer.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-book"></i>
+                            <h3>لا توجد كورسات</h3>
+                            <p>لم يتم إضافة أي كورسات بعد</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                let html = '';
+                
+                for (const doc of coursesSnapshot.docs) {
+                    const course = { id: doc.id, ...doc.data() };
+                    allCourses.push(course);
+                    
+                    // حساب عدد الدروس لهذا الكورس
+                    const lessonsSnapshot = await db.collection('courses').doc(course.id).collection('lessons').get();
+                    const lessonsCount = lessonsSnapshot.size;
+                    
+                    // تحديث عدد الدروس في الكورس
+                    await db.collection('courses').doc(course.id).update({
+                        lessonsCount: lessonsCount
+                    });
+                    
+                    html += `
+                        <div class="course-card">
+                            <div class="course-header">
+                                <div>
+                                    <div class="course-title">${course.title}</div>
+                                    <div class="course-category">${getCategoryTypeName(course.categoryId)}</div>
+                                </div>
+                                <span class="badge badge-${course.level}">${getLevelName(course.level)}</span>
+                            </div>
+                            <div class="course-description">${course.description}</div>
+                            <div class="course-meta">
+                                <span><i class="fas fa-clock"></i> ${course.duration} ساعة</span>
+                                <span><i class="fas fa-file-alt"></i> ${lessonsCount} درس</span>
+                                <span><i class="fas fa-sort-numeric-down"></i> الترتيب: ${course.order}</span>
+                            </div>
+                            <div class="course-actions">
+                                <button class="action-btn edit-btn" onclick="showEditCourseModal('${course.id}')">تعديل</button>
+                                <button class="action-btn delete-btn" onclick="deleteCourse('${course.id}')">حذف</button>
+                                <button class="action-btn" style="background: var(--success); color: white;" onclick="viewCourseLessons('${course.id}')">عرض الدروس</button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // إضافة إلى قوائم الاختيار
+                    const option = `<option value="${course.id}">${course.title}</option>`;
+                    courseFilter.innerHTML += option;
+                    lessonCourse.innerHTML += option;
+                }
+                
+                coursesContainer.innerHTML = html;
+                
+            } catch (error) {
+                console.error('Error loading courses:', error);
+                showError('coursesContainer', 'حدث خطأ في تحميل الكورسات');
+            }
+        }
+
+        // تحميل الدروس
+        async function loadLessons() {
+            try {
+                const lessonsContainer = document.getElementById('lessonsContainer');
+                lessonsContainer.innerHTML = '<div class="loading"><div class="loading-spinner"></div></div>';
+                
+                filterLessons();
+                
+            } catch (error) {
+                console.error('Error loading lessons:', error);
+                showError('lessonsContainer', 'حدث خطأ في تحميل الدروس');
+            }
+        }
+
+        // تصفية الكورسات حسب الفئة
+        async function filterCourses() {
+            const categoryId = document.getElementById('categoryFilter').value;
+            const coursesContainer = document.getElementById('coursesContainer');
+            
+            coursesContainer.innerHTML = '<div class="loading"><div class="loading-spinner"></div></div>';
+            
+            let filteredCourses = allCourses;
+            if (categoryId) {
+                filteredCourses = allCourses.filter(course => course.categoryId === categoryId);
+            }
+            
+            if (filteredCourses.length === 0) {
+                coursesContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-book"></i>
+                        <h3>لا توجد كورسات</h3>
+                        <p>لم يتم إضافة أي كورسات في هذه الفئة</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            for (const course of filteredCourses) {
+                html += `
+                    <div class="course-card">
+                        <div class="course-header">
+                            <div>
+                                <div class="course-title">${course.title}</div>
+                                <div class="course-category">${getCategoryTypeName(course.categoryId)}</div>
+                            </div>
+                            <span class="badge badge-${course.level}">${getLevelName(course.level)}</span>
+                        </div>
+                        <div class="course-description">${course.description}</div>
+                        <div class="course-meta">
+                            <span><i class="fas fa-clock"></i> ${course.duration} ساعة</span>
+                            <span><i class="fas fa-file-alt"></i> ${course.lessonsCount || 0} درس</span>
+                            <span><i class="fas fa-sort-numeric-down"></i> الترتيب: ${course.order}</span>
+                        </div>
+                        <div class="course-actions">
+                            <button class="action-btn edit-btn" onclick="showEditCourseModal('${course.id}')">تعديل</button>
+                            <button class="action-btn delete-btn" onclick="deleteCourse('${course.id}')">حذف</button>
+                            <button class="action-btn" style="background: var(--success); color: white;" onclick="viewCourseLessons('${course.id}')">عرض الدروس</button>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            coursesContainer.innerHTML = html;
+        }
+
+        // دالة جديدة لمعالجة محتوى الدرس
+        function processLessonContent(content) {
+            if (!content) return '';
+            
+            // تقسيم المحتوى إلى أسطر
+            const lines = content.split('\n');
+            let processedContent = '';
+            
+            for (let line of lines) {
+                const trimmedLine = line.trim();
+                
+                if (trimmedLine === '') {
+                    // سطر فارغ - نضيف فاصل فقرة
+                    processedContent += '<p>&nbsp;</p>';
+                } else if (trimmedLine.startsWith('{') && trimmedLine.endsWith('}')) {
+                    // هذا سطر برمجي داخل {} - نضعه في تنسيق الـ Terminal
+                    const codeContent = trimmedLine.substring(1, trimmedLine.length - 1);
+                    processedContent += `<div class="code-editor">${codeContent}</div>`;
+                } else {
+                    // هذا سطر عادي - نبقيه كما هو
+                    // نتحقق إذا كان يحتوي على كود برمجي ونضيف تنسيق مناسب
+                    if (trimmedLine.includes('```')) {
+                        // معالجة كتل الكود متعددة الأسطر
+                        processedContent += `<pre>${line.replace(/```/g, '')}</pre>`;
+                    } else if (containsCode(line)) {
+                        // إذا كان السطر يحتوي على كود برمجي، نضيف تنسيق الكود
+                        processedContent += `<p><code class="regular-code">${line}</code></p>`;
+                    } else {
+                        // سطر نصي عادي
+                        processedContent += `<p>${line}</p>`;
+                    }
+                }
+            }
+            
+            return processedContent;
+        }
+
+        // دالة مساعدة للتحقق إذا كان السطر يحتوي على كود برمجي
+        function containsCode(line) {
+            const codePatterns = [
+                /function\s+\w+\s*\(/,
+                /const\s+\w+\s*=/,
+                /let\s+\w+\s*=/,
+                /var\s+\w+\s*=/,
+                /if\s*\(/,
+                /for\s*\(/,
+                /while\s*\(/,
+                /console\.log/,
+                /return\s+/,
+                /import\s+/,
+                /export\s+/,
+                /class\s+\w+/,
+                /<\/?[a-z][\s\S]*>/i // علامات HTML
+            ];
+            
+            return codePatterns.some(pattern => pattern.test(line));
+        }
+
+        // تصفية الدروس حسب الكورس
+        async function filterLessons() {
+            try {
+                const courseId = document.getElementById('courseFilter').value;
+                const lessonsContainer = document.getElementById('lessonsContainer');
+                
+                lessonsContainer.innerHTML = '<div class="loading"><div class="loading-spinner"></div></div>';
+                
+                let allLessons = [];
+                
+                // إذا تم اختيار كورس معين
+                if (courseId) {
+                    const lessonsSnapshot = await db.collection('courses').doc(courseId).collection('lessons')
+                        .orderBy('order')
+                        .get();
+                    
+                    lessonsSnapshot.forEach(doc => {
+                        const course = allCourses.find(c => c.id === courseId);
+                        allLessons.push({
+                            ...doc.data(),
+                            id: doc.id,
+                            courseTitle: course ? course.title : 'غير معروف'
+                        });
+                    });
+                } else {
+                    // جمع الدروس من جميع الكورسات
+                    for (let course of allCourses) {
+                        try {
+                            const lessonsSnapshot = await db.collection('courses').doc(course.id).collection('lessons')
+                                .orderBy('order')
+                                .get();
+                            
+                            lessonsSnapshot.forEach(doc => {
+                                allLessons.push({
+                                    ...doc.data(),
+                                    id: doc.id,
+                                    courseTitle: course.title,
+                                    courseId: course.id
+                                });
+                            });
+                        } catch (error) {
+                            console.log(`No lessons found for course: ${course.id}`);
+                        }
+                    }
+                }
+                
+                if (allLessons.length === 0) {
+                    lessonsContainer.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-file-alt"></i>
+                            <h3>لا توجد دروس</h3>
+                            <p>لم يتم إضافة أي دروس بعد</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                let html = '<table class="data-table"><thead><tr><th>ترتيب الدرس</th><th>عنوان الدرس</th><th>الكورس</th><th>المدة</th><th>التمارين</th><th>الإجراءات</th></tr></thead><tbody>';
+                
+                for (let lesson of allLessons) {
+                    html += `
+                        <tr>
+                            <td>${lesson.order}</td>
+                            <td><strong>${lesson.title}</strong></td>
+                            <td>${lesson.courseTitle}</td>
+                            <td>${lesson.duration ? lesson.duration + ' دقيقة' : 'غير محدد'}</td>
+                            <td>${lesson.exercises || 0}</td>
+                            <td class="actions">
+                                <button class="action-btn" style="background: var(--success); color: white;" onclick="viewLessonContent('${lesson.courseId || courseId}', '${lesson.id}')">عرض المحتوى</button>
+                                <button class="action-btn edit-btn" onclick="editLesson('${lesson.courseId || courseId}', '${lesson.id}')">تعديل</button>
+                                <button class="action-btn delete-btn" onclick="deleteLesson('${lesson.courseId || courseId}', '${lesson.id}')">حذف</button>
+                            </td>
+                        </tr>
+                    `;
+                }
+                
+                html += '</tbody></table>';
+                lessonsContainer.innerHTML = html;
+                
+            } catch (error) {
+                console.error('Error filtering lessons:', error);
+                showError('lessonsContainer', 'حدث خطأ في تصفية الدروس');
+            }
+        }
+
+        // دوال مساعدة
+        function getLevelName(level) {
+            const levels = {
+                'beginner': 'مبتدئ',
+                'intermediate': 'متوسط',
+                'advanced': 'متقدم'
+            };
+            return levels[level] || level;
+        }
+
+        function getCategoryTypeName(type) {
+            const types = {
+                'programming': 'برمجة وتطوير',
+                'office': 'برامج المكاتب',
+                'gamedev': 'تطوير الألعاب',
+                'design': 'تصميم المواقع'
+            };
+            return types[type] || type;
+        }
+
+        function showError(elementId, message) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>${message}</h3>
+                    <button class="btn btn-primary" onclick="location.reload()">
+                        <i class="fas fa-redo"></i> إعادة تحميل
+                    </button>
+                </div>
+            `;
+        }
+
+        // دوال إدارة الكورسات
+        async function addCourse(e) {
+            e.preventDefault();
+            
+            try {
+                const courseData = {
+                    categoryId: document.getElementById('courseCategory').value,
+                    title: document.getElementById('courseTitle').value.trim(),
+                    description: document.getElementById('courseDescription').value.trim(),
+                    level: document.getElementById('courseLevel').value,
+                    duration: parseInt(document.getElementById('courseDuration').value) || 1,
+                    order: parseInt(document.getElementById('courseOrder').value) || 1,
+                    icon: document.getElementById('courseIcon').value,
+                    lessonsCount: 0,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+
+                // التحقق من صحة البيانات
+                if (!courseData.categoryId) {
+                    alert('يرجى اختيار الفئة');
+                    return;
+                }
+                
+                if (!courseData.title) {
+                    alert('يرجى إدخال عنوان الكورس');
+                    return;
+                }
+
+                await db.collection('courses').add(courseData);
+                
+                document.getElementById('addCourseForm').reset();
+                await loadCourses();
+                await loadDashboardData();
+                
+                alert('تم إضافة الكورس بنجاح! ✅');
+                
+            } catch (error) {
+                console.error('Error adding course:', error);
+                alert('حدث خطأ في إضافة الكورس: ' + error.message);
+            }
+        }
+
+        function showEditCourseModal(courseId) {
+            const course = allCourses.find(c => c.id === courseId);
+            if (course) {
+                document.getElementById('editCourseId').value = courseId;
+                document.getElementById('editCourseCategory').value = course.categoryId || '';
+                document.getElementById('editCourseTitle').value = course.title || '';
+                document.getElementById('editCourseDescription').value = course.description || '';
+                document.getElementById('editCourseLevel').value = course.level || 'beginner';
+                document.getElementById('editCourseDuration').value = course.duration || 1;
+                document.getElementById('editCourseOrder').value = course.order || 1;
+                document.getElementById('editCourseIcon').value = course.icon || 'fa-code';
+                
+                document.getElementById('editCourseModal').classList.add('active');
+            }
+        }
+
+        function closeEditCourseModal() {
+            document.getElementById('editCourseModal').classList.remove('active');
+            document.getElementById('editCourseForm').reset();
+        }
+
+        async function updateCourse() {
+            try {
+                const courseId = document.getElementById('editCourseId').value;
+                const courseData = {
+                    categoryId: document.getElementById('editCourseCategory').value,
+                    title: document.getElementById('editCourseTitle').value.trim(),
+                    description: document.getElementById('editCourseDescription').value.trim(),
+                    level: document.getElementById('editCourseLevel').value,
+                    duration: parseInt(document.getElementById('editCourseDuration').value) || 1,
+                    order: parseInt(document.getElementById('editCourseOrder').value) || 1,
+                    icon: document.getElementById('editCourseIcon').value,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+
+                await db.collection('courses').doc(courseId).update(courseData);
+                
+                closeEditCourseModal();
+                await loadCourses();
+                
+                alert('تم تحديث الكورس بنجاح! ✅');
+                
+            } catch (error) {
+                console.error('Error updating course:', error);
+                alert('حدث خطأ في تحديث الكورس: ' + error.message);
+            }
+        }
+
+        async function deleteCourse(courseId) {
+            if (confirm('هل أنت متأكد من حذف هذا الكورس؟ سيتم حذف جميع الدروس المرتبطة به.')) {
+                try {
+                    // حذف الدروس المرتبطة بهذا الكورس أولاً
+                    const lessonsSnapshot = await db.collection('courses').doc(courseId).collection('lessons').get();
+                    const deletePromises = lessonsSnapshot.docs.map(doc => doc.ref.delete());
+                    await Promise.all(deletePromises);
+                    
+                    // ثم حذف الكورس
+                    await db.collection('courses').doc(courseId).delete();
+                    
+                    await loadCourses();
+                    await loadDashboardData();
+                    
+                    alert('تم حذف الكورس وجميع الدروس المرتبطة به بنجاح');
+                } catch (error) {
+                    console.error('Error deleting course:', error);
+                    alert('حدث خطأ في حذف الكورس: ' + error.message);
+                }
+            }
+        }
+
+        function viewCourseLessons(courseId) {
+            document.getElementById('courseFilter').value = courseId;
+            switchSection('lessons');
+            filterLessons();
+        }
+
+        // دوال إدارة الدروس
+        async function addLesson(e) {
+            e.preventDefault();
+            
+            try {
+                const courseId = document.getElementById('lessonCourse').value;
+                const lessonData = {
+                    order: parseInt(document.getElementById('lessonOrder').value) || 1,
+                    title: document.getElementById('lessonTitle').value.trim(),
+                    description: document.getElementById('lessonDescription').value.trim(),
+                    content: document.getElementById('lessonContent').value.trim(),
+                    duration: document.getElementById('lessonDuration').value ? parseInt(document.getElementById('lessonDuration').value) : null,
+                    exercises: document.getElementById('lessonExercises').value ? parseInt(document.getElementById('lessonExercises').value) : 0,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+
+                // التحقق من صحة البيانات
+                if (!courseId) {
+                    alert('يرجى اختيار الكورس');
+                    return;
+                }
+                
+                if (!lessonData.title) {
+                    alert('يرجى إدخال عنوان الدرس');
+                    return;
+                }
+                
+                if (!lessonData.content) {
+                    alert('يرجى إدخال محتوى الدرس');
+                    return;
+                }
+
+                await db.collection('courses').doc(courseId).collection('lessons').add(lessonData);
+                
+                // تحديث عدد الدروس في الكورس
+                const lessonsSnapshot = await db.collection('courses').doc(courseId).collection('lessons').get();
+                await db.collection('courses').doc(courseId).update({
+                    lessonsCount: lessonsSnapshot.size,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                document.getElementById('addLessonForm').reset();
+                await loadLessons();
+                await loadDashboardData();
+                
+                alert('تم إضافة الدرس بنجاح! ✅');
+                
+            } catch (error) {
+                console.error('Error adding lesson:', error);
+                alert('حدث خطأ في إضافة الدرس: ' + error.message);
+            }
+        }
+
+        async function editLesson(courseId, lessonId) {
+            try {
+                const lessonDoc = await db.collection('courses').doc(courseId).collection('lessons').doc(lessonId).get();
+                if (lessonDoc.exists) {
+                    const lesson = lessonDoc.data();
+                    
+                    // الانتقال لتبويب إضافة درس
+                    switchTab('addLesson');
+                    
+                    // تعبئة البيانات
+                    document.getElementById('lessonCourse').value = courseId;
+                    document.getElementById('lessonOrder').value = lesson.order || 1;
+                    document.getElementById('lessonTitle').value = lesson.title || '';
+                    document.getElementById('lessonDescription').value = lesson.description || '';
+                    document.getElementById('lessonContent').value = lesson.content || '';
+                    document.getElementById('lessonDuration').value = lesson.duration || '';
+                    document.getElementById('lessonExercises').value = lesson.exercises || 0;
+                    
+                    alert('تم تحميل بيانات الدرس للتعديل. قم بالتعديل ثم انقر على زر الإضافة.');
+                }
+            } catch (error) {
+                console.error('Error loading lesson for edit:', error);
+                alert('حدث خطأ في تحميل بيانات الدرس');
+            }
+        }
+
+        async function deleteLesson(courseId, lessonId) {
+            if (confirm('هل أنت متأكد من حذف هذا الدرس؟')) {
+                try {
+                    await db.collection('courses').doc(courseId).collection('lessons').doc(lessonId).delete();
+                    
+                    // تحديث عدد الدروس في الكورس
+                    const lessonsSnapshot = await db.collection('courses').doc(courseId).collection('lessons').get();
+                    await db.collection('courses').doc(courseId).update({
+                        lessonsCount: lessonsSnapshot.size,
+                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    
+                    await loadLessons();
+                    await loadDashboardData();
+                    
+                    alert('تم حذف الدرس بنجاح');
+                } catch (error) {
+                    console.error('Error deleting lesson:', error);
+                    alert('حدث خطأ في حذف الدرس: ' + error.message);
+                }
+            }
+        }
+
+        // دالة لعرض محتوى الدرس في المودال
+        function viewLessonContent(courseId, lessonId) {
+            db.collection('courses').doc(courseId).collection('lessons').doc(lessonId).get()
+                .then(doc => {
+                    if (doc.exists) {
+                        const lesson = doc.data();
+                        document.getElementById('viewLessonTitle').textContent = lesson.title;
+                        
+                        // معالجة محتوى الدرس باستخدام الدالة الجديدة
+                        const processedContent = processLessonContent(lesson.content);
+                        document.getElementById('viewLessonContent').innerHTML = processedContent;
+                        
+                        document.getElementById('viewLessonModal').classList.add('active');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading lesson content:', error);
+                    alert('حدث خطأ في تحميل محتوى الدرس');
+                });
+        }
+
+        // دالة لإغلاق مودال عرض محتوى الدرس
+        function closeViewLessonModal() {
+            document.getElementById('viewLessonModal').classList.remove('active');
+        }
+
+        // جعل الدوال متاحة globally للاستدعاء من HTML
+        window.showEditCourseModal = showEditCourseModal;
+        window.closeEditCourseModal = closeEditCourseModal;
+        window.updateCourse = updateCourse;
+        window.deleteCourse = deleteCourse;
+        window.viewCourseLessons = viewCourseLessons;
+        window.editLesson = editLesson;
+        window.deleteLesson = deleteLesson;
+        window.viewLessonContent = viewLessonContent;
+        window.closeViewLessonModal = closeViewLessonModal;
+        window.processLessonContent = processLessonContent;
+    </script>
+</body>
+</html>

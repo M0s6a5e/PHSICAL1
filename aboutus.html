@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عن الموقع - موقعك الإلكتروني</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* التنسيقات العامة */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+        }
+        
+        body {
+            background-color: #f5f7fb;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* الشريط العلوي */
+        header {
+            background: white;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-left: 10px;
+            color: var(--accent);
+        }
+        
+        /* قسم المقدمة */
+        .hero {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 100px 0 80px;
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%234cc9f0" fill-opacity="0.1" d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,192C672,181,768,139,864,138.7C960,139,1056,181,1152,197.3C1248,213,1344,203,1392,197.3L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+        
+        .hero-image {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .hero-image i {
+            font-size: 5rem;
+            color: white;
+        }
+        
+        /* قسم المعلومات */
+        .info-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+        
+        .info-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--accent), var(--primary));
+            z-index: 2;
+        }
+        
+        .info-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 25px;
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            border-radius: 50%;
+            background: rgba(67, 97, 238, 0.1);
+            transition: all 0.3s;
+        }
+        
+        .info-card:hover .card-icon {
+            transform: rotateY(180deg);
+            background: var(--primary);
+            color: white;
+        }
+        
+        .info-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+        
+        .info-card p {
+            color: var(--gray);
+            margin-bottom: 25px;
+            font-size: 1.05rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0%;
+            height: 100%;
+            background: var(--secondary);
+            transition: all 0.3s;
+            z-index: -1;
+            border-radius: 50px;
+        }
+        
+        .btn:hover::before {
+            width: 100%;
+        }
+        
+        .btn:hover {
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
+        }
+        
+        /* قسم صفحات الموقع */
+        .pages-section {
+            margin-bottom: 80px;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            display: inline-block;
+            position: relative;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: var(--accent);
+            margin: 20px auto;
+            border-radius: 2px;
+        }
+        
+        .pages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .page-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .page-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            transition: all 0.3s ease;
+            z-index: 0;
+            opacity: 0;
+        }
+        
+        .page-card:hover::before {
+            height: 100%;
+            opacity: 1;
+        }
+        
+        .page-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .page-card i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s;
+        }
+        
+        .page-card:hover i {
+            color: white;
+            transform: scale(1.2);
+        }
+        
+        .page-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--secondary);
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s;
+        }
+        
+        .page-card:hover h3 {
+            color: white;
+        }
+        
+        .page-card p {
+            color: var(--gray);
+            font-size: 1rem;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s;
+        }
+        
+        .page-card:hover p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        /* قسم معلومات الاتصال */
+        .contact-section {
+            background: white;
+            border-radius: 25px;
+            padding: 60px 50px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+            margin-bottom: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .contact-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--accent), var(--primary));
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .contact-icon {
+            background: var(--primary);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 20px;
+            flex-shrink: 0;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+        
+        .contact-item:hover .contact-icon {
+            transform: rotate(15deg) scale(1.1);
+            background: var(--accent);
+        }
+        
+        .contact-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            color: var(--secondary);
+        }
+        
+        .contact-info p {
+            color: var(--gray);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 40px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: var(--light);
+            color: var(--primary);
+            border-radius: 50%;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .social-links a:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-8px) scale(1.1);
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
+        }
+        
+        /* التذييل */
+        footer {
+            background: var(--secondary);
+            color: white;
+            padding: 50px 0 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--accent), var(--primary));
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .copyright {
+            margin-top: 30px;
+            font-size: 0.95rem;
+            opacity: 0.8;
+        }
+        
+        /* التجاوب مع الشاشات المختلفة */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .contact-section {
+                padding: 40px 30px;
+            }
+            
+            .contact-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .contact-icon {
+                margin-left: 0;
+                margin-bottom: 15px;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .info-card, .page-card {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- الشريط العلوي -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-rocket"></i>
+                <span>عنا</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- قسم المقدمة -->
+    <section class="hero">
+        <div class="container hero-content">
+            <div class="hero-image">
+                <i class="fas fa-globe"></i>
+            </div>
+            <h1>عن موقع كلية تربية رياضية -جامعات مصر</h1>
+            <p>اهلا وسهلا بكل طلاب تربية رياضيةنحن نقدم لكم محتوى كامل مخصص لتخصصك</p>
+        </div>
+    </section>
+
+    <!-- قسم المعلومات -->
+    <section class="container">
+        <div class="info-section">
+            <div class="info-card">
+                <div class="card-icon">
+                    <i class="fas fa-bullseye"></i>
+                </div>
+                <h3>هدف الموقع</h3>
+                <p>نسعى لتقديم كافة المعلومات المفيدة للطلاب الجدد بااعلى جودة ممكنة بخدمات مجانية بالكامل</p>
+                
+            </div>
+            
+            <div class="info-card">
+                <div class="card-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>ماذا نقدم</h3>
+                <p>نتميز بتقديم محتوى اصلى ومفيد من معلومات الكلية التى انت فيها الى تعلم خبرات جديدة لتتطوير رحلتك التعليمية</p>
+               
+            </div>
+            
+            <div class="info-card">
+                <div class="card-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>رؤيتنا</h3>
+                <p>أن نكون المنصة الإلكترونية المفضلة للزوار الباحثين عن محتوى قيم وخدمات متميزة في مختلف المجالات.</p>
+               
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم صفحات الموقع -->
+    <section class="container pages-section">
+        <div class="section-title">
+            <h2>صفحات الموقع</h2>
+        </div>
+        
+        <div class="pages-grid">
+            <div class="page-card">
+                <i class="fas fa-home"></i>
+                <h3>الصفحة الرئيسية</h3>
+                <p>بوابة الدخول إلى موقعنا تحتوي على أهم الأقسام والمحتوى المميز</p>
+                 <a href="index.html" class="btn"> العودة للصفحة الرئيسية</a>
+            </div>
+            
+            <div class="page-card">
+               <i class="fa-solid fa-table"></i>
+                <h3>صفحة التحضيرات </h3>
+                <p> تحضيرات جاهزة بااعلى دقة ومشاركة التحضيرات مع الزملاء</p>
+                 <a href="mohatrad.html" class="btn"> اذهب الان</a>
+            </div>
+            
+            <div class="page-card">
+                <i class="fa-solid fa-code"></i>
+                <h3>منصة تعلم </h3>
+                <p>اكتشف منصتنا الخاصة منصة تعلم لتعلم المهارات الجديدة مثل برمجة المواقع والتطبيقات بااحترافية </p>
+                 <a href="program.html" class="btn">اذهب الان</a>
+            </div>
+            
+            <div class="page-card">
+                <i class="fas fa-book"></i>
+                <h3>المقرارات الرياضية</h3>
+                <p>مكتبة كاملة لمقرارات التربية الرياضية بمختلف الفرق </p>
+                 <a href="books.html" class="btn">اذهب الان</a>
+            </div>
+            
+           
+       
+        </div>
+    </section>
+
+    <!-- قسم معلومات الاتصال -->
+    <section class="container">
+        <div class="contact-section">
+            <div class="section-title">
+                <h2>معلومات الاتصال</h2>
+            </div>
+            
+            <div class="contact-grid">
+                <div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-info">
+                            <h3>العنوان</h3>
+                            <p>مصر محافظة المنيا</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-info">
+                            <h3>الهاتف</h3>
+                            <p>+201148179176</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-info">
+                            <h3>البريد الإلكتروني</h3>
+                            <p>mostafefareg3@gmail.com</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="contact-info">
+                            <h3>ساعات العمل</h3>
+                            <p>دائما24 /7</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="social-links">
+           
+       
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- التذييل -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo">عنا</div>
+            <p>منصة شاملة تقدم محتوى متميزًا وخدمات متنوعة</p>
+            <div class="copyright">جميع الحقوق محفوظة &copy; 2025 موقع تربية رياضية - جامعات مصر</div>
+        </div>
+    </footer>
+</body>
+</html>

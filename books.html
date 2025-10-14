@@ -1,0 +1,2190 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المكتبة الرياضية - المقررات الدراسية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #dbeafe;
+            --secondary: #f59e0b;
+            --accent: #10b981;
+            --dark: #1e293b;
+            --light: #ffffff;
+            --gray: #64748b;
+            --gray-light: #f1f5f9;
+            --gray-border: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            --radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            background-color: var(--gray-light);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: var(--light);
+            border-bottom: 1px solid var(--gray-border);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .nav-buttons {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--gray);
+            border: 1px solid var(--gray-border);
+        }
+
+        .btn-ghost:hover {
+            background: var(--gray-light);
+            border-color: var(--gray);
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 0.8rem;
+        }
+
+        /* Admin Dropdown */
+        .admin-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .admin-toggle {
+            background: transparent;
+            border: 1px solid var(--gray-border);
+            color: var(--gray);
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+        }
+
+        .admin-toggle:hover {
+            background: var(--gray-light);
+            color: var(--dark);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--light);
+            border: 1px solid var(--gray-border);
+            border-radius: 8px;
+            box-shadow: var(--shadow-lg);
+            padding: 0.5rem;
+            min-width: 200px;
+            z-index: 1000;
+            display: none;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            color: var(--dark);
+            text-decoration: none;
+            border-radius: 6px;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: right;
+        }
+
+        .dropdown-item:hover {
+            background: var(--gray-light);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero Section */
+        .hero {
+            background: var(--gradient);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            font-weight: 300;
+        }
+
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .stat-card {
+            background: var(--light);
+            padding: 2.5rem 2rem;
+            border-radius: var(--radius);
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-border);
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: block;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            background: var(--light);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin: 2rem 0;
+            border: 1px solid var(--gray-border);
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            align-items: end;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-label {
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+
+        .filter-select, .filter-input {
+            padding: 12px;
+            border: 2px solid var(--gray-border);
+            border-radius: 8px;
+            font-size: 1rem;
+            background: var(--light);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-select:focus, .filter-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* التصميم الجديد والمحسن لكروت المقررات */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .courses-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .course-card {
+            background: var(--light);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid var(--gray-border);
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            position: relative;
+            height: 100%;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .course-header {
+            padding: 1.25rem 1.25rem 0.75rem;
+            border-bottom: 1px solid var(--gray-border);
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .course-badge {
+            position: absolute;
+            top: -10px;
+            left: 1.25rem;
+            background: var(--secondary);
+            color: var(--dark);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            box-shadow: var(--shadow);
+        }
+
+        .course-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: 2.8rem;
+        }
+
+        .course-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .meta-tag {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            padding: 3px 8px;
+            border-radius: 16px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            white-space: nowrap;
+        }
+
+        .course-body {
+            padding: 1.25rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .course-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            flex: 1;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            color: var(--gray);
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .info-item i {
+            width: 14px;
+            color: var(--primary);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .course-description {
+            color: var(--dark);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-top: 0.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            flex: 1;
+        }
+
+        .course-footer {
+            padding: 1rem 1.25rem;
+            border-top: 1px solid var(--gray-border);
+            background: var(--gray-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .course-stats {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        .course-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--light);
+            border: 1px solid var(--gray-border);
+            color: var(--gray);
+            cursor: pointer;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .action-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* التصميم الجديد لشريط التبويب للفرق الدراسية */
+        .grades-tabs {
+            background: var(--light);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin: 3rem 0;
+            border: 1px solid var(--gray-border);
+            overflow: hidden;
+        }
+
+        .tabs-header {
+            display: flex;
+            background: var(--gray-light);
+            border-bottom: 1px solid var(--gray-border);
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
+            color: var(--gray);
+            flex-shrink: 0;
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+            background: var(--light);
+        }
+
+        .tab-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.7);
+            color: var(--dark);
+        }
+
+        .tab-content {
+            padding: 1.5rem;
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .semester-section {
+            margin-bottom: 2rem;
+        }
+
+        .semester-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .semester-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-light);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .semester-title i {
+            color: var(--primary);
+        }
+
+        /* Book Preview Modal */
+        .book-preview-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+        }
+
+        .book-preview-modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .preview-content {
+            background: var(--light);
+            border-radius: var(--radius);
+            width: 95%;
+            max-width: 900px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+        }
+
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            border-bottom: 2px solid var(--gray-border);
+            background: var(--gray-light);
+        }
+
+        .preview-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .preview-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .preview-close:hover {
+            background: var(--gray-border);
+            color: var(--dark);
+        }
+
+        .preview-body {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .preview-info {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+            border-left: 1px solid var(--gray-border);
+        }
+
+        .preview-image {
+            width: 300px;
+            background: var(--gray-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .preview-image img {
+            max-width: 100%;
+            max-height: 300px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .preview-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .detail-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+
+        .detail-value {
+            color: var(--dark);
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .preview-footer {
+            padding: 1.5rem 2rem;
+            border-top: 2px solid var(--gray-border);
+            background: var(--gray-light);
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .preview-footer .btn {
+            min-width: 120px;
+            justify-content: center;
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            background: var(--light);
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            margin: 3rem 0;
+            border: 1px solid var(--gray-border);
+            display: none;
+        }
+
+        .admin-panel.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--gray-border);
+        }
+
+        .admin-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .admin-badge {
+            background: var(--accent);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 1rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-label {
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            padding: 12px;
+            border: 2px solid var(--gray-border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: var(--light);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: var(--light);
+            border-radius: var(--radius);
+            padding: 2rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 400px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .close-btn:hover {
+            background: var(--gray-light);
+        }
+
+        /* Toast Messages */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 10000;
+        }
+
+        .toast {
+            background: var(--light);
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 0.5rem;
+            box-shadow: var(--shadow-lg);
+            border-left: 4px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            max-width: 400px;
+            animation: slideInLeft 0.3s ease;
+        }
+
+        .toast.success {
+            border-left-color: var(--success);
+        }
+
+        .toast.error {
+            border-left-color: var(--danger);
+        }
+
+        .toast.warning {
+            border-left-color: var(--warning);
+        }
+
+        .toast i {
+            font-size: 1.2rem;
+        }
+
+        .toast.success i {
+            color: var(--success);
+        }
+
+        .toast.error i {
+            color: var(--danger);
+        }
+
+        .toast.warning i {
+            color: var(--warning);
+        }
+
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Sections */
+        .section {
+            margin: 4rem 0;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            right: 50%;
+            transform: translateX(50%);
+            width: 60px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--gray);
+        }
+
+        .spinner {
+            border: 3px solid var(--gray-light);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            color: var(--gray);
+            grid-column: 1 / -1;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: var(--dark);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .tabs-header {
+                flex-direction: column;
+            }
+
+            .tab-btn {
+                border-bottom: none;
+                border-right: 3px solid transparent;
+                text-align: right;
+            }
+
+            .tab-btn.active {
+                border-right-color: var(--primary);
+                border-bottom: none;
+            }
+
+            .preview-content {
+                width: 98%;
+                max-height: 95vh;
+            }
+
+            .preview-body {
+                flex-direction: column;
+            }
+
+            .preview-image {
+                width: 100%;
+                height: 200px;
+                padding: 1rem;
+            }
+
+            .preview-info {
+                border-left: none;
+                border-top: 1px solid var(--gray-border);
+                padding: 1.5rem;
+            }
+
+            .preview-footer {
+                flex-direction: column;
+            }
+
+            .preview-footer .btn {
+                width: 100%;
+            }
+
+            .course-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .course-footer {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .course-stats {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 60px 0;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .stat-card {
+                padding: 1.5rem 1rem;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+
+            .filter-section {
+                padding: 1.5rem;
+            }
+
+            .tab-content {
+                padding: 1rem;
+            }
+
+            .semester-title {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">كت</div>
+                    <div class="logo-text">المكتبة الرياضية</div>
+                </div>
+                <div class="nav-buttons">
+                    <a href="index.html" class="btn btn-ghost">
+                        <i class="fas fa-home"></i> الرئيسية
+                    </a>
+                    <a href="mohatrad.html" class="btn btn-ghost">
+                        <i class="fas fa-book-open"></i> التحضيرات
+                    </a>
+                    
+                    <!-- Admin Dropdown -->
+                    <div class="admin-dropdown">
+                        <button class="admin-toggle">
+                            <i class="fas fa-user-cog"></i>
+                            <span>المسؤول</span>
+                        </button>
+                        <div class="dropdown-menu" id="adminDropdown">
+                            <button class="dropdown-item" onclick="openAuthModal()">
+                                <i class="fas fa-sign-in-alt"></i>
+                                تسجيل الدخول
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>المقررات الدراسية</h1>
+                <p>جميع المقررات الدراسية لكلية التربية الرياضية - جامعة المنيا</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat-card">
+                <span class="stat-number" id="totalBooks">0</span>
+                <span class="stat-label">مقرر متاح</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">4</span>
+                <span class="stat-label">فرق دراسية</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">2</span>
+                <span class="stat-label">فصول دراسية</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="totalDownloads">0</span>
+                <span class="stat-label">تحميل</span>
+            </div>
+        </div>
+
+        <!-- Admin Panel -->
+        <section id="adminPanel" class="admin-panel">
+            <div class="admin-header">
+                <div>
+                    <h2 class="admin-title">لوحة إدارة المقررات</h2>
+                    <span class="admin-badge">مسؤول النظام</span>
+                </div>
+                <button class="btn btn-danger" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+                </button>
+            </div>
+            <form id="addBookForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">الفرقة الدراسية</label>
+                        <select class="form-control" id="gradeSelect" required onchange="updateSemesters()">
+                            <option value="">اختر الفرقة...</option>
+                            <option value="first">الفرقة الأولى</option>
+                            <option value="second">الفرقة الثانية</option>
+                            <option value="third">الفرقة الثالثة</option>
+                            <option value="fourth">الفرقة الرابعة</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">الفصل الدراسي</label>
+                        <select class="form-control" id="semesterSelect" required>
+                            <option value="">اختر الفصل...</option>
+                            <option value="first">الفصل الأول</option>
+                            <option value="second">الفصل الثاني</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">اسم المقرر الدراسي</label>
+                        <input type="text" class="form-control" id="courseName" placeholder="أدخل اسم المقرر" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">عنوان المقرر</label>
+                        <input type="text" class="form-control" id="bookTitle" placeholder="أدخل عنوان المقرر" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">المؤلف</label>
+                        <input type="text" class="form-control" id="bookAuthor" placeholder="اسم المؤلف" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">المصدر</label>
+                        <input type="text" class="form-control" id="bookSource" placeholder="جامعة / مصدر" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">رابط المقرر (PDF)</label>
+                        <input type="url" class="form-control" id="bookUrl" placeholder="https://example.com/book.pdf" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">رابط صورة الغلاف</label>
+                        <input type="url" class="form-control" id="bookImageUrl" placeholder="https://example.com/image.jpg">
+                        <small style="color: var(--gray); margin-top: 0.5rem; display: block;">
+                            <i class="fas fa-info-circle"></i> اختياري - يمكن استخدام رابط صورة من الإنترنت
+                        </small>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> إضافة المقرر
+                </button>
+            </form>
+        </section>
+
+        <!-- Filter Section -->
+        <section class="filter-section">
+            <div class="filter-grid">
+                <div class="filter-group">
+                    <label class="filter-label">الفرقة الدراسية</label>
+                    <select class="filter-select" id="filterGrade" onchange="updateFilterSemesters()">
+                        <option value="all">جميع الفرق</option>
+                        <option value="first">الفرقة الأولى</option>
+                        <option value="second">الفرقة الثانية</option>
+                        <option value="third">الفرقة الثالثة</option>
+                        <option value="fourth">الفرقة الرابعة</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">الفصل الدراسي</label>
+                    <select class="filter-select" id="filterSemester">
+                        <option value="all">جميع الفصول</option>
+                        <option value="first">الفصل الأول</option>
+                        <option value="second">الفصل الثاني</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">اسم المقرر</label>
+                    <input type="text" class="filter-input" id="filterCourseName" placeholder="ابحث باسم المقرر...">
+                </div>
+                <div class="filter-group">
+                    <button class="btn btn-primary" onclick="applyFilters()" style="height: 46px;">
+                        <i class="fas fa-filter"></i> تطبيق الفلتر
+                    </button>
+                    <button class="btn btn-ghost" onclick="resetFilters()" style="height: 46px; margin-top: 0.5rem;">
+                        <i class="fas fa-redo"></i> إعادة التعيين
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Grades Tabs -->
+        <section class="grades-tabs">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="first">الفرقة الأولى</button>
+                <button class="tab-btn" data-tab="second">الفرقة الثانية</button>
+                <button class="tab-btn" data-tab="third">الفرقة الثالثة</button>
+                <button class="tab-btn" data-tab="fourth">الفرقة الرابعة</button>
+            </div>
+            
+            <div class="tab-content active" id="first-tab">
+                <div class="semester-section">
+                    <h3 class="semester-title">
+                        <i class="fas fa-book"></i>
+                        الفصل الدراسي الأول
+                    </h3>
+                    <div class="courses-grid" id="first-first-courses">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            <p>جاري تحميل المقررات...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="semester-section">
+                    <h3 class="semester-title">
+                        <i class="fas fa-book"></i>
+                        الفصل الدراسي الثاني
+                    </h3>
+                    <div class="courses-grid" id="first-second-courses">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            <p>جاري تحميل المقررات...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="second-tab">
+                <div class="semester-section">
+                    <h3 class="semester-title">
+                        <i class="fas fa-book"></i>
+                        الفصل الدراسي الأول
+                    </h3>
+                    <div class="courses-grid" id="second-first-courses">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            <p>جاري تحميل المقررات...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="semester-section">
+                    <h3 class="semester-title">
+                        <i class="fas fa-book"></i>
+                        الفصل الدراسي الثاني
+                    </h3>
+                    <div class="courses-grid" id="second-second-courses">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            <p>جاري تحميل المقررات...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="third-tab">
+                <div class="semester-section">
+                    <h3 class="semester-title">
+                        <i class="fas fa-book"></i>
+                        الفصل الدراسي الأول
+                    </h3>
+                    <div class="courses-grid" id="third-first-courses">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            <p>جاري تحميل المقررات...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="semester-section">
+                    <h3 class="semester-title">
+                        <i class="fas fa-book"></i>
+                        الفصل الدراسي الثاني
+                    </h3>
+                    <div class="courses-grid" id="third-second-courses">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            <p>جاري تحميل المقررات...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="fourth-tab">
+                <div class="semester-section">
+                    <h3 class="semester-title">
+                        <i class="fas fa-book"></i>
+                        الفصل الدراسي الأول
+                    </h3>
+                    <div class="courses-grid" id="fourth-first-courses">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            <p>جاري تحميل المقررات...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="semester-section">
+                    <h3 class="semester-title">
+                        <i class="fas fa-book"></i>
+                        الفصل الدراسي الثاني
+                    </h3>
+                    <div class="courses-grid" id="fourth-second-courses">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            <p>جاري تحميل المقررات...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>تسجيل الدخول للمسؤول</h3>
+                <button class="close-btn" onclick="closeAuthModal()">&times;</button>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">البريد الإلكتروني</label>
+                    <input type="email" class="form-control" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">كلمة المرور</label>
+                    <input type="password" class="form-control" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                    <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Book Preview Modal -->
+    <div id="bookPreviewModal" class="book-preview-modal">
+        <div class="preview-content">
+            <div class="preview-header">
+                <h3 class="preview-title">معاينة المقرر</h3>
+                <button class="preview-close" onclick="closeBookPreview()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="preview-body">
+                <div class="preview-image">
+                    <img id="previewBookImage" src="" alt="صورة المقرر">
+                </div>
+                <div class="preview-info">
+                    <div class="preview-details">
+                        <div class="detail-group">
+                            <div class="detail-label">عنوان المقرر</div>
+                            <div class="detail-value" id="previewBookTitle"></div>
+                        </div>
+                        <div class="detail-group">
+                            <div class="detail-label">المؤلف</div>
+                            <div class="detail-value" id="previewBookAuthor"></div>
+                        </div>
+                        <div class="detail-group">
+                            <div class="detail-label">المصدر</div>
+                            <div class="detail-value" id="previewBookSource"></div>
+                        </div>
+                        <div class="detail-group">
+                            <div class="detail-label">الفرقة الدراسية</div>
+                            <div class="detail-value" id="previewBookGrade"></div>
+                        </div>
+                        <div class="detail-group">
+                            <div class="detail-label">الفصل الدراسي</div>
+                            <div class="detail-value" id="previewBookSemester"></div>
+                        </div>
+                        <div class="detail-group">
+                            <div class="detail-label">اسم المقرر</div>
+                            <div class="detail-value" id="previewBookCourse"></div>
+                        </div>
+                        <div class="detail-group">
+                            <div class="detail-label">عدد التحميلات</div>
+                            <div class="detail-value" id="previewBookDownloads"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="preview-footer">
+                <button class="btn btn-ghost" onclick="closeBookPreview()">
+                    <i class="fas fa-times"></i> إغلاق
+                </button>
+                <button class="btn btn-primary" id="previewViewBookBtn">
+                    <i class="fas fa-external-link-alt"></i> الانتقال إلى المقرر
+                </button>
+                <button class="btn btn-outline" id="previewDownloadBookBtn">
+                    <i class="fas fa-download"></i> تحميل المقرر
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBWKhdd3INeAdPRocDzIpiWV_opev--kiQ",
+            authDomain: "physicals-6e967.firebaseapp.com",
+            projectId: "physicals-6e967",
+            storageBucket: "physicals-6e967.firebasestorage.app",
+            messagingSenderId: "1044063949",
+            appId: "1:1044063949:web:c23c7d28afaaa3cbdc2b84",
+            measurementId: "G-WH172YM7WZ"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // بيانات التطبيق
+        const appData = {
+            currentUser: null,
+            books: [],
+            currentFilters: {
+                grade: 'all',
+                semester: 'all',
+                courseName: ''
+            },
+            currentPreviewBook: null
+        };
+
+        // عناصر DOM
+        const elements = {
+            adminDropdown: document.getElementById('adminDropdown'),
+            adminPanel: document.getElementById('adminPanel'),
+            authModal: document.getElementById('authModal'),
+            loginForm: document.getElementById('loginForm'),
+            addBookForm: document.getElementById('addBookForm'),
+            totalBooks: document.getElementById('totalBooks'),
+            totalDownloads: document.getElementById('totalDownloads'),
+            gradeSelect: document.getElementById('gradeSelect'),
+            semesterSelect: document.getElementById('semesterSelect'),
+            courseName: document.getElementById('courseName'),
+            filterGrade: document.getElementById('filterGrade'),
+            filterSemester: document.getElementById('filterSemester'),
+            filterCourseName: document.getElementById('filterCourseName'),
+            toastContainer: document.getElementById('toastContainer'),
+            bookPreviewModal: document.getElementById('bookPreviewModal'),
+            previewBookImage: document.getElementById('previewBookImage'),
+            previewBookTitle: document.getElementById('previewBookTitle'),
+            previewBookAuthor: document.getElementById('previewBookAuthor'),
+            previewBookSource: document.getElementById('previewBookSource'),
+            previewBookGrade: document.getElementById('previewBookGrade'),
+            previewBookSemester: document.getElementById('previewBookSemester'),
+            previewBookCourse: document.getElementById('previewBookCourse'),
+            previewBookDownloads: document.getElementById('previewBookDownloads'),
+            previewViewBookBtn: document.getElementById('previewViewBookBtn'),
+            previewDownloadBookBtn: document.getElementById('previewDownloadBookBtn')
+        };
+
+        // التهيئة
+        function init() {
+            setupAuthStateListener();
+            loadAllBooks();
+            setupEventListeners();
+            setupDropdowns();
+            setupTabs();
+        }
+
+        // إعداد التبويبات
+        function setupTabs() {
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // إزالة النشاط من جميع الأزرار والمحتويات
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // إضافة النشاط للزر والمحتوى المحدد
+                    btn.classList.add('active');
+                    const tabId = btn.getAttribute('data-tab');
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
+            });
+        }
+
+        // إعداد القوائم المنسدلة
+        function setupDropdowns() {
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.admin-dropdown')) {
+                    elements.adminDropdown.classList.remove('show');
+                }
+            });
+
+            document.querySelector('.admin-toggle').addEventListener('click', function(e) {
+                e.stopPropagation();
+                elements.adminDropdown.classList.toggle('show');
+            });
+        }
+
+        // تحديث الفصول الدراسية
+        function updateSemesters() {
+            const grade = elements.gradeSelect.value;
+            const semesterSelect = elements.semesterSelect;
+            
+            if (grade) {
+                semesterSelect.innerHTML = `
+                    <option value="">اختر الفصل...</option>
+                    <option value="first">الفصل الأول</option>
+                    <option value="second">الفصل الثاني</option>
+                `;
+            } else {
+                semesterSelect.innerHTML = '<option value="">اختر الفصل...</option>';
+            }
+        }
+
+        // تطبيق الفلاتر
+        function applyFilters() {
+            appData.currentFilters = {
+                grade: elements.filterGrade.value,
+                semester: elements.filterSemester.value,
+                courseName: elements.filterCourseName.value.trim().toLowerCase()
+            };
+            
+            loadBooksWithFilters();
+        }
+
+        // إعادة تعيين الفلاتر
+        function resetFilters() {
+            elements.filterGrade.value = 'all';
+            elements.filterSemester.value = 'all';
+            elements.filterCourseName.value = '';
+            
+            appData.currentFilters = {
+                grade: 'all',
+                semester: 'all',
+                courseName: ''
+            };
+            
+            loadAllBooks();
+        }
+
+        // متابعة حالة المصادقة
+        function setupAuthStateListener() {
+            auth.onAuthStateChanged((user) => {
+                appData.currentUser = user;
+                updateUI();
+            });
+        }
+
+        // تحديث واجهة المستخدم
+        function updateUI() {
+            updateAdminDropdown();
+            updateAdminPanel();
+        }
+
+        // تحديث قائمة المسؤول
+        function updateAdminDropdown() {
+            if (appData.currentUser) {
+                const authorizedAdmins = ['mostafefareg3@gmail.com'];
+                const isAuthorizedAdmin = authorizedAdmins.includes(appData.currentUser.email);
+                
+                if (isAuthorizedAdmin) {
+                    elements.adminDropdown.innerHTML = `
+                        <div class="dropdown-item" style="color: var(--success); font-weight: 600;">
+                            <i class="fas fa-check-circle"></i>
+                            ${appData.currentUser.email}
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item" onclick="toggleAdminPanel()">
+                            <i class="fas fa-plus-circle"></i>
+                            إضافة مقرر
+                        </button>
+                        <button class="dropdown-item" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            تسجيل الخروج
+                        </button>
+                    `;
+                } else {
+                    elements.adminDropdown.innerHTML = `
+                        <div class="dropdown-item" style="color: var(--danger);">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            غير مصرح
+                        </div>
+                        <button class="dropdown-item" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            تسجيل الخروج
+                        </button>
+                    `;
+                }
+            } else {
+                elements.adminDropdown.innerHTML = `
+                    <button class="dropdown-item" onclick="openAuthModal()">
+                        <i class="fas fa-sign-in-alt"></i>
+                        تسجيل الدخول
+                    </button>
+                `;
+            }
+        }
+
+        // تحديث لوحة الإدارة
+        function updateAdminPanel() {
+            const authorizedAdmins = ['mostafefareg3@gmail.com'];
+            const isAuthorizedAdmin = appData.currentUser && authorizedAdmins.includes(appData.currentUser.email);
+            if (isAuthorizedAdmin) {
+                // لا نظهر اللوحة تلقائياً
+            } else {
+                elements.adminPanel.classList.remove('show');
+            }
+        }
+
+        // إعداد مستمعي الأحداث
+        function setupEventListeners() {
+            elements.loginForm.addEventListener('submit', handleLogin);
+            elements.addBookForm.addEventListener('submit', handleAddBook);
+            
+            // البحث الفوري عند الكتابة في حقل اسم المقرر
+            elements.filterCourseName.addEventListener('input', function() {
+                clearTimeout(this.searchTimeout);
+                this.searchTimeout = setTimeout(() => {
+                    applyFilters();
+                }, 500);
+            });
+            
+            // إغلاق نافذة المعاينة عند الضغط خارجها
+            elements.bookPreviewModal.addEventListener('click', function(e) {
+                if (e.target === elements.bookPreviewModal) {
+                    closeBookPreview();
+                }
+            });
+        }
+
+        // فتح نافذة المصادقة
+        function openAuthModal() {
+            elements.authModal.style.display = 'block';
+            elements.adminDropdown.classList.remove('show');
+        }
+
+        // إغلاق نافذة المصادقة
+        function closeAuthModal() {
+            elements.authModal.style.display = 'none';
+            elements.loginForm.reset();
+        }
+
+        // تبديل لوحة الإدارة
+        function toggleAdminPanel() {
+            const authorizedAdmins = ['mostafefareg3@gmail.com'];
+            const isAuthorizedAdmin = appData.currentUser && authorizedAdmins.includes(appData.currentUser.email);
+            if (isAuthorizedAdmin) {
+                elements.adminPanel.classList.toggle('show');
+                elements.adminDropdown.classList.remove('show');
+            } else {
+                showMessage('ليس لديك صلاحية الوصول', 'error');
+            }
+        }
+
+        // معالجة تسجيل الدخول
+        function handleLogin(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            auth.signInWithEmailAndPassword(email, password)
+                .then(() => {
+                    closeAuthModal();
+                    showMessage('تم تسجيل الدخول بنجاح!', 'success');
+                })
+                .catch((error) => {
+                    showMessage('خطأ في تسجيل الدخول: ' + error.message, 'error');
+                });
+        }
+
+        // تسجيل الخروج
+        function logout() {
+            auth.signOut()
+                .then(() => {
+                    showMessage('تم تسجيل الخروج بنجاح', 'success');
+                    elements.adminPanel.classList.remove('show');
+                })
+                .catch((error) => {
+                    showMessage('خطأ في تسجيل الخروج: ' + error.message, 'error');
+                });
+        }
+
+        // معالجة إضافة مقرر جديد
+        async function handleAddBook(e) {
+            e.preventDefault();
+            
+            const authorizedAdmins = ['mostafefareg3@gmail.com'];
+            const isAuthorizedAdmin = appData.currentUser && authorizedAdmins.includes(appData.currentUser.email);
+            if (!isAuthorizedAdmin) {
+                showMessage('ليس لديك صلاحية إضافة مقررات', 'error');
+                return;
+            }
+
+            const bookData = {
+                grade: elements.gradeSelect.value,
+                semester: elements.semesterSelect.value,
+                courseName: elements.courseName.value,
+                title: document.getElementById('bookTitle').value,
+                author: document.getElementById('bookAuthor').value,
+                source: document.getElementById('bookSource').value,
+                url: document.getElementById('bookUrl').value,
+                imageUrl: document.getElementById('bookImageUrl').value || '',
+                type: 'official',
+                access: '200 OK',
+                addedBy: appData.currentUser.uid,
+                addedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                downloads: 0,
+                views: 0
+            };
+
+            try {
+                // إضافة المقرر إلى Firebase
+                await db.collection('books').add(bookData);
+                
+                showMessage('تم إضافة المقرر بنجاح!', 'success');
+                elements.addBookForm.reset();
+                
+                // إعادة تحميل البيانات لعرض المقرر الجديد
+                loadAllBooks();
+                
+                elements.adminPanel.classList.remove('show');
+            } catch (error) {
+                console.error('Error adding book:', error);
+                showMessage('خطأ في إضافة المقرر: ' + error.message, 'error');
+            }
+        }
+
+        // تحميل جميع المقررات بدون فلاتر
+        function loadAllBooks() {
+            // إظهار حالة التحميل
+            const allContainers = document.querySelectorAll('.courses-grid');
+            allContainers.forEach(container => {
+                container.innerHTML = '<div class="loading"><div class="spinner"></div><p>جاري تحميل المقررات...</p></div>';
+            });
+
+            db.collection('books').orderBy('addedAt', 'desc').get()
+                .then((querySnapshot) => {
+                    appData.books = [];
+                    querySnapshot.forEach((doc) => {
+                        const bookData = doc.data();
+                        appData.books.push({
+                            id: doc.id,
+                            ...bookData
+                        });
+                    });
+                    console.log('Loaded books:', appData.books);
+                    displayBooksByGradeAndSemester();
+                    updateStats();
+                })
+                .catch((error) => {
+                    console.error('Error loading books:', error);
+                    showMessage('خطأ في تحميل المقررات: ' + error.message, 'error');
+                    
+                    // إظهار حالة فارغة في حالة الخطأ
+                    const allContainers = document.querySelectorAll('.courses-grid');
+                    allContainers.forEach(container => {
+                        container.innerHTML = `
+                            <div class="empty-state">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <h3>خطأ في تحميل البيانات</h3>
+                                <p>تعذر تحميل المقررات الدراسية</p>
+                            </div>
+                        `;
+                    });
+                });
+        }
+
+        // تحميل المقررات مع الفلاتر
+        function loadBooksWithFilters() {
+            // إظهار حالة التحميل
+            const allContainers = document.querySelectorAll('.courses-grid');
+            allContainers.forEach(container => {
+                container.innerHTML = '<div class="loading"><div class="spinner"></div><p>جاري تحميل المقررات...</p></div>';
+            });
+
+            db.collection('books').orderBy('addedAt', 'desc').get()
+                .then((querySnapshot) => {
+                    appData.books = [];
+                    querySnapshot.forEach((doc) => {
+                        const book = {
+                            id: doc.id,
+                            ...doc.data()
+                        };
+                        
+                        // تطبيق الفلاتر على جانب العميل
+                        const { grade, semester, courseName } = appData.currentFilters;
+                        let shouldInclude = true;
+                        
+                        if (grade !== 'all' && book.grade !== grade) {
+                            shouldInclude = false;
+                        }
+                        
+                        if (semester !== 'all' && book.semester !== semester) {
+                            shouldInclude = false;
+                        }
+                        
+                        if (courseName && !book.courseName.toLowerCase().includes(courseName)) {
+                            shouldInclude = false;
+                        }
+                        
+                        if (shouldInclude) {
+                            appData.books.push(book);
+                        }
+                    });
+                    
+                    displayBooksByGradeAndSemester();
+                    updateStats();
+                })
+                .catch((error) => {
+                    console.error('Error loading books:', error);
+                    showMessage('خطأ في تحميل المقررات: ' + error.message, 'error');
+                });
+        }
+
+        // عرض المقررات حسب الفرقة والفصل
+        function displayBooksByGradeAndSemester() {
+            console.log('Displaying books:', appData.books);
+            
+            // مسح جميع الحاويات أولاً
+            const allContainers = [
+                'first-first-courses', 'first-second-courses',
+                'second-first-courses', 'second-second-courses', 
+                'third-first-courses', 'third-second-courses',
+                'fourth-first-courses', 'fourth-second-courses'
+            ];
+            
+            allContainers.forEach(containerId => {
+                const container = document.getElementById(containerId);
+                if (container) {
+                    container.innerHTML = '';
+                }
+            });
+
+            // إذا لم توجد كتب، عرض حالة فارغة
+            if (appData.books.length === 0) {
+                allContainers.forEach(containerId => {
+                    const container = document.getElementById(containerId);
+                    if (container) {
+                        container.innerHTML = `
+                            <div class="empty-state">
+                                <i class="fas fa-book-open"></i>
+                                <h3>لا توجد مقررات متاحة</h3>
+                                <p>لم يتم إضافة أي مقررات في هذا القسم بعد</p>
+                            </div>
+                        `;
+                    }
+                });
+                return;
+            }
+
+            // تجميع المقررات حسب الفرقة والفصل
+            const booksByGradeSemester = {};
+            
+            appData.books.forEach(book => {
+                const key = `${book.grade}-${book.semester}`;
+                if (!booksByGradeSemester[key]) {
+                    booksByGradeSemester[key] = [];
+                }
+                booksByGradeSemester[key].push(book);
+            });
+
+            console.log('Books by grade/semester:', booksByGradeSemester);
+
+            // عرض المقررات في الأماكن المناسبة
+            Object.keys(booksByGradeSemester).forEach(key => {
+                const [grade, semester] = key.split('-');
+                const containerId = `${grade}-${semester}-courses`;
+                const container = document.getElementById(containerId);
+                
+                if (container) {
+                    const books = booksByGradeSemester[key];
+                    books.forEach(book => {
+                        container.innerHTML += createCourseCardHTML(book);
+                    });
+                }
+            });
+
+            // معالجة الحاويات الفارغة
+            allContainers.forEach(containerId => {
+                const container = document.getElementById(containerId);
+                if (container && container.innerHTML === '') {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-book-open"></i>
+                            <h3>لا توجد مقررات متاحة</h3>
+                            <p>لم يتم إضافة أي مقررات في هذا القسم بعد</p>
+                        </div>
+                    `;
+                }
+            });
+        }
+
+        // إنشاء HTML لكروت المقررات
+        function createCourseCardHTML(book) {
+            const semesterName = book.semester === 'first' ? 'الفصل الأول' : 'الفصل الثاني';
+            const gradeName = getGradeName(book.grade);
+            const imageUrl = book.imageUrl || '';
+            const description = `مقرر ${book.courseName} - ${book.title}`;
+            
+            return `
+                <div class="course-card" onclick="openBookPreview('${book.id}')">
+                    <div class="course-header">
+                        <span class="course-badge">${book.type === 'official' ? 'رسمي' : 'بديل'}</span>
+                        <h3 class="course-title">${book.courseName}</h3>
+                        <div class="course-meta">
+                            <span class="meta-tag">
+                                <i class="fas fa-graduation-cap"></i>
+                                ${gradeName}
+                            </span>
+                            <span class="meta-tag">
+                                <i class="fas fa-calendar-alt"></i>
+                                ${semesterName}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="course-body">
+                        <div class="course-info">
+                            <div class="info-item">
+                                <i class="fas fa-book"></i>
+                                <span>${book.title}</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-user"></i>
+                                <span>${book.author}</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-university"></i>
+                                <span>${book.source}</span>
+                            </div>
+                            <p class="course-description">${description}</p>
+                        </div>
+                    </div>
+                    <div class="course-footer">
+                        <div class="course-stats">
+                            <div class="stat">
+                                <i class="fas fa-download"></i>
+                                <span>${book.downloads || 0}</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-eye"></i>
+                                <span>${book.views || 0}</span>
+                            </div>
+                        </div>
+                        <div class="course-actions">
+                            <button class="action-btn" onclick="event.stopPropagation(); viewBook('${book.url}', '${book.id}')" title="عرض المقرر">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="action-btn" onclick="event.stopPropagation(); downloadBook('${book.url}', '${book.title}', '${book.id}')" title="تحميل المقرر">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // الحصول على اسم الفرقة
+        function getGradeName(grade) {
+            const gradeNames = {
+                'first': 'الفرقة الأولى',
+                'second': 'الفرقة الثانية', 
+                'third': 'الفرقة الثالثة',
+                'fourth': 'الفرقة الرابعة'
+            };
+            return gradeNames[grade] || grade;
+        }
+
+        // فتح نافذة معاينة المقرر
+        function openBookPreview(bookId) {
+            const book = appData.books.find(b => b.id === bookId);
+            if (!book) return;
+
+            appData.currentPreviewBook = book;
+
+            // تعبئة البيانات في النافذة
+            elements.previewBookTitle.textContent = book.title;
+            elements.previewBookAuthor.textContent = book.author;
+            elements.previewBookSource.textContent = book.source;
+            elements.previewBookGrade.textContent = getGradeName(book.grade);
+            elements.previewBookSemester.textContent = book.semester === 'first' ? 'الفصل الأول' : 'الفصل الثاني';
+            elements.previewBookCourse.textContent = book.courseName;
+            elements.previewBookDownloads.textContent = book.downloads || 0;
+
+            // تعيين صورة المقرر
+            if (book.imageUrl) {
+                elements.previewBookImage.src = book.imageUrl;
+                elements.previewBookImage.style.display = 'block';
+            } else {
+                elements.previewBookImage.style.display = 'none';
+            }
+
+            // تعيين الأحداث للأزرار
+            elements.previewViewBookBtn.onclick = function() {
+                viewBook(book.url, book.id);
+                closeBookPreview();
+            };
+
+            elements.previewDownloadBookBtn.onclick = function() {
+                downloadBook(book.url, book.title, book.id);
+                closeBookPreview();
+            };
+
+            // إظهار النافذة
+            elements.bookPreviewModal.classList.add('show');
+        }
+
+        // إغلاق نافذة معاينة المقرر
+        function closeBookPreview() {
+            elements.bookPreviewModal.classList.remove('show');
+            appData.currentPreviewBook = null;
+        }
+
+        // عرض مقرر
+        function viewBook(url, bookId) {
+            window.open(url, '_blank');
+            if (bookId) {
+                updateViewCount(bookId);
+            }
+        }
+
+        // تحميل مقرر
+        function downloadBook(url, title, bookId) {
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `${title}.pdf`;
+            link.target = '_blank';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            if (bookId) {
+                updateDownloadCount(bookId);
+            }
+        }
+
+        // تحديث عدد التحميلات
+        function updateDownloadCount(bookId) {
+            const bookRef = db.collection('books').doc(bookId);
+            bookRef.update({
+                downloads: firebase.firestore.FieldValue.increment(1)
+            }).then(() => {
+                // إعادة تحميل المقررات لتحديث الإحصائيات
+                if (appData.currentFilters.grade === 'all' && appData.currentFilters.semester === 'all' && !appData.currentFilters.courseName) {
+                    loadAllBooks();
+                } else {
+                    loadBooksWithFilters();
+                }
+            });
+        }
+
+        // تحديث عدد المشاهدات
+        function updateViewCount(bookId) {
+            const bookRef = db.collection('books').doc(bookId);
+            bookRef.update({
+                views: firebase.firestore.FieldValue.increment(1)
+            });
+        }
+
+        // تحديث الإحصائيات
+        function updateStats() {
+            elements.totalBooks.textContent = appData.books.length;
+            
+            const totalDownloads = appData.books.reduce((total, book) => total + (book.downloads || 0), 0);
+            elements.totalDownloads.textContent = totalDownloads;
+        }
+
+        // عرض الرسائل
+        function showMessage(message, type) {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            const icon = type === 'success' ? 'fa-check-circle' : 
+                        type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
+            
+            toast.innerHTML = `
+                <i class="fas ${icon}"></i>
+                <span>${message}</span>
+            `;
+            
+            elements.toastContainer.appendChild(toast);
+            
+            // إزالة الرسالة بعد 5 ثواني
+            setTimeout(() => {
+                toast.remove();
+            }, 5000);
+        }
+
+        // بدء التطبيق
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
