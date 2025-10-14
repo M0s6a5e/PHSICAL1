@@ -1,0 +1,2933 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة تعلم - خطتك المجانية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --accent: #f72585;
+            --success: #4cc9f0;
+            --dark: #1d3557;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --gray-light: #e9ecef;
+            --border-radius: 12px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f5f7fb;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark);
+            cursor: pointer;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 70px;
+            right: -100%;
+            width: 280px;
+            height: calc(100vh - 70px);
+            background: white;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 999;
+            transition: var(--transition);
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-menu a {
+            padding: 12px 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--dark);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .mobile-menu a:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            overflow: hidden;
+            padding: 80px 0;
+            background: linear-gradient(135deg, #1a237e 0%, #283593 50%, #3949ab 100%);
+            color: white;
+            text-align: center;
+            border-radius: 0 0 30px 30px;
+            margin-bottom: 60px;
+            height: 80vh;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+        }
+
+        .waves-container {
+            border-top: 150px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .wave {
+            position: absolute;
+            border-top: 150px;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: waveMove 8s linear infinite;
+            transform-origin: bottom;
+        }
+
+        .wave:nth-child(1) {
+            animation-duration: 10s;
+            border-top: 150px;
+            opacity: 0.7;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            height: 80%;
+        }
+
+        .wave:nth-child(2) {
+            animation-duration: 8s;
+            border-top: 150px;
+            opacity: 0.5;
+            animation-delay: -2s;
+            height: 85%;
+        }
+
+        .wave:nth-child(3) {
+            border-top: 150px;
+            animation-duration: 12s;
+            opacity: 0.3;
+            animation-delay: -4s;
+            height: 90%;
+        }
+
+        @keyframes waveMove {
+            0% {
+                transform: translateX(0) translateY(20px);
+            }
+            50% {
+                transform: translateX(-25%) translateY(10px);
+            }
+            100% {
+                transform: translateX(-50%) translateY(20px);
+            }
+        }
+
+        .platform-name {
+            font-size: 5rem;
+            font-weight: bold;
+            color: white;
+            margin-right: 90px;
+            margin-left: 100px;
+            opacity: 0;
+            animation: fadeInScale 1.5s ease forwards 0.5s;
+            z-index: 5;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        @keyframes fadeInScale {
+            0% {
+                opacity: 0;
+                transform: translateY(50px) scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .code-brackets {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 8rem;
+            color: white;
+            opacity: 0;
+            z-index: 4;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            font-weight: 300;
+        }
+
+        .bracket-left {
+            left: 10%;
+            animation: bracketLeft 1s ease-out forwards 1s;
+        }
+
+        .bracket-right {
+            right: 10%;
+            animation: bracketRight 1s ease-out forwards 1s;
+        }
+
+        @keyframes bracketLeft {
+            0% {
+                opacity: 0;
+                left: -10%;
+                transform: translateY(-70%) scale(5.5);
+            }
+            70% {
+                opacity: 1;
+                left: 15%;
+                transform: translateY(-70%) scale(5.1);
+            }
+            100% {
+                opacity: 1;
+                left: 10%;
+                transform: translateY(-70%) scale(3);
+            }
+        }
+
+        @keyframes bracketRight {
+            0% {
+                opacity: 0;
+                right: -10%;
+                transform: translateY(-70%) scale(5.5);
+            }
+            70% {
+                opacity: 1;
+                right: 15%;
+                transform: translateY(-70%) scale(5.1);
+            }
+            100% {
+                opacity: 1;
+                right: 10%;
+                transform: translateY(-70%) scale(3);
+            }
+        }
+
+        .collision-effect {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+            opacity: 0;
+            z-index: 3;
+            animation: collisionEffect 0.8s ease-out forwards 1.8s;
+        }
+
+        @keyframes collisionEffect {
+            0% {
+                opacity: 1;
+                width: 0;
+                height: 0;
+            }
+            50% {
+                opacity: 0.8;
+                width: 200px;
+                height: 200px;
+            }
+            100% {
+                opacity: 0;
+                width: 400px;
+                height: 400px;
+            }
+        }
+
+        .particles-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            margin-right: 210px;
+            margin-top: 250px;
+            
+            font-size: 50.5rem;
+            color: white;
+            opacity: 0;
+            animation: particleFloat 7s ease-out forwards ;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        @keyframes particleFloat {
+            0% {
+                opacity: 0;
+                transform: translate(0, 0) rotate(0deg) scale(5);
+            }
+            50% {
+                opacity: 1;
+                transform: translate(var(--tx), var(--ty)) rotate(var(--tr)) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx), var(--ty)) rotate(var(--tr)) scale(0);
+            }
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1.5s ease forwards 2.5s;
+        }
+
+        .hero-subtitle {
+            font-size: 0.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1.5s ease forwards 2.8s;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 60px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1.5s ease forwards 3.1s;
+        }
+
+        .hero .btn {
+            padding: 12px 30px;
+            font-size: 1.1rem;
+        }
+
+        .btn-light {
+            background: white;
+            color: var(--primary);
+        }
+
+        .btn-light:hover {
+            background: var(--gray-light);
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Categories Section */
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* التصميم الجديد للفئات - قائمة منسدلة */
+        .categories-container {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-bottom: 80px;
+        }
+
+        .categories-header {
+            padding: 25px 30px;
+            background: var(--dark);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .categories-header h2 {
+            font-size: 1.8rem;
+            margin: 0;
+        }
+
+        .categories-header i {
+            transition: var(--transition);
+        }
+
+        .categories-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .categories-content.active {
+            max-height: 500px;
+        }
+
+        .category-item {
+            padding: 20px 30px;
+            border-bottom: 1px solid var(--gray-light);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .category-item:hover {
+            background: var(--gray-light);
+        }
+
+        .category-item:last-child {
+            border-bottom: none;
+        }
+
+        .category-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .category-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .category-details h3 {
+            margin-bottom: 5px;
+            font-size: 1.2rem;
+        }
+
+        .category-details p {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        .category-stats {
+            display: flex;
+            gap: 15px;
+            color: var(--gray);
+            font-size: 0.85rem;
+        }
+
+        /* التصميم الجديد للكورسات - قائمة منسدلة */
+        .courses-container {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-bottom: 80px;
+            display: none;
+        }
+
+        .courses-header {
+            padding: 25px 30px;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .courses-header h2 {
+            font-size: 1.8rem;
+            margin: 0;
+        }
+
+        .courses-header i {
+            transition: var(--transition);
+        }
+
+        .courses-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .courses-content.active {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .course-item {
+            padding: 20px 30px;
+            border-bottom: 1px solid var(--gray-light);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .course-item:hover {
+            background: var(--gray-light);
+        }
+
+        .course-item:last-child {
+            border-bottom: none;
+        }
+
+        .course-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+        }
+
+        .course-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .course-details {
+            flex: 1;
+        }
+
+        .course-details h3 {
+            margin-bottom: 5px;
+            font-size: 1.2rem;
+        }
+
+        .course-details p {
+            color: var(--gray);
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+
+        .course-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        .course-status {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .course-status.not-started {
+            background: var(--gray);
+        }
+
+        .course-status.in-progress {
+            background: var(--accent);
+        }
+
+        .course-status.completed {
+            background: var(--success);
+        }
+
+        .course-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Course Player Section */
+        .course-player {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-bottom: 80px;
+            display: none;
+        }
+
+        .course-player-header {
+            padding: 20px;
+            background: var(--dark);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .course-player-header h2 {
+            font-size: 1.5rem;
+        }
+
+        .close-course {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .course-player-content {
+            display: flex;
+            height: 600px;
+        }
+
+        .lessons-sidebar {
+            width: 300px;
+            border-left: 1px solid var(--gray-light);
+            overflow-y: auto;
+        }
+
+        .lesson-list {
+            list-style: none;
+        }
+
+        .lesson-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--gray-light);
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .lesson-item:hover {
+            background: var(--gray-light);
+        }
+
+        .lesson-item.active {
+            background: var(--primary-light);
+            color: white;
+        }
+
+        .lesson-status {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .lesson-status.not-started {
+            background: var(--gray);
+        }
+
+        .lesson-status.in-progress {
+            background: var(--accent);
+        }
+
+        .lesson-status.completed {
+            background: var(--success);
+        }
+
+        .lesson-title {
+            font-weight: 500;
+            margin-bottom: 5px;
+            padding-left: 15px;
+        }
+
+        .lesson-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            opacity: 0.8;
+            padding-left: 15px;
+        }
+
+        .lesson-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .lesson-text-content {
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .lesson-text-content.fade-out {
+            opacity: 0;
+            transform: translateX(30px);
+        }
+
+        .lesson-text-content.fade-in {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .lesson-image {
+            width: 100%;
+            height: 250px;
+            background: var(--gray-light);
+            border-radius: var(--border-radius);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            font-size: 1rem;
+            overflow: hidden;
+        }
+
+        .lesson-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .lesson-title-main {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .lesson-description {
+            margin-bottom: 25px;
+            line-height: 1.7;
+        }
+
+        .lesson-points {
+            margin: 20px 0;
+            padding-right: 20px;
+        }
+
+        .lesson-points li {
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .lesson-points li::before {
+            content: "•";
+            color: var(--primary);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-right: 5px;
+        }
+
+        /* Code Editor */
+        .code-editor {
+            font-family: 'Courier New', monospace;
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin: 10px 0;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            line-height: 1.5;
+        }
+
+        .code-example {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-example::before {
+            content: "Terminal";
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: #4a5568;
+            color: #e2e8f0;
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            border-radius: var(--border-radius) 0 var(--border-radius) 0;
+        }
+
+        /* محتوى الدرس */
+        .lesson-content-text {
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        .lesson-content-text p {
+            margin-bottom: 15px;
+        }
+
+        .lesson-content-text pre {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .lesson-content-text code {
+            background: #f1f3f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .lesson-content-text .regular-code {
+            background: transparent;
+            padding: 0;
+            border-radius: 0;
+            font-family: 'Courier New', monospace;
+            color: #333;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--gray-light);
+        }
+
+        /* Progress Section */
+        .progress-section {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 80px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .progress-title {
+            font-size: 1.5rem;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: var(--gray-light);
+            border-radius: 5px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--success);
+            border-radius: 5px;
+            width: 0%;
+            transition: width 1s ease;
+        }
+
+        .progress-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: var(--light);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Features Section */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .feature-card p {
+            color: var(--gray);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            right: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #b0b7c3;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: white;
+            padding-right: 5px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #2d3748;
+            color: #b0b7c3;
+            font-size: 0.9rem;
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .slide-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(30px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .course-player-content {
+                flex-direction: column;
+                height: auto;
+            }
+            
+            .lessons-sidebar {
+                width: 100%;
+                border-left: none;
+                border-top: 1px solid var(--gray-light);
+                max-height: 300px;
+            }
+            
+            .platform-name {
+                font-size: 3.5rem;
+            }
+            
+            .code-brackets {
+                font-size: 5rem;
+            }
+            
+            .bracket-left {
+                left: 5%;
+            }
+            
+            .bracket-right {
+                right: 5%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul, .auth-buttons, .user-area {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero {
+                height: 70vh;
+                min-height: 500px;
+            }
+            
+            .platform-name {
+                font-size: 2.5rem;
+            }
+            
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .hero-buttons .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .course-actions, .navigation-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .category-item, .course-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .category-stats, .course-meta {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .code-brackets {
+                font-size: 3.5rem;
+            }
+            
+            .bracket-left {
+                left: 2%;
+            }
+            
+            .bracket-right {
+                right: 2%;
+            }
+        }
+
+        /* Loading States */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--gray-light);
+            border-left: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        /* Back Button */
+        .back-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--gray-light);
+            border: none;
+            padding: 8px 15px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 20px;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .back-button:hover {
+            background: var(--gray);
+            color: white;
+        }
+
+        /* Auth Popups */
+        .auth-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .auth-popup.active {
+            display: flex;
+        }
+        
+        .auth-popup .popup-content {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .auth-popup .popup-close {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--gray-light);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1.2rem;
+            color: var(--dark);
+        }
+        
+        .auth-popup .popup-close:hover {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .auth-popup .popup-title {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 25px;
+            text-align: center;
+            font-weight: 700;
+        }
+        
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .form-group label {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .form-group input,
+        .form-group select {
+            padding: 12px 15px;
+            border: 1px solid var(--gray-light);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+            font-family: 'Tajawal', sans-serif;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(44, 90, 160, 0.1);
+        }
+        
+        .auth-switch {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--gray-light);
+        }
+        
+        .auth-switch a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .auth-switch a:hover {
+            text-decoration: underline;
+        }
+
+        /* ألوان مختلفة للحروف الأولى */
+        .avatar-a { background-color: #FF6B6B; }
+        .avatar-b { background-color: #4ECDC4; }
+        .avatar-c { background-color: #FFD166; }
+        .avatar-d { background-color: #06D6A0; }
+        .avatar-e { background-color: #118AB2; }
+        .avatar-f { background-color: #073B4C; }
+        .avatar-g { background-color: #7209B7; }
+        .avatar-h { background-color: #F72585; }
+        .avatar-i { background-color: #3A0CA3; }
+        .avatar-j { background-color: #4361EE; }
+        .avatar-k { background-color: #4CC9F0; }
+        .avatar-l { background-color: #F15BB5; }
+        .avatar-m { background-color: #FEE440; }
+        .avatar-n { background-color: #00BBF9; }
+        .avatar-o { background-color: #00F5D4; }
+        .avatar-p { background-color: #9B5DE5; }
+        .avatar-q { background-color: #F15BB5; }
+        .avatar-r { background-color: #FEE440; }
+        .avatar-s { background-color: #00BBF9; }
+        .avatar-t { background-color: #00F5D4; }
+        .avatar-u { background-color: #9B5DE5; }
+        .avatar-v { background-color: #F15BB5; }
+        .avatar-w { background-color: #FEE440; }
+        .avatar-x { background-color: #00BBF9; }
+        .avatar-y { background-color: #00F5D4; }
+        .avatar-z { background-color: #9B5DE5; }
+
+        /* ألوان الفئات */
+        .category-programming { background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%); }
+        .category-office { background: linear-gradient(135deg, #f72585 0%, #b5179e 100%); }
+        .category-design { background: linear-gradient(135deg, #4cc9f0 0%, #4895ef 100%); }
+        .category-gamedev { background: linear-gradient(135deg, #7209b7 0%, #560bad 100%); }
+
+        /* ألوان الكورسات */
+        .course-programming { background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%); }
+        .course-office { background: linear-gradient(135deg, #f72585 0%, #b5179e 100%); }
+        .course-design { background: linear-gradient(135deg, #4cc9f0 0%, #4895ef 100%); }
+        .course-gamedev { background: linear-gradient(135deg, #7209b7 0%, #560bad 100%); }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-laptop-code"></i>
+                    <span> منصة تعلم </span>
+                </div>
+                
+                <nav>
+                    <ul>
+                        <li><a href="index.html" class="active">الرئيسية</a></li>
+                        <li><a href="#categories">الفئات</a></li>
+                        <li><a href="books.html">مقرارات دراسية</a></li>
+                        <li><a href="mohatrad.html">تحضيرات جاهزة</a></li>
+                        <li><a href="aboutus.html">عنا</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="auth-buttons" id="authButtons">
+                    <button class="btn btn-outline" id="loginBtn">تسجيل الدخول</button>
+                    <button class="btn btn-primary" id="registerBtn">إنشاء حساب</button>
+                </div>
+                
+                <div class="user-area" id="userArea" style="display: none;">
+                    <div class="user-info">
+                        <div class="user-avatar" id="userAvatar"></div>
+                        <span class="user-name" id="userName"></span>
+                    </div>
+                    <button class="btn btn-outline" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+                    </button>
+                </div>
+                
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- قائمة الجوال -->
+    <div class="mobile-menu">
+        <a href="index.html" class="active"><i class="fas fa-home"></i> الرئيسية</a>
+        <a href="#categories"><i class="fas fa-folder"></i> الفئات</a>
+        <a href="books.html"><i class="fas fa-book"></i> مقرارات دراسية</a>
+        <a href="mohatrad.html"><i class="fas fa-clipboard-list"></i> تحضيرات جاهزة</a>
+        <a href="aboutus.html"><i class="fas fa-envelope"></i> عنا</a>
+        
+        <div class="auth-buttons" id="mobileAuthButtons" style="flex-direction: column; margin-top: 20px;">
+            <button class="btn btn-outline" id="mobileLoginBtn" style="width: 100%; justify-content: center;">
+                <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
+            </button>
+            <button class="btn btn-primary" id="mobileRegisterBtn" style="width: 100%; justify-content: center;">
+                <i class="fas fa-user-plus"></i> إنشاء حساب
+            </button>
+        </div>
+        
+        <div class="user-area" id="mobileUserArea" style="display: none; flex-direction: column; gap: 15px;">
+            <div class="user-info">
+                <div class="user-avatar" id="mobileUserAvatar"></div>
+                <span class="user-name" id="mobileUserName"></span>
+            </div>
+            <button class="btn btn-outline" id="mobileLogoutBtn" style="width: 100%; justify-content: center;">
+                <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+            </button>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <!-- أنيميشن الأمواج -->
+        <div class="waves-container">
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+        </div>
+        
+        <!-- النص الرئيسي -->
+        <div class="platform-name">منصة تعلم 
+            
+        </div>
+        
+        <!-- أقواس الكود -->
+        <div class="code-brackets bracket-left">}</div>
+        <div class="code-brackets bracket-right">{</div>
+        
+        <!-- تأثير الاصطدام -->
+        <div class="collision-effect"></div>
+        
+        <!-- الجسيمات -->
+        <div class="particles-container" id="particlesContainer"></div>
+        
+       
+    </section>
+
+    <!-- Categories Section -->
+    <section class="container" id="categories">
+        <div class="section-title">
+            <h2 class="slide-in-left">الفئات التعليمية</h2>
+            <p class="slide-in-right">اختر من بين فئاتنا المميزة وابدأ رحلة التعلم الخاصة بك</p>
+        </div>
+        
+        <div class="categories-container" id="categoriesContainer">
+            <div class="categories-header" id="categoriesHeader">
+                <h2>جميع الفئات التعليمية</h2>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="categories-content" id="categoriesContent">
+                <!-- سيتم تعبئة الفئات تلقائياً -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Courses Section -->
+    <section class="container">
+        <div class="courses-container" id="coursesContainer">
+            <div class="courses-header" id="coursesHeader">
+                <h2 id="coursesTitle">كورسات البرمجة</h2>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="courses-content" id="coursesContent">
+                <!-- سيتم تعبئة الكورسات تلقائياً -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Course Player Section -->
+    <section class="container">
+        <div class="course-player" id="coursePlayer">
+            <div class="course-player-header">
+                <h2 id="courseTitle">تحميل الكورس...</h2>
+                <button class="close-course" id="closeCourse">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="course-player-content">
+                <div class="lesson-content">
+                    <div id="lessonContainer">
+                        <div class="loading">
+                            <div class="loading-spinner"></div>
+                        </div>
+                    </div>
+                    <div class="navigation-buttons">
+                        <button class="btn btn-outline" id="prevLesson">
+                            <i class="fas fa-arrow-right"></i> الدرس السابق
+                        </button>
+                        <button class="btn btn-primary" id="nextLesson">
+                            الدرس التالي <i class="fas fa-arrow-left"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="lessons-sidebar">
+                    <ul class="lesson-list" id="lessonList">
+                        <div class="loading">
+                            <div class="loading-spinner"></div>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Progress Section -->
+    <section class="container" id="progress">
+        <div class="progress-section fade-in">
+            <div class="progress-header">
+                <h2 class="progress-title">تقدمي في التعلم</h2>
+                <button class="btn btn-outline">عرض التفاصيل</button>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="overallProgress">0%</div>
+                    <div class="stat-label">معدل الإنجاز الإجمالي</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="completedCourses">0</div>
+                    <div class="stat-label">دورة مكتملة</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="completedLessons">0</div>
+                    <div class="stat-label">درس مكتمل</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="achievements">0</div>
+                    <div class="stat-label">إنجازات</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="container" id="features">
+        <div class="section-title">
+            <h2 class="slide-in-left">مميزات منصتنا</h2>
+            <p class="slide-in-right">نقدم تجربة تعلم فريدة تجمع بين الجودة والمرونة</p>
+        </div>
+        
+        <div class="features">
+            <div class="feature-card fade-in">
+                <div class="feature-icon">
+                    <i class="fas fa-laptop-code"></i>
+                </div>
+                <h3>محتوى تفاعلي</h3>
+                <p>دروس تفاعلية مع تمارين عملية ومشاريع حقيقية لتطبيق ما تتعلمه</p>
+            </div>
+            
+            <div class="feature-card fade-in">
+                <div class="feature-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3>وصول كامل </h3>
+                <p>تعلم في أي وقت ومن أي جهاز، ومعك خطوة بخطوة للتعلم الكامل حتى يكون لك خبرة </p>
+            </div>
+            
+            <div class="feature-card fade-in">
+                <div class="feature-icon">
+                    <i class="fas fa-user-check"></i>
+                </div>
+                <h3>معك دائما</h3>
+                <p>خدماتنا مجانية بالكامل بكورسات متنوعة وعالية الخبرة </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>أكاديمية البرمجة</h3>
+                    <p>منصة تعليمية رائدة في مجال البرمجة وتكنولوجيا المعلومات، نقدم محتوى عالي الجودة باللغة العربية.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>روابط سريعة</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">الرئيسية</a></li>
+                        <li><a href="#categories">الفئات</a></li>
+                        <li><a href="mohatrad.html">التحضيرات الجاهزة</a></li>
+                        <li><a href="books.html">المقرارات</a></li>
+                        <li><a href="aboutus.html"> عنا</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>الفئات</h3>
+                    <ul class="footer-links" id="categoriesLinks">
+                        <!-- سيتم تعبئتها تلقائياً -->
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>اتصل بنا</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope"></i> mostafefareg3@gmail.com</li>
+                        <li><i class="fas fa-phone"></i> +201148179176</li>
+                        <li><i class="fas fa-map-marker-alt"></i> مصر, محافظة المنيا</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>جميع الحقوق محفوظة &copy; 2025  منصة تعلم</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- نافذة تسجيل الدخول -->
+    <div class="auth-popup" id="loginPopup">
+        <div class="popup-content">
+            <div class="popup-close" id="loginClose">
+                <i class="fas fa-times"></i>
+            </div>
+            <h3 class="popup-title">تسجيل الدخول</h3>
+            <form class="auth-form" id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">البريد الإلكتروني</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">كلمة المرور</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
+                    <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
+                </button>
+            </form>
+            <div class="auth-switch">
+                <p>ليس لديك حساب؟ <a href="#" id="switchToRegister">إنشاء حساب جديد</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة إنشاء حساب -->
+    <div class="auth-popup" id="registerPopup">
+        <div class="popup-content">
+            <div class="popup-close" id="registerClose">
+                <i class="fas fa-times"></i>
+            </div>
+            <h3 class="popup-title">إنشاء حساب جديد</h3>
+            <form class="auth-form" id="registerForm">
+                <div class="form-group">
+                    <label for="registerName">الاسم الكامل</label>
+                    <input type="text" id="registerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerGovernorate">المحافظة</label>
+                    <select id="registerGovernorate" required>
+                        <option value="">اختر المحافظة</option>
+                        <option value="القاهرة">القاهرة</option>
+                        <option value="الجيزة">الجيزة</option>
+                        <option value="الإسكندرية">الإسكندرية</option>
+                        <option value="المنيا">المنيا</option>
+                        <option value="أسيوط">أسيوط</option>
+                        <option value="سوهاج">سوهاج</option>
+                        <option value="قنا">قنا</option>
+                        <option value="الأقصر">الأقصر</option>
+                        <option value="أسوان">أسوان</option>
+                        <option value="الفيوم">الفيوم</option>
+                        <option value="بنى سويف">بنى سويف</option>
+                        <option value="المنوفية">المنوفية</option>
+                        <option value="الغربية">الغربية</option>
+                        <option value="الدقهلية">الدقهلية</option>
+                        <option value="كفر الشيخ">كفر الشيخ</option>
+                        <option value="البحيرة">البحيرة</option>
+                        <option value="الإسماعيلية">الإسماعيلية</option>
+                        <option value="بورسعيد">بورسعيد</option>
+                        <option value="السويس">السويس</option>
+                        <option value="شمال سيناء">شمال سيناء</option>
+                        <option value="جنوب سيناء">جنوب سيناء</option>
+                        <option value="البحر الأحمر">البحر الأحمر</option>
+                        <option value="الوادي الجديد">الوادي الجديد</option>
+                        <option value="مطروح">مطروح</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="registerGrade">الفرقة الدراسية</label>
+                    <select id="registerGrade" required>
+                        <option value="">اختر الفرقة</option>
+                        <option value="فرقة أولى">فرقة أولى</option>
+                        <option value="فرقة ثانية">فرقة ثانية</option>
+                        <option value="فرقة ثالثة">فرقة ثالثة</option>
+                        <option value="فرقة رابعة">فرقة رابعة</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">البريد الإلكتروني</label>
+                    <input type="email" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">كلمة المرور</label>
+                    <input type="password" id="registerPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
+                    <i class="fas fa-user-plus"></i> إنشاء حساب
+                </button>
+            </form>
+            <div class="auth-switch">
+                <p>لديك حساب بالفعل؟ <a href="#" id="switchToLogin">تسجيل الدخول</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- إضافة مكتبة Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        // تهيئة Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyBWKhdd3INeAdPRocDzIpiWV_opev--kiQ",
+            authDomain: "physicals-6e967.firebaseapp.com",
+            projectId: "physicals-6e967",
+            storageBucket: "physicals-6e967.firebasestorage.app",
+            messagingSenderId: "1044063949",
+            appId: "1:1044063949:web:c23c7d28afaaa3cbdc2b84",
+            measurementId: "G-WH172YM7WZ"
+        };
+
+        // Initialize Firebase
+        let auth, db;
+        try {
+            if (!firebase.apps.length) {
+                firebase.initializeApp(firebaseConfig);
+            }
+            auth = firebase.auth();
+            db = firebase.firestore();
+            console.log("Firebase initialized successfully");
+        } catch (error) {
+            console.error("Firebase initialization error:", error);
+        }
+
+        // إنشاء تأثير الجسيمات
+        function createParticles() {
+            const container = document.getElementById('particlesContainer');
+            const particleCount = 25;
+            
+            const symbols = [
+                '{', '}', '<i class="fas fa-code"></i>', 
+                '<i class="fas fa-laptop-code"></i>', 
+                '<i class="fas fa-terminal"></i>',
+                '<i class="fas fa-file-code"></i>',
+                '<i class="fas fa-cogs"></i>',
+                '&lt;/&gt;', '{}', '()', '[]'
+            ];
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const randomSymbol = symbols[Math.floor(Math.random() * symbols.length)];
+                particle.innerHTML = randomSymbol;
+                
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 100 + Math.random() * 200;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+                const tr = (Math.random() - 0.5) * 360;
+                
+                const delay = Math.random() * 1;
+                
+                particle.style.setProperty('--tx', `${tx}px`);
+                particle.style.setProperty('--ty', `${ty}px`);
+                particle.style.setProperty('--tr', `${tr}deg`);
+                particle.style.animationDelay = `${1.8 + delay}s`;
+                
+                const size = Math.random() * 1.5 + 0.5;
+                particle.style.fontSize = `${size}rem`;
+                
+                container.appendChild(particle);
+            }
+        }
+
+        // المتغيرات العامة
+        let currentCategory = null;
+        let currentCourse = null;
+        let currentCourseIndex = 0;
+        let currentLessonIndex = 0;
+        let userProgress = {};
+
+        // البيانات الثابتة للفئات
+        const staticCategories = [
+            {
+                id: 'programming',
+                name: 'برمجة وتطوير',
+                type: 'programming',
+                description: 'تعلم لغات البرمجة وتطوير التطبيقات والمواقع',
+                order: 1,
+                icon: 'fa-code',
+                colorClass: 'category-programming'
+            },
+            {
+                id: 'office',
+                name: 'برامج المكاتب',
+                type: 'office',
+                description: 'إتقان برامج مايكروسوفت أوفيس والأدوات المكتبية',
+                order: 2,
+                icon: 'fa-file-powerpoint',
+                colorClass: 'category-office'
+            },
+            {
+                id: 'design',
+                name: 'تصميم المواقع',
+                type: 'design',
+                description: 'تعلم تصميم وتطوير المواقع الإلكترونية',
+                order: 3,
+                icon: 'fa-palette',
+                colorClass: 'category-design'
+            },
+           
+        ];
+
+        // عناصر DOM
+        const categoriesContainer = document.getElementById('categoriesContainer');
+        const categoriesContent = document.getElementById('categoriesContent');
+        const categoriesHeader = document.getElementById('categoriesHeader');
+        
+        const coursesContainer = document.getElementById('coursesContainer');
+        const coursesTitle = document.getElementById('coursesTitle');
+        const coursesContent = document.getElementById('coursesContent');
+        const coursesHeader = document.getElementById('coursesHeader');
+        
+        const coursePlayer = document.getElementById('coursePlayer');
+        const courseTitle = document.getElementById('courseTitle');
+        const lessonList = document.getElementById('lessonList');
+        const lessonContainer = document.getElementById('lessonContainer');
+        const closeCourseBtn = document.getElementById('closeCourse');
+        const prevLessonBtn = document.getElementById('prevLesson');
+        const nextLessonBtn = document.getElementById('nextLesson');
+        const categoriesLinks = document.getElementById('categoriesLinks');
+
+        // عناصر نظام المصادقة
+        const authButtons = document.getElementById('authButtons');
+        const userArea = document.getElementById('userArea');
+        const userAvatar = document.getElementById('userAvatar');
+        const userName = document.getElementById('userName');
+        const logoutBtn = document.getElementById('logoutBtn');
+        
+        const mobileAuthButtons = document.getElementById('mobileAuthButtons');
+        const mobileUserArea = document.getElementById('mobileUserArea');
+        const mobileUserAvatar = document.getElementById('mobileUserAvatar');
+        const mobileUserName = document.getElementById('mobileUserName');
+        const mobileLogoutBtn = document.getElementById('mobileLogoutBtn');
+        
+        const loginBtn = document.getElementById('loginBtn');
+        const registerBtn = document.getElementById('registerBtn');
+        const mobileLoginBtn = document.getElementById('mobileLoginBtn');
+        const mobileRegisterBtn = document.getElementById('mobileRegisterBtn');
+        
+        const loginPopup = document.getElementById('loginPopup');
+        const registerPopup = document.getElementById('registerPopup');
+        const loginClose = document.getElementById('loginClose');
+        const registerClose = document.getElementById('registerClose');
+        const switchToRegister = document.getElementById('switchToRegister');
+        const switchToLogin = document.getElementById('switchToLogin');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const mobileMenu = document.querySelector('.mobile-menu');
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // تحميل البيانات
+            loadCategories();
+            
+            // تهيئة الأحداث
+            initializeEvents();
+            
+            // التحقق من حالة المستخدم
+            checkUserStatus();
+            
+            // إنشاء تأثير الجسيمات
+            createParticles();
+        });
+
+        // تهيئة الأحداث
+        function initializeEvents() {
+            // القوائم المنسدلة للفئات والكورسات
+            categoriesHeader.addEventListener('click', () => {
+                categoriesContent.classList.toggle('active');
+                categoriesHeader.querySelector('i').classList.toggle('fa-chevron-down');
+                categoriesHeader.querySelector('i').classList.toggle('fa-chevron-up');
+            });
+
+            coursesHeader.addEventListener('click', () => {
+                coursesContent.classList.toggle('active');
+                coursesHeader.querySelector('i').classList.toggle('fa-chevron-down');
+                coursesHeader.querySelector('i').classList.toggle('fa-chevron-up');
+            });
+
+            // إغلاق مشغل الكورس
+            closeCourseBtn.addEventListener('click', () => {
+                coursePlayer.style.display = 'none';
+            });
+
+            // التنقل بين الدروس
+            prevLessonBtn.addEventListener('click', () => {
+                if (currentLessonIndex > 0) {
+                    changeLesson(currentLessonIndex - 1);
+                }
+            });
+
+            nextLessonBtn.addEventListener('click', () => {
+                if (currentCourse && currentCourse.lessons && currentLessonIndex < currentCourse.lessons.length - 1) {
+                    changeLesson(currentLessonIndex + 1);
+                }
+            });
+
+            // التنقل السلس
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const offsetTop = targetElement.offsetTop - 80;
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Animation on scroll
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right').forEach(el => {
+                observer.observe(el);
+            });
+
+            // نظام المصادقة
+            loginBtn.addEventListener('click', () => openLoginPopup());
+            registerBtn.addEventListener('click', () => openRegisterPopup());
+            mobileLoginBtn.addEventListener('click', () => {
+                openLoginPopup();
+                mobileMenu.classList.remove('active');
+            });
+            mobileRegisterBtn.addEventListener('click', () => {
+                openRegisterPopup();
+                mobileMenu.classList.remove('active');
+            });
+            
+            loginClose.addEventListener('click', closePopups);
+            registerClose.addEventListener('click', closePopups);
+            
+            switchToRegister.addEventListener('click', (e) => {
+                e.preventDefault();
+                loginPopup.classList.remove('active');
+                registerPopup.classList.add('active');
+            });
+            
+            switchToLogin.addEventListener('click', (e) => {
+                e.preventDefault();
+                registerPopup.classList.remove('active');
+                loginPopup.classList.add('active');
+            });
+            
+            loginForm.addEventListener('submit', handleLogin);
+            registerForm.addEventListener('submit', handleRegister);
+            
+            logoutBtn.addEventListener('click', handleLogout);
+            mobileLogoutBtn.addEventListener('click', () => {
+                handleLogout();
+                mobileMenu.classList.remove('active');
+            });
+            
+            // النقر خارج النافذة لإغلاقها
+            loginPopup.addEventListener('click', (e) => {
+                if (e.target === loginPopup) closePopups();
+            });
+            
+            registerPopup.addEventListener('click', (e) => {
+                if (e.target === registerPopup) closePopups();
+            });
+            
+            // القائمة الجوال
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('active');
+            });
+            
+            // إغلاق القائمة عند النقر خارجها
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.mobile-menu') && !e.target.closest('.mobile-menu-btn')) {
+                    mobileMenu.classList.remove('active');
+                }
+            });
+        }
+
+        // دالة للتمرير إلى قسم معين
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                const offsetTop = element.offsetTop - 80;
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        // دالة لتحميل الفئات
+        async function loadCategories() {
+            categoriesContent.innerHTML = '';
+
+            // عرض الفئات الثابتة
+            staticCategories.forEach(category => {
+                const categoryItem = createCategoryItem(category);
+                categoriesContent.appendChild(categoryItem);
+            });
+
+            // تحديث روابط الفئات في الفوتر
+            updateCategoriesLinks();
+        }
+
+        // دالة لإنشاء عنصر الفئة
+        function createCategoryItem(category) {
+            const item = document.createElement('div');
+            item.className = 'category-item';
+            item.setAttribute('data-category-id', category.id);
+
+            const colorClass = category.colorClass;
+            const iconClass = category.icon;
+
+            item.innerHTML = `
+                <div class="category-info">
+                    <div class="category-icon ${colorClass}">
+                        <i class="fas ${iconClass}"></i>
+                    </div>
+                    <div class="category-details">
+                        <h3>${category.name}</h3>
+                        <p>${category.description}</p>
+                    </div>
+                </div>
+                <div class="category-stats">
+                    <span id="coursesCount-${category.id}">0 كورس</span>
+                    <span id="lessonsCount-${category.id}">0 درس</span>
+                </div>
+            `;
+
+            // إضافة حدث النقر لفتح الفئة
+            item.addEventListener('click', () => {
+                openCategory(category.id);
+            });
+
+            // تحميل إحصائيات الفئة
+            loadCategoryStats(category.id);
+
+            return item;
+        }
+
+        // تحميل إحصائيات الفئة
+        async function loadCategoryStats(categoryId) {
+            try {
+                // الحل الدائم: جلب جميع الكورسات ثم التصفية محلياً
+                const coursesSnapshot = await db.collection('courses').get();
+                
+                let courseCount = 0;
+                let totalLessons = 0;
+                
+                coursesSnapshot.forEach(doc => {
+                    const course = doc.data();
+                    if (course.categoryId === categoryId) {
+                        courseCount++;
+                        totalLessons += course.lessonsCount || 0;
+                    }
+                });
+                
+                document.getElementById(`coursesCount-${categoryId}`).textContent = `${courseCount} كورس`;
+                document.getElementById(`lessonsCount-${categoryId}`).textContent = `${totalLessons} درس`;
+                
+            } catch (error) {
+                console.error('Error loading category stats:', error);
+                document.getElementById(`coursesCount-${categoryId}`).textContent = '0 كورس';
+                document.getElementById(`lessonsCount-${categoryId}`).textContent = '0 درس';
+            }
+        }
+
+        // دالة لفتح فئة معينة وعرض كورساتها
+        async function openCategory(categoryId) {
+            try {
+                // البحث عن الفئة في القائمة الثابتة
+                const category = staticCategories.find(cat => cat.id === categoryId);
+                if (!category) {
+                    throw new Error('الفئة غير موجودة');
+                }
+
+                currentCategory = category;
+                
+                // تحديث عنوان قسم الكورسات
+                coursesTitle.textContent = `كورسات ${category.name}`;
+                
+                // إظهار قسم الكورسات
+                coursesContainer.style.display = 'block';
+                coursesContent.classList.add('active');
+                
+                // تحميل الكورسات
+                await loadCourses(categoryId);
+                
+                // التمرير إلى قسم الكورسات
+                scrollToSection('coursesContainer');
+
+            } catch (error) {
+                console.error('Error opening category:', error);
+                alert('حدث خطأ في فتح الفئة: ' + error.message);
+            }
+        }
+
+        // دالة لتحميل الكورسات - الحل الدائم
+        async function loadCourses(categoryId) {
+            try {
+                coursesContent.innerHTML = '<div class="loading"><div class="loading-spinner"></div></div>';
+
+                // الحل الدائم: جلب جميع الكورسات ثم التصفية محلياً
+                const coursesSnapshot = await db.collection('courses').get();
+
+                if (coursesSnapshot.empty) {
+                    coursesContent.innerHTML = `
+                        <div class="empty-state" style="padding: 40px 20px;">
+                            <i class="fas fa-book"></i>
+                            <h3>لا توجد كورسات متاحة</h3>
+                            <p>سيتم إضافة كورسات جديدة قريباً</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // تصفية الكورسات حسب الفئة وترتيبها
+                const filteredCourses = [];
+                coursesSnapshot.forEach((doc) => {
+                    const course = { id: doc.id, ...doc.data() };
+                    if (course.categoryId === categoryId) {
+                        filteredCourses.push(course);
+                    }
+                });
+
+                // ترتيب الكورسات حسب الحقل order
+                filteredCourses.sort((a, b) => (a.order || 0) - (b.order || 0));
+
+                if (filteredCourses.length === 0) {
+                    coursesContent.innerHTML = `
+                        <div class="empty-state" style="padding: 40px 20px;">
+                            <i class="fas fa-book"></i>
+                            <h3>لا توجد كورسات متاحة</h3>
+                            <p>سيتم إضافة كورسات جديدة قريباً</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                coursesContent.innerHTML = '';
+
+                // عرض الكورسات المصفاة والمرتبة
+                filteredCourses.forEach((course, index) => {
+                    const courseItem = createCourseItem(course, index);
+                    coursesContent.appendChild(courseItem);
+                });
+
+            } catch (error) {
+                console.error('Error loading courses:', error);
+                coursesContent.innerHTML = `
+                    <div class="empty-state" style="padding: 40px 20px;">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3>حدث خطأ في تحميل الكورسات</h3>
+                        <p>يرجى المحاولة مرة أخرى</p>
+                    </div>
+                `;
+            }
+        }
+
+        // دالة لإنشاء عنصر كورس
+        function createCourseItem(course, index) {
+            const item = document.createElement('div');
+            item.className = 'course-item';
+            item.setAttribute('data-course-id', course.id);
+            
+            // الحصول على حالة الكورس من تقدم المستخدم
+            const courseStatus = getUserCourseStatus(course.id);
+
+            // تحديد لون الكورس بناءً على الفئة
+            let colorClass = 'course-programming';
+            if (course.categoryId === 'office') colorClass = 'course-office';
+            else if (course.categoryId === 'design') colorClass = 'course-design';
+            else if (course.categoryId === 'gamedev') colorClass = 'course-gamedev';
+
+            item.innerHTML = `
+                <div class="course-info">
+                    <div class="course-icon ${colorClass}">
+                        <i class="fas ${course.icon || 'fa-book'}"></i>
+                    </div>
+                    <div class="course-details">
+                        <h3>${course.title}</h3>
+                        <p>${course.description}</p>
+                        <div class="course-meta">
+                            <span>${getLevelName(course.level)}</span>
+                            <span>${course.duration} ساعة</span>
+                            <span>${course.lessonsCount || 0} درس</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="course-actions">
+                    <div class="course-status ${courseStatus}"></div>
+                    <button class="btn btn-primary" onclick="startCourse('${course.id}')">
+                        <i class="fas fa-play"></i> بدء التعلم
+                    </button>
+                </div>
+            `;
+
+            return item;
+        }
+
+        // دالة لبدء الكورس
+        function startCourse(courseId) {
+            openCourse(courseId);
+        }
+
+        // دالة لفتح كورس معين
+        async function openCourse(courseId) {
+            try {
+                coursePlayer.style.display = 'block';
+                courseTitle.textContent = 'جاري تحميل الكورس...';
+                
+                lessonList.innerHTML = '<div class="loading"><div class="loading-spinner"></div></div>';
+                lessonContainer.innerHTML = '<div class="loading"><div class="loading-spinner"></div></div>';
+
+                // البحث عن الكورس في قاعدة البيانات
+                const courseDoc = await db.collection('courses').doc(courseId).get();
+                if (!courseDoc.exists) {
+                    throw new Error('الكورس غير موجود');
+                }
+
+                currentCourse = { id: courseDoc.id, ...courseDoc.data() };
+
+                // تحميل دروس الكورس من قاعدة البيانات
+                try {
+                    const lessonsSnapshot = await db.collection('courses').doc(courseId)
+                        .collection('lessons')
+                        .orderBy('order')
+                        .get();
+
+                    currentCourse.lessons = [];
+                    lessonsSnapshot.forEach(doc => {
+                        currentCourse.lessons.push({ id: doc.id, ...doc.data() });
+                    });
+
+                    // تحديث واجهة الكورس
+                    updateCourseUI();
+
+                } catch (error) {
+                    console.log('No lessons found for this course, showing empty state');
+                    currentCourse.lessons = [];
+                    updateCourseUI();
+                }
+
+                // التمرير إلى مشغل الكورس
+                scrollToSection('coursePlayer');
+
+            } catch (error) {
+                console.error('Error opening course:', error);
+                alert('حدث خطأ في فتح الكورس: ' + error.message);
+            }
+        }
+
+        // تحديث واجهة الكورس
+        function updateCourseUI() {
+            if (!currentCourse) return;
+
+            courseTitle.textContent = currentCourse.title;
+            
+            // تحديث قائمة الدروس
+            updateLessonsList();
+            
+            // تحميل أول درس إذا كان هناك دروس
+            if (currentCourse.lessons && currentCourse.lessons.length > 0) {
+                loadLessonContent(0);
+            } else {
+                // عرض رسالة عدم وجود دروس
+                lessonContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-file-alt"></i>
+                        <h3>لا توجد دروس متاحة</h3>
+                        <p>لم يتم إضافة أي دروس لهذا الكورس بعد</p>
+                    </div>
+                `;
+                lessonList.innerHTML = `
+                    <div class="empty-state">
+                        <p>لا توجد دروس متاحة</p>
+                    </div>
+                `;
+            }
+            
+            // تحديث أزرار التنقل
+            updateNavigationButtons();
+        }
+
+        // تحديث قائمة الدروس
+        function updateLessonsList() {
+            lessonList.innerHTML = '';
+
+            if (!currentCourse.lessons || currentCourse.lessons.length === 0) {
+                lessonList.innerHTML = `
+                    <div class="empty-state" style="padding: 20px;">
+                        <p>لا توجد دروس متاحة</p>
+                    </div>
+                `;
+                return;
+            }
+
+            currentCourse.lessons.forEach((lesson, index) => {
+                const lessonItem = document.createElement('li');
+                lessonItem.className = `lesson-item ${index === 0 ? 'active' : ''}`;
+                
+                // الحصول على حالة الدرس من تقدم المستخدم
+                const lessonStatus = getUserLessonStatus(currentCourse.id, lesson.id);
+
+                lessonItem.innerHTML = `
+                    <div class="lesson-status ${lessonStatus}"></div>
+                    <div class="lesson-title">${lesson.order ? `الدرس ${lesson.order}: ` : ''}${lesson.title}</div>
+                    <div class="lesson-meta">
+                        <span>${lesson.duration || 0} دقيقة</span>
+                        <span>${lesson.exercises || 0} تمارين</span>
+                    </div>
+                `;
+
+                lessonItem.addEventListener('click', () => {
+                    changeLesson(index);
+                });
+
+                lessonList.appendChild(lessonItem);
+            });
+        }
+
+        // تغيير الدرس الحالي
+        async function changeLesson(newIndex) {
+            // حفظ تقدم الدرس الحالي
+            if (auth.currentUser && currentCourse && currentCourse.lessons && currentCourse.lessons[currentLessonIndex]) {
+                await updateLessonProgress(currentLessonIndex, 'completed');
+            }
+
+            // إخفاء المحتوى الحالي
+            const currentContent = lessonContainer.querySelector('.lesson-text-content');
+            if (currentContent) {
+                currentContent.classList.remove('fade-in');
+                currentContent.classList.add('fade-out');
+            }
+
+            // الانتقال للدرس الجديد بعد التأخير
+            setTimeout(() => {
+                // تحديث الدرس النشط في القائمة
+                document.querySelectorAll('.lesson-item').forEach((item, index) => {
+                    item.classList.toggle('active', index === newIndex);
+                });
+
+                // تحميل محتوى الدرس الجديد
+                loadLessonContent(newIndex);
+
+                // تحديث الفهرس الحالي
+                currentLessonIndex = newIndex;
+
+                // تحديث أزرار التنقل
+                updateNavigationButtons();
+
+                // التمرير لأعلى
+                lessonContainer.scrollTop = 0;
+
+                // تحديث حالة الدرس إلى قيد التقدم
+                if (auth.currentUser && currentCourse.lessons && currentCourse.lessons[newIndex]) {
+                    updateLessonProgress(newIndex, 'in-progress');
+                }
+
+            }, 400);
+        }
+
+        // دالة جديدة لمعالجة محتوى الدرس
+        function processLessonContent(content) {
+            if (!content) return '';
+            
+            // تقسيم المحتوى إلى أسطر
+            const lines = content.split('\n');
+            let processedContent = '';
+            
+            for (let line of lines) {
+                const trimmedLine = line.trim();
+                
+                if (trimmedLine === '') {
+                    // سطر فارغ - نضيف فاصل فقرة
+                    processedContent += '<p>&nbsp;</p>';
+                } else if (trimmedLine.startsWith('{') && trimmedLine.endsWith('}')) {
+                    // هذا سطر برمجي داخل {} - نضعه في تنسيق الـ Terminal
+                    const codeContent = trimmedLine.substring(1, trimmedLine.length - 1);
+                    processedContent += `<div class="code-example">${codeContent}</div>`;
+                } else {
+                    // هذا سطر عادي - نبقيه كما هو
+                    // نتحقق إذا كان يحتوي على كود برمجي ونضيف تنسيق مناسب
+                    if (trimmedLine.includes('```')) {
+                        // معالجة كتل الكود متعددة الأسطر
+                        processedContent += `<pre>${line.replace(/```/g, '')}</pre>`;
+                    } else if (containsCode(line)) {
+                        // إذا كان السطر يحتوي على كود برمجي، نضيف تنسيق الكود
+                        processedContent += `<p><code class="regular-code">${line}</code></p>`;
+                    } else {
+                        // سطر نصي عادي
+                        processedContent += `<p>${line}</p>`;
+                    }
+                }
+            }
+            
+            return processedContent;
+        }
+
+        // دالة مساعدة للتحقق إذا كان السطر يحتوي على كود برمجي
+        function containsCode(line) {
+            const codePatterns = [
+                /function\s+\w+\s*\(/,
+                /const\s+\w+\s*=/,
+                /let\s+\w+\s*=/,
+                /var\s+\w+\s*=/,
+                /if\s*\(/,
+                /for\s*\(/,
+                /while\s*\(/,
+                /console\.log/,
+                /return\s+/,
+                /import\s+/,
+                /export\s+/,
+                /class\s+\w+/,
+                /<\/?[a-z][\s\S]*>/i // علامات HTML
+            ];
+            
+            return codePatterns.some(pattern => pattern.test(line));
+        }
+
+        // تحميل محتوى الدرس
+        function loadLessonContent(lessonIndex) {
+            if (!currentCourse || !currentCourse.lessons || !currentCourse.lessons[lessonIndex]) {
+                lessonContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-file-alt"></i>
+                        <h3>لا توجد دروس متاحة</h3>
+                        <p>لم يتم إضافة أي دروس لهذا الكورس بعد</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const lesson = currentCourse.lessons[lessonIndex];
+            
+            // استخدام الدالة الجديدة لمعالجة المحتوى
+            const processedContent = processLessonContent(lesson.content || '<p>لا يوجد محتوى متاح لهذا الدرس بعد.</p>');
+            
+            lessonContainer.innerHTML = `
+                <div class="lesson-text-content fade-in">
+                    <div class="lesson-image">
+                        ${lesson.image ? 
+                            `<img src="${lesson.image}" alt="${lesson.title}">` : 
+                            `<i class="fas fa-file-alt" style="font-size: 3rem;"></i>`
+                        }
+                    </div>
+                    <h2 class="lesson-title-main">${lesson.order ? `الدرس ${lesson.order}: ` : ''}${lesson.title}</h2>
+                    ${lesson.description ? `<p class="lesson-description">${lesson.description}</p>` : ''}
+                    <div class="lesson-content-text">
+                        ${processedContent}
+                    </div>
+                </div>
+            `;
+
+            // تفعيل تأثير الظهور
+            setTimeout(() => {
+                const content = lessonContainer.querySelector('.lesson-text-content');
+                if (content) {
+                    content.classList.remove('fade-in');
+                    void content.offsetWidth;
+                    content.classList.add('fade-in');
+                }
+            }, 50);
+        }
+
+        // تحديث أزرار التنقل
+        function updateNavigationButtons() {
+            if (!currentCourse || !currentCourse.lessons) return;
+
+            const hasLessons = currentCourse.lessons.length > 0;
+            
+            prevLessonBtn.disabled = !hasLessons || currentLessonIndex === 0;
+            nextLessonBtn.disabled = !hasLessons || currentLessonIndex === currentCourse.lessons.length - 1;
+
+            prevLessonBtn.style.opacity = prevLessonBtn.disabled ? '0.5' : '1';
+            nextLessonBtn.style.opacity = nextLessonBtn.disabled ? '0.5' : '1';
+        }
+
+        // تحديث روابط الفئات في الفوتر
+        function updateCategoriesLinks() {
+            if (!categoriesLinks) return;
+
+            categoriesLinks.innerHTML = '';
+            staticCategories.forEach(category => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = '#';
+                a.textContent = category.name;
+                a.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openCategory(category.id);
+                });
+                li.appendChild(a);
+                categoriesLinks.appendChild(li);
+            });
+        }
+
+        // دوال مساعدة
+        function getLevelName(level) {
+            const levels = {
+                'beginner': 'مبتدئ',
+                'intermediate': 'متوسط',
+                'advanced': 'متقدم'
+            };
+            return levels[level] || 'جميع المستويات';
+        }
+
+        function getUserCourseStatus(courseId) {
+            if (!userProgress.courses || !userProgress.courses[courseId]) {
+                return 'not-started';
+            }
+            
+            const lessons = userProgress.courses[courseId].lessons;
+            if (!lessons) return 'not-started';
+            
+            const lessonStatuses = Object.values(lessons).map(lesson => lesson.status);
+            const completedLessons = lessonStatuses.filter(status => status === 'completed').length;
+            const totalLessons = lessonStatuses.length;
+            
+            if (completedLessons === 0) return 'not-started';
+            if (completedLessons === totalLessons) return 'completed';
+            return 'in-progress';
+        }
+
+        function getUserLessonStatus(courseId, lessonId) {
+            if (!userProgress.courses || !userProgress.courses[courseId]) {
+                return 'not-started';
+            }
+            return userProgress.courses[courseId].lessons?.[lessonId]?.status || 'not-started';
+        }
+
+        // نظام المصادقة
+        function openLoginPopup() {
+            loginPopup.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function openRegisterPopup() {
+            registerPopup.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePopups() {
+            loginPopup.classList.remove('active');
+            registerPopup.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            try {
+                const submitBtn = e.target.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري تسجيل الدخول...';
+                submitBtn.disabled = true;
+                
+                await auth.signInWithEmailAndPassword(email, password);
+                closePopups();
+                
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('خطأ في تسجيل الدخول: ' + error.message);
+                
+                const submitBtn = e.target.querySelector('button[type="submit"]');
+                submitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> تسجيل الدخول';
+                submitBtn.disabled = false;
+            }
+        }
+
+        async function handleRegister(e) {
+            e.preventDefault();
+            
+            const userData = {
+                name: document.getElementById('registerName').value,
+                governorate: document.getElementById('registerGovernorate').value,
+                grade: document.getElementById('registerGrade').value,
+                email: document.getElementById('registerEmail').value,
+                password: document.getElementById('registerPassword').value
+            };
+            
+            try {
+                const submitBtn = e.target.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري إنشاء الحساب...';
+                submitBtn.disabled = true;
+                
+                const userCredential = await auth.createUserWithEmailAndPassword(userData.email, userData.password);
+                const user = userCredential.user;
+                
+                // حفظ بيانات إضافية في Firestore
+                await db.collection('users').doc(user.uid).set({
+                    name: userData.name,
+                    governorate: userData.governorate,
+                    grade: userData.grade,
+                    email: userData.email,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                closePopups();
+                
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            } catch (error) {
+                console.error('Register error:', error);
+                alert('خطأ في إنشاء الحساب: ' + error.message);
+                
+                const submitBtn = e.target.querySelector('button[type="submit"]');
+                submitBtn.innerHTML = '<i class="fas fa-user-plus"></i> إنشاء حساب';
+                submitBtn.disabled = false;
+            }
+        }
+
+        async function handleLogout() {
+            try {
+                await auth.signOut();
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
+        }
+
+        function checkUserStatus() {
+            if (!auth) return;
+            
+            auth.onAuthStateChanged(async (user) => {
+                if (user) {
+                    // تحميل بيانات المستخدم
+                    await getUserData(user.uid);
+                } else {
+                    hideUserArea();
+                }
+            });
+        }
+
+        async function getUserData(userId) {
+            try {
+                const doc = await db.collection('users').doc(userId).get();
+                if (doc.exists) {
+                    const userData = doc.data();
+                    showUserArea(userData);
+                }
+            } catch (error) {
+                console.error('Error getting user data:', error);
+            }
+        }
+
+        function showUserArea(user) {
+            // إخفاء أزرار التسجيل
+            if (authButtons) authButtons.style.display = 'none';
+            if (mobileAuthButtons) mobileAuthButtons.style.display = 'none';
+            
+            // إظهار منطقة المستخدم
+            if (userArea) userArea.style.display = 'flex';
+            if (mobileUserArea) mobileUserArea.style.display = 'flex';
+            
+            // تعبئة بيانات المستخدم
+            if (userName) userName.textContent = user.name;
+            if (mobileUserName) mobileUserName.textContent = user.name;
+            
+            // إنشاء الصورة الرمزية بناءً على الحرف الأول من الاسم
+            const firstLetter = user.name.charAt(0).toLowerCase();
+            
+            if (userAvatar) {
+                userAvatar.textContent = firstLetter.toUpperCase();
+                userAvatar.className = 'user-avatar';
+                userAvatar.classList.add(`avatar-${firstLetter}`);
+            }
+            
+            if (mobileUserAvatar) {
+                mobileUserAvatar.textContent = firstLetter.toUpperCase();
+                mobileUserAvatar.className = 'user-avatar';
+                mobileUserAvatar.classList.add(`avatar-${firstLetter}`);
+            }
+            
+            // تحميل تقدم المستخدم
+            loadUserProgress(user.uid);
+        }
+
+        function hideUserArea() {
+            // إظهار أزرار التسجيل
+            if (authButtons) authButtons.style.display = 'flex';
+            if (mobileAuthButtons) mobileAuthButtons.style.display = 'flex';
+            
+            // إخفاء منطقة المستخدم
+            if (userArea) userArea.style.display = 'none';
+            if (mobileUserArea) mobileUserArea.style.display = 'none';
+        }
+
+        // دوال إدارة التقدم
+        async function updateLessonProgress(lessonIndex, status) {
+            if (!auth.currentUser || !currentCourse || !currentCourse.lessons || !currentCourse.lessons[lessonIndex]) return;
+            
+            try {
+                const userId = auth.currentUser.uid;
+                const courseId = currentCourse.id;
+                const lessonId = currentCourse.lessons[lessonIndex].id;
+                
+                await db.collection('userProgress').doc(userId).set({
+                    courses: {
+                        [courseId]: {
+                            lessons: {
+                                [lessonId]: {
+                                    status: status,
+                                    completedAt: status === 'completed' ? firebase.firestore.FieldValue.serverTimestamp() : null
+                                }
+                            }
+                        }
+                    }
+                }, { merge: true });
+                
+                // تحديث التقدم المحلي
+                if (!userProgress.courses) userProgress.courses = {};
+                if (!userProgress.courses[courseId]) userProgress.courses[courseId] = {};
+                if (!userProgress.courses[courseId].lessons) userProgress.courses[courseId].lessons = {};
+                userProgress.courses[courseId].lessons[lessonId] = { status: status };
+                
+                updateProgressUI();
+            } catch (error) {
+                console.error('Error updating lesson progress:', error);
+            }
+        }
+
+        async function loadUserProgress(userId) {
+            try {
+                const progressDoc = await db.collection('userProgress').doc(userId).get();
+                if (progressDoc.exists) {
+                    userProgress = progressDoc.data();
+                    updateProgressUI();
+                }
+            } catch (error) {
+                console.error('Error loading user progress:', error);
+            }
+        }
+
+        function updateProgressUI() {
+            // حساب التقدم الإجمالي
+            let totalLessons = 0;
+            let completedLessons = 0;
+            let completedCourses = 0;
+            
+            if (userProgress.courses) {
+                Object.values(userProgress.courses).forEach(course => {
+                    if (course.lessons) {
+                        const courseLessons = Object.values(course.lessons);
+                        totalLessons += courseLessons.length;
+                        completedLessons += courseLessons.filter(lesson => lesson.status === 'completed').length;
+                        
+                        // إذا اكتملت جميع دروس الكورس
+                        if (courseLessons.every(lesson => lesson.status === 'completed')) {
+                            completedCourses++;
+                        }
+                    }
+                });
+            }
+            
+            const progressPercentage = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
+            
+            // تحديث واجهة التقدم
+            document.getElementById('progressFill').style.width = progressPercentage + '%';
+            document.getElementById('overallProgress').textContent = progressPercentage + '%';
+            document.getElementById('completedCourses').textContent = completedCourses;
+            document.getElementById('completedLessons').textContent = completedLessons;
+            document.getElementById('achievements').textContent = Math.floor(completedLessons / 5); // إنجاز كل 5 دروس
+        }
+    </script>
+</body>
+</html>

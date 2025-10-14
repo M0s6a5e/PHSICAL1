@@ -1,0 +1,2903 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة المحاضرات - كلية التربية الرياضية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c5aa0;
+            --primary-dark: #1e3d72;
+            --secondary: #3a7bd5;
+            --accent: #f8b500;
+            --accent-dark: #e6a400;
+            --light: #f8f9fa;
+            --dark: #2c3e50;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --info: #17a2b8;
+            --border-radius: 16px;
+            --border-radius-sm: 12px;
+            --border-radius-lg: 20px;
+            --shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            --gradient-accent: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            color: var(--dark);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background: var(--gradient);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo-icon {
+            font-size: 2.2rem;
+            background: var(--accent);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(248, 181, 0, 0.3);
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .site-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .site-subtitle {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex: 1;
+            justify-content: flex-end;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+            margin: 0;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: var(--transition);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            border-radius: 25px;
+        }
+
+        .nav-link:hover::before,
+        .nav-link.active::before {
+            transform: translateX(0);
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* زر التحضيرات للمسؤول */
+        .admin-prep-btn {
+            background: var(--accent);
+            color: var(--dark);
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-right: 10px;
+            box-shadow: 0 4px 15px rgba(248, 181, 0, 0.3);
+        }
+
+        .admin-prep-btn:hover {
+            background: var(--accent-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(248, 181, 0, 0.4);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 8px 16px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .user-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .user-grade {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+
+        .mobile-menu-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 300px;
+            height: 100vh;
+            background: var(--gradient);
+            z-index: 2000;
+            transition: var(--transition);
+            padding: 80px 30px 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            box-shadow: -5px 0 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-menu-close {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .mobile-nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            border-radius: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-nav-link:hover,
+        .mobile-nav-link.active {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-5px);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: var(--gradient);
+            color: white;
+            padding: 5rem 0 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><polygon fill="rgba(255,255,255,0.05)" points="0,1000 1000,0 1000,1000"/></svg>');
+            background-size: cover;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-description {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        /* Main Content */
+        main {
+            padding: 3rem 0;
+            position: relative;
+        }
+
+        /* User Welcome */
+        .user-welcome {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            text-align: center;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .user-welcome::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient);
+        }
+
+        .welcome-title {
+            color: var(--primary);
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-subtitle {
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+
+        /* Admin Controls */
+        .admin-badge {
+            background: var(--accent);
+            color: var(--dark);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+        
+        .admin-controls {
+            background: rgba(248, 181, 0, 0.1);
+            border: 1px solid var(--accent);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .admin-only {
+            display: none;
+        }
+        
+        .admin-only.show {
+            display: block;
+        }
+
+        /* Add Lecture Section */
+        .add-lecture-section {
+            background: white;
+            padding: 2.5rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 50%;
+            transform: translateX(50%);
+            width: 80px;
+            height: 4px;
+            background: var(--gradient-accent);
+            border-radius: 2px;
+        }
+
+        .lecture-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-label i {
+            color: var(--accent);
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            padding: 1rem 1.2rem;
+            border: 2px solid var(--light-gray);
+            border-radius: var(--border-radius-sm);
+            background: var(--light);
+            font-size: 1rem;
+            transition: var(--transition);
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .form-textarea {
+            min-height: 140px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(44, 90, 160, 0.1);
+            outline: none;
+            transform: translateY(-2px);
+        }
+
+        .submit-btn {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 1.2rem 2.5rem;
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 1rem auto 0;
+            min-width: 200px;
+            box-shadow: 0 6px 20px rgba(44, 90, 160, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(44, 90, 160, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Login Prompt */
+        .login-prompt {
+            background: white;
+            padding: 3rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow);
+            text-align: center;
+            margin-bottom: 3rem;
+            border: 2px dashed var(--light-gray);
+            position: relative;
+        }
+
+        .login-icon {
+            font-size: 4rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            opacity: 0.7;
+        }
+
+        .login-title {
+            color: var(--primary);
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .login-description {
+            color: var(--gray);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .login-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--gradient);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: 0 6px 20px rgba(44, 90, 160, 0.3);
+        }
+
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(44, 90, 160, 0.4);
+        }
+
+        /* Filter Section */
+        .filter-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+        
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .subjects-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .subject-tag {
+            background: var(--light);
+            color: var(--primary);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid var(--light-gray);
+        }
+        
+        .subject-tag:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .subject-tag.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Lectures Grid */
+        .lectures-section {
+            margin-bottom: 3rem;
+        }
+
+        .lectures-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .lectures-stats {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        .lectures-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Lecture Card */
+        .lecture-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        .lecture-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .lecture-header {
+            background: var(--gradient);
+            color: white;
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .lecture-actions {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .lecture-card:hover .lecture-actions {
+            opacity: 1;
+        }
+
+        .action-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .action-btn.edit:hover {
+            background: var(--info);
+        }
+
+        .action-btn.delete:hover {
+            background: var(--danger);
+        }
+
+        .lecture-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .lecture-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .lecture-type {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .lecture-body {
+            padding: 1.5rem;
+        }
+
+        .lecture-subject {
+            background: var(--light);
+            color: var(--primary);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(44, 90, 160, 0.1);
+        }
+
+        .lecture-description {
+            color: var(--dark);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            position: relative;
+            max-height: 4.8em; /* 3 أسطر × 1.6 line-height */
+        }
+
+        .lecture-description.truncated::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1.6em;
+            background: linear-gradient(transparent, white);
+        }
+
+        /* أنماط الروابط */
+        .content-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            background: rgba(44, 90, 160, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            transition: var(--transition);
+            display: inline-block;
+            margin: 2px;
+        }
+
+        .content-link:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .link-preview {
+            background: var(--light);
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius-sm);
+            padding: 1rem;
+            margin: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .link-preview i {
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .link-info {
+            flex: 1;
+        }
+
+        .link-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .link-url {
+            font-size: 0.85rem;
+            color: var(--gray);
+            word-break: break-all;
+        }
+
+        .lecture-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 1rem 0 0;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        .author-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--gradient-accent);
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .author-info {
+            flex: 1;
+        }
+
+        .author-name {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 0.95rem;
+        }
+
+        .author-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-top: 2px;
+        }
+
+        .view-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: var(--gradient-accent);
+            color: var(--dark);
+            border: none;
+            padding: 12px 24px;
+            border-radius: var(--border-radius-sm);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .view-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(248, 181, 0, 0.3);
+        }
+
+        /* Auth Popup */
+        .auth-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .auth-popup.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .auth-popup .popup-content {
+            background: white;
+            border-radius: var(--border-radius-lg);
+            padding: 3rem;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .auth-popup .popup-close {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: var(--light-gray);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1.2rem;
+            color: var(--dark);
+            border: none;
+        }
+        
+        .auth-popup .popup-close:hover {
+            background: var(--danger);
+            color: white;
+            transform: rotate(90deg);
+        }
+        
+        .auth-popup .popup-title {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            text-align: center;
+            font-weight: 700;
+        }
+        
+        .auth-switch {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--light-gray);
+        }
+        
+        .auth-switch a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .auth-switch a:hover {
+            color: var(--secondary);
+            text-decoration: underline;
+        }
+
+        /* Edit Popup */
+        .edit-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .edit-popup.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 0 1.5rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .footer-section h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--accent);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #bdc3c7;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { 
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to { 
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        /* Notifications */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            color: white;
+            font-weight: 500;
+            z-index: 4000;
+            box-shadow: var(--shadow);
+            animation: fadeInUp 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: 400px;
+        }
+
+        .notification.success {
+            background: var(--success);
+        }
+
+        .notification.error {
+            background: var(--danger);
+        }
+
+        .notification.info {
+            background: var(--info);
+        }
+
+        .notification.warning {
+            background: var(--warning);
+            color: var(--dark);
+        }
+
+        /* Loading States */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Empty State */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--gray);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .lectures-grid {
+                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            }
+        }
+
+        @media (max-width: 992px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-description {
+                font-size: 1.2rem;
+            }
+            
+            .lecture-form {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-wrap: wrap;
+            }
+
+            .nav-container {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .hero {
+                padding: 4rem 0 2rem;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-description {
+                font-size: 1.1rem;
+            }
+
+            .lectures-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .lectures-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .add-lecture-section,
+            .login-prompt {
+                padding: 1.5rem;
+            }
+
+            .auth-popup .popup-content {
+                padding: 2rem;
+            }
+
+            .user-welcome {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                width: 95%;
+            }
+
+            .hero-title {
+                font-size: 1.8rem;
+            }
+
+            .site-title {
+                font-size: 1.2rem;
+            }
+
+            .logo-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1.8rem;
+            }
+
+            .lecture-card {
+                margin: 0 -10px;
+                border-radius: 0;
+            }
+
+            .lecture-card:hover {
+                transform: none;
+            }
+
+            .mobile-menu {
+                width: 100%;
+            }
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --light: #1a1a1a;
+                --dark: #f8f9fa;
+                --light-gray: #2d2d2d;
+                --gray: #a0a0a0;
+            }
+
+            body {
+                background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+            }
+
+            .lecture-card,
+            .add-lecture-section,
+            .login-prompt,
+            .user-welcome,
+            .auth-popup .popup-content {
+                background: #2d2d2d;
+                color: var(--dark);
+            }
+
+            .form-input,
+            .form-select,
+            .form-textarea {
+                background: #3d3d3d;
+                border-color: #4d4d4d;
+                color: var(--dark);
+            }
+
+            .form-input:focus,
+            .form-select:focus,
+            .form-textarea:focus {
+                background: #4d4d4d;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="logo-text">
+                        <div class="site-title">منصة المحاضرات</div>
+                        <div class="site-subtitle">كلية التربية الرياضية</div>
+                    </div>
+                </a>
+                
+                <div class="nav-container">
+                    <ul class="nav-menu">
+                        <li class="nav-item"><a href="index.html" class="nav-link"><i class="fas fa-home"></i> الرئيسية</a></li>
+                        <li class="nav-item"><a href="books.html" class="nav-link"><i class="fas fa-book"></i> المكتبة</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link active"><i class="fas fa-chalkboard-teacher"></i> المحاضرات</a></li>
+                    </ul>
+                    
+                    <!-- زر التحضيرات للمسؤول -->
+                    <a href="#" class="admin-prep-btn" id="adminPrepBtn" style="display: none;" onclick="showAddPreparation()">
+                        <i class="fas fa-file-alt"></i> إضافة تحضير
+                    </a>
+                    
+                    <div class="user-info" id="userInfo" style="display: none;">
+                        <div class="user-avatar" id="userAvatar">م</div>
+                        <div class="user-details">
+                            <div class="user-name" id="userName">مستخدم</div>
+                            <div class="user-grade" id="userGrade"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu-close" id="mobileMenuClose">
+            <i class="fas fa-times"></i>
+        </button>
+        <a href="index.html" class="mobile-nav-link"><i class="fas fa-home"></i> الرئيسية</a>
+        <a href="books.html" class="mobile-nav-link"><i class="fas fa-book"></i> المكتبة</a>
+        <a href="#" class="mobile-nav-link active"><i class="fas fa-chalkboard-teacher"></i> المحاضرات</a>
+        <!-- زر التحضيرات في الموبايل -->
+        <a href="#" class="mobile-nav-link admin-only" id="mobileAdminPrepBtn" style="display: none;" onclick="showAddPreparation()">
+            <i class="fas fa-file-alt"></i> إضافة تحضير
+        </a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">منصة مشاركة المحاضرات</h1>
+                <p class="hero-description">شارك محاضراتك واستفد من محاضرات الزملاء في كلية التربية الرياضية</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- User Welcome Section -->
+        <div id="userWelcome" class="user-welcome" style="display: none;">
+            <h2 class="welcome-title" id="welcomeMessage">مرحباً بك، [اسم المستخدم]</h2>
+            <p class="welcome-subtitle">يمكنك الآن إضافة محاضراتك ومشاركتها مع الزملاء</p>
+        </div>
+
+        <!-- Admin Controls -->
+        <div id="adminControls" class="admin-controls" style="display: none;">
+            <h3><i class="fas fa-user-shield"></i> لوحة تحكم المسؤول</h3>
+            <p>يمكنك إضافة محاضرات وتحضيرات جديدة وإدارة المحتوى</p>
+        </div>
+
+        <!-- Add Lecture Section -->
+        <section id="addLectureSection" class="add-lecture-section" style="display: none;">
+            <h2 class="section-title"><i class="fas fa-plus-circle"></i> إضافة محاضرة جديدة</h2>
+            <form id="lectureForm" class="lecture-form">
+                <div class="form-group">
+                    <label class="form-label" for="lectureTitle"><i class="fas fa-heading"></i> عنوان المحاضرة</label>
+                    <input type="text" class="form-input" id="lectureTitle" required placeholder="أدخل عنوان المحاضرة">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="lectureSubject"><i class="fas fa-book"></i> المادة الدراسية</label>
+                    <input type="text" class="form-input" id="lectureSubject" required placeholder="اكتب اسم المادة الدراسية">
+                    <small style="color: var(--gray); margin-top: 5px; display: block;">اكتب اسم المادة الدراسية يدوياً</small>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="lectureType"><i class="fas fa-file-alt"></i> نوع المحتوى</label>
+                    <select class="form-select" id="lectureType" required>
+                        <option value="">اختر نوع المحتوى</option>
+                        <option value="محاضرة">محاضرة</option>
+                        <option value="تحضير" class="admin-only">تحضير</option>
+                        <option value="ملخص">ملخص</option>
+                        <option value="عرض تقديمي">عرض تقديمي</option>
+                        <option value="ورقة عمل">ورقة عمل</option>
+                    </select>
+                </div>
+
+                <div class="form-group full-width">
+                    <label class="form-label" for="lectureContent"><i class="fas fa-edit"></i> موضوع المحاضرة</label>
+                    <textarea class="form-textarea" id="lectureContent" required placeholder="اكتب محتوى المحاضرة أو التحضير هنا...&#10;&#10;لإضافة رابط: اكتب &lt;رابطك هنا&gt;&#10;مثال: &lt;https://example.com&gt;"></textarea>
+                    <small style="color: var(--gray); margin-top: 5px; display: block;">
+                        <i class="fas fa-info-circle"></i> لإضافة رابط: اكتب <code>&lt;رابطك هنا&gt;</code> وسيتم تحويله إلى رابط قابل للنقر
+                    </small>
+                </div>
+                
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-paper-plane"></i> نشر المحاضرة
+                </button>
+            </form>
+        </section>
+
+        <!-- Login Prompt -->
+        <section id="loginPrompt" class="login-prompt">
+            <div class="login-icon">
+                <i class="fas fa-user-lock"></i>
+            </div>
+            <h2 class="login-title">تسجيل الدخول مطلوب</h2>
+            <p class="login-description">يجب تسجيل الدخول لإضافة محاضرات جديدة والمساهمة في المنصة</p>
+            <a href="#" class="login-btn" id="showLoginPopup">
+                <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
+            </a>
+        </section>
+
+        <!-- Filter Section -->
+        <section class="filter-section">
+            <h3><i class="fas fa-filter"></i> تصفية المحاضرات</h3>
+            <div class="filter-grid">
+                <div class="form-group">
+                    <label class="form-label" for="filterType">نوع المحتوى</label>
+                    <select class="form-select" id="filterType">
+                        <option value="">جميع الأنواع</option>
+                        <option value="محاضرة">محاضرة</option>
+                        <option value="تحضير">تحضير</option>
+                        <option value="ملخص">ملخص</option>
+                        <option value="عرض تقديمي">عرض تقديمي</option>
+                        <option value="ورقة عمل">ورقة عمل</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="filterSubject">المادة الدراسية</label>
+                    <select class="form-select" id="filterSubject">
+                        <option value="">جميع المواد</option>
+                        <!-- سيتم تعبئة هذا من خلال جافاسكريبت -->
+                    </select>
+                </div>
+            </div>
+            
+            <div>
+                <label class="form-label">المواد المتاحة:</label>
+                <div class="subjects-list" id="subjectsList">
+                    <!-- سيتم تعبئة هذا من خلال جافاسكريبت -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Lectures Section -->
+        <section class="lectures-section">
+            <div class="lectures-header">
+                <h2 class="section-title"><i class="fas fa-chalkboard-teacher"></i> المحاضرات المتاحة</h2>
+                <div class="lectures-stats">
+                    <span id="lecturesCount">0</span> محاضرة
+                </div>
+            </div>
+            <div class="lectures-grid" id="lecturesGrid">
+                <!-- Lectures will be loaded here -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Auth Popup -->
+    <div class="auth-popup" id="authPopup">
+        <div class="popup-content">
+            <button class="popup-close" id="closeAuthPopup">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3 class="popup-title"><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</h3>
+            <form class="auth-form" id="authForm">
+                <div class="form-group">
+                    <label for="authEmail" class="form-label"><i class="fas fa-envelope"></i> البريد الإلكتروني</label>
+                    <input type="email" id="authEmail" class="form-input" required placeholder="example@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="authPassword" class="form-label"><i class="fas fa-lock"></i> كلمة المرور</label>
+                    <input type="password" id="authPassword" class="form-input" required placeholder="أدخل كلمة المرور">
+                </div>
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
+                </button>
+            </form>
+            <div class="auth-switch">
+                <p>ليس لديك حساب؟ <a href="index.html">إنشاء حساب جديد من الصفحة الرئيسية</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Popup -->
+    <div class="auth-popup edit-popup" id="editPopup">
+        <div class="popup-content">
+            <button class="popup-close" id="closeEditPopup">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3 class="popup-title"><i class="fas fa-edit"></i> تعديل المحاضرة</h3>
+            <form class="auth-form" id="editForm">
+                <input type="hidden" id="editLectureId">
+                <div class="form-group">
+                    <label class="form-label" for="editLectureTitle"><i class="fas fa-heading"></i> عنوان المحاضرة</label>
+                    <input type="text" class="form-input" id="editLectureTitle" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="editLectureSubject"><i class="fas fa-book"></i> المادة الدراسية</label>
+                    <input type="text" class="form-input" id="editLectureSubject" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="editLectureType"><i class="fas fa-file-alt"></i> نوع المحتوى</label>
+                    <select class="form-select" id="editLectureType" required>
+                        <option value="">اختر نوع المحتوى</option>
+                        <option value="محاضرة">محاضرة</option>
+                        <option value="تحضير" class="admin-only">تحضير</option>
+                        <option value="ملخص">ملخص</option>
+                        <option value="عرض تقديمي">عرض تقديمي</option>
+                        <option value="ورقة عمل">ورقة عمل</option>
+                    </select>
+                </div>
+
+                <div class="form-group full-width">
+                    <label class="form-label" for="editLectureContent"><i class="fas fa-edit"></i> موضوع المحاضرة</label>
+                    <textarea class="form-textarea" id="editLectureContent" required></textarea>
+                    <small style="color: var(--gray); margin-top: 5px; display: block;">
+                        <i class="fas fa-info-circle"></i> لإضافة رابط: اكتب <code>&lt;رابطك هنا&gt;</code> وسيتم تحويله إلى رابط قابل للنقر
+                    </small>
+                </div>
+                
+                <div class="form-group full-width" style="display: flex; gap: 1rem;">
+                    <button type="submit" class="submit-btn" style="flex: 1;">
+                        <i class="fas fa-save"></i> حفظ التعديلات
+                    </button>
+                    <button type="button" class="submit-btn" style="flex: 1; background: var(--danger);" id="cancelEditBtn">
+                        <i class="fas fa-times"></i> إلغاء
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>روابط سريعة</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
+                        <li><a href="books.html"><i class="fas fa-book"></i> المكتبة</a></li>
+                        <li><a href="#"><i class="fas fa-chalkboard-teacher"></i> المحاضرات</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>حول المنصة</h4>
+                    <p style="color: #bdc3c7; line-height: 1.6;">منصة تعليمية لمشاركة المحاضرات والتحضيرات بين طلاب كلية التربية الرياضية</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2025 كلية التربية الرياضية - جميع الحقوق محفوظة</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        // تهيئة Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyBWKhdd3INeAdPRocDzIpiWV_opev--kiQ",
+            authDomain: "physicals-6e967.firebaseapp.com",
+            projectId: "physicals-6e967",
+            storageBucket: "physicals-6e967.firebasestorage.app",
+            messagingSenderId: "1044063949",
+            appId: "1:1044063949:web:c23c7d28afaaa3cbdc2b84",
+            measurementId: "G-WH172YM7WZ"
+        };
+
+        // Initialize Firebase
+        let auth, db;
+        try {
+            if (!firebase.apps.length) {
+                firebase.initializeApp(firebaseConfig);
+            }
+            auth = firebase.auth();
+            db = firebase.firestore();
+            
+            // إعدادات لتحسين الأداء
+            db.settings({
+                cacheSizeBytes: firebase.firestore.CACHE_SIZE_UNLIMITED
+            });
+            
+            console.log("Firebase initialized successfully");
+        } catch (error) {
+            console.error("Firebase initialization error:", error);
+        }
+
+        // العناصر الرئيسية
+        const userWelcome = document.getElementById('userWelcome');
+        const welcomeMessage = document.getElementById('welcomeMessage');
+        const addLectureSection = document.getElementById('addLectureSection');
+        const loginPrompt = document.getElementById('loginPrompt');
+        const lecturesGrid = document.getElementById('lecturesGrid');
+        const lectureForm = document.getElementById('lectureForm');
+        const authPopup = document.getElementById('authPopup');
+        const closeAuthPopup = document.getElementById('closeAuthPopup');
+        const authForm = document.getElementById('authForm');
+        const showLoginPopup = document.getElementById('showLoginPopup');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileMenuClose = document.getElementById('mobileMenuClose');
+        const editPopup = document.getElementById('editPopup');
+        const closeEditPopup = document.getElementById('closeEditPopup');
+        const editForm = document.getElementById('editForm');
+        const cancelEditBtn = document.getElementById('cancelEditBtn');
+        const lecturesCount = document.getElementById('lecturesCount');
+        const adminControls = document.getElementById('adminControls');
+        const userInfo = document.getElementById('userInfo');
+        const userName = document.getElementById('userName');
+        const userGrade = document.getElementById('userGrade');
+        const userAvatar = document.getElementById('userAvatar');
+        const filterType = document.getElementById('filterType');
+        const filterSubject = document.getElementById('filterSubject');
+        const subjectsList = document.getElementById('subjectsList');
+        const adminPrepBtn = document.getElementById('adminPrepBtn');
+        const mobileAdminPrepBtn = document.getElementById('mobileAdminPrepBtn');
+
+        // حالة التطبيق
+        let currentUser = null;
+        let currentEditingLecture = null;
+        let lastVisible = null;
+        const LECTURES_PER_PAGE = 12;
+        let allLecturesLoaded = false;
+        let allSubjects = new Set(); // لتخزين جميع المواد الدراسية
+        let currentFilter = {
+            type: '',
+            subject: ''
+        };
+
+        // التحقق من حالة تسجيل الدخول
+        function checkLoginStatus() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            
+            if (isLoggedIn === 'true') {
+                showUserInterface();
+                return true;
+            } else {
+                showGuestInterface();
+                return false;
+            }
+        }
+
+        // إظهار واجهة المستخدم المسجل
+        function showUserInterface() {
+            const userNameValue = localStorage.getItem('userName') || 'مستخدم';
+            const userGradeValue = localStorage.getItem('userGrade') || '';
+            const userAvatarValue = localStorage.getItem('userAvatar') || 'م';
+            const userEmail = localStorage.getItem('userEmail') || '';
+            const userRole = localStorage.getItem('userRole') || 'user';
+            
+            // تحديث رسالة الترحيب
+            welcomeMessage.textContent = `مرحباً بك، ${userNameValue}`;
+            userWelcome.style.display = 'block';
+            
+            // تحديث معلومات المستخدم في header
+            userName.textContent = userNameValue;
+            userGrade.textContent = userGradeValue;
+            userAvatar.textContent = userAvatarValue;
+            userInfo.style.display = 'flex';
+            
+            // التحقق إذا كان المستخدم مسؤولاً
+            if (userRole === 'admin') {
+                // إضافة شارة المسؤول
+                const adminBadge = document.createElement('span');
+                adminBadge.className = 'admin-badge';
+                adminBadge.innerHTML = '<i class="fas fa-user-shield"></i> مسؤول';
+                userInfo.querySelector('.user-details').prepend(adminBadge);
+                
+                // إظهار عناصر المسؤول
+                document.querySelectorAll('.admin-only').forEach(el => {
+                    el.style.display = 'block';
+                    el.classList.add('show');
+                });
+                
+                // إظهار زر التحضيرات
+                adminPrepBtn.style.display = 'flex';
+                mobileAdminPrepBtn.style.display = 'flex';
+                
+                // إظهار لوحة تحكم المسؤول
+                adminControls.style.display = 'block';
+            }
+            
+            // إظهار قسم إضافة المحاضرات للمسؤولين فقط
+            if (userRole === 'admin') {
+                addLectureSection.style.display = 'block';
+            } else {
+                addLectureSection.style.display = 'none';
+            }
+            
+            // إخفاء مطالبة تسجيل الدخول
+            loginPrompt.style.display = 'none';
+            
+            // تحديث معلومات المستخدم في localStorage
+            currentUser = {
+                name: userNameValue,
+                email: userEmail,
+                grade: userGradeValue,
+                avatar: userAvatarValue,
+                role: userRole
+            };
+        }
+
+        // إظهار واجهة الزائر
+        function showGuestInterface() {
+            userWelcome.style.display = 'none';
+            addLectureSection.style.display = 'none';
+            adminControls.style.display = 'none';
+            loginPrompt.style.display = 'block';
+            userInfo.style.display = 'none';
+            adminPrepBtn.style.display = 'none';
+            mobileAdminPrepBtn.style.display = 'none';
+            currentUser = null;
+            
+            // إخفاء عناصر المسؤول
+            document.querySelectorAll('.admin-only').forEach(el => {
+                el.style.display = 'none';
+                el.classList.remove('show');
+            });
+        }
+
+        // دالة لإظهار قسم إضافة التحضير
+        function showAddPreparation() {
+            if (!currentUser || currentUser.role !== 'admin') {
+                showNotification('فقط المسؤولون يمكنهم إضافة تحضيرات', 'error');
+                return;
+            }
+            
+            // تمرير إلى قسم إضافة المحاضرة
+            addLectureSection.scrollIntoView({ behavior: 'smooth' });
+            
+            // تعيين نوع المحتوى إلى "تحضير" تلقائياً
+            document.getElementById('lectureType').value = 'تحضير';
+            
+            showNotification('يمكنك الآن إضافة تحضير جديد', 'info');
+        }
+
+        // دالة لتحويل الروابط في النص
+        function convertLinks(text) {
+            if (!text) return '';
+            
+            // البحث عن النصوص بين <> وتحويلها إلى روابط
+            const linkRegex = /<([^>]+)>/g;
+            
+            return text.replace(linkRegex, function(match, url) {
+                // التأكد من أن الرابط يبدأ بـ http أو https
+                let finalUrl = url.trim();
+                if (!finalUrl.startsWith('http://') && !finalUrl.startsWith('https://')) {
+                    finalUrl = 'https://' + finalUrl;
+                }
+                
+                return `<a href="${finalUrl}" target="_blank" class="content-link" onclick="event.stopPropagation();">
+                    <i class="fas fa-external-link-alt"></i> ${url}
+                </a>`;
+            });
+        }
+
+        // تحميل المحاضرات مع نظام التصفح
+        async function loadLecturesPaginated(loadMore = false) {
+            try {
+                if (!loadMore) {
+                    // تحميل جديد - إعادة التعيين
+                    lastVisible = null;
+                    allLecturesLoaded = false;
+                    lecturesGrid.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <h3>جاري تحميل المحاضرات...</h3>
+                        </div>
+                    `;
+                }
+
+                let query = db.collection('lectures')
+                    .orderBy('createdAt', 'desc')
+                    .limit(LECTURES_PER_PAGE);
+
+                // تطبيق الفلاتر
+                if (currentFilter.type) {
+                    query = query.where('type', '==', currentFilter.type);
+                }
+                
+                if (currentFilter.subject) {
+                    query = query.where('subject', '==', currentFilter.subject);
+                }
+
+                // إذا كنا نحمل المزيد، ابدأ من آخر وثيقة مرئية
+                if (loadMore && lastVisible) {
+                    query = query.startAfter(lastVisible);
+                }
+
+                const snapshot = await query.get();
+
+                if (snapshot.empty) {
+                    if (!loadMore) {
+                        lecturesGrid.innerHTML = `
+                            <div class="empty-state">
+                                <i class="fas fa-inbox"></i>
+                                <h3>لا توجد محاضرات متاحة حالياً</h3>
+                                <p>كن أول من يضيف محاضرة!</p>
+                            </div>
+                        `;
+                    }
+                    allLecturesLoaded = true;
+                    
+                    // إزالة زر تحميل المزيد إذا كان موجوداً
+                    const loadMoreBtn = document.getElementById('loadMoreBtn');
+                    if (loadMoreBtn) loadMoreBtn.remove();
+                    
+                    return;
+                }
+
+                // تحديث lastVisible
+                lastVisible = snapshot.docs[snapshot.docs.length - 1];
+
+                if (!loadMore) {
+                    lecturesGrid.innerHTML = '';
+                }
+
+                let count = 0;
+                snapshot.forEach(doc => {
+                    const lecture = {
+                        id: doc.id,
+                        ...doc.data()
+                    };
+                    
+                    if (lecture.title && lecture.content) {
+                        addLectureToGrid(lecture);
+                        count++;
+                        
+                        // إضافة المادة إلى مجموعة المواد
+                        if (lecture.subject) {
+                            allSubjects.add(lecture.subject);
+                        }
+                    }
+                });
+
+                // تحديث قائمة المواد
+                updateSubjectsList();
+
+                // تحديث العداد
+                const currentCount = parseInt(lecturesCount.textContent) || 0;
+                lecturesCount.textContent = loadMore ? currentCount + count : count;
+
+                // إضافة زر "تحميل المزيد" إذا كان هناك المزيد من المحاضرات
+                if (snapshot.docs.length === LECTURES_PER_PAGE) {
+                    addLoadMoreButton();
+                } else {
+                    // إزالة زر تحميل المزيد إذا لم يكن هناك المزيد
+                    const loadMoreBtn = document.getElementById('loadMoreBtn');
+                    if (loadMoreBtn) loadMoreBtn.remove();
+                }
+
+                // إعادة تطبيق تقليم النص
+                setTimeout(truncateText, 100);
+
+            } catch (error) {
+                console.error('Error loading lectures:', error);
+                showError('حدث خطأ في تحميل المحاضرات: ' + error.message);
+            }
+        }
+
+        // دالة إضافة زر تحميل المزيد
+        function addLoadMoreButton() {
+            // إزالة الزر القديم إذا كان موجوداً
+            const oldBtn = document.getElementById('loadMoreBtn');
+            if (oldBtn) oldBtn.remove();
+            
+            const loadMoreBtn = document.createElement('button');
+            loadMoreBtn.id = 'loadMoreBtn';
+            loadMoreBtn.className = 'submit-btn';
+            loadMoreBtn.style.margin = '2rem auto';
+            loadMoreBtn.style.display = 'block';
+            loadMoreBtn.innerHTML = '<i class="fas fa-plus"></i> تحميل المزيد من المحاضرات';
+            loadMoreBtn.onclick = () => loadLecturesPaginated(true);
+            
+            lecturesGrid.appendChild(loadMoreBtn);
+        }
+
+        // إضافة محاضرة إلى الشبكة
+        function addLectureToGrid(lecture) {
+            const lectureCard = document.createElement('div');
+            lectureCard.className = 'lecture-card';
+            lectureCard.setAttribute('data-lecture-id', lecture.id);
+            
+            const firstLetter = lecture.authorName ? lecture.authorName.charAt(0).toUpperCase() : 'م';
+            const truncatedContent = lecture.content.length > 200 ? 
+                lecture.content.substring(0, 200) + '...' : 
+                lecture.content;
+            
+            // تحويل الروابط في المحتوى
+            const contentWithLinks = convertLinks(truncatedContent);
+            
+            // التحقق إذا كان المستخدم الحالي هو صاحب المحاضرة أو مسؤول
+            const isOwner = currentUser && currentUser.email === lecture.authorEmail;
+            const isAdmin = currentUser && currentUser.role === 'admin';
+            
+            lectureCard.innerHTML = `
+                <div class="lecture-header">
+                    ${(isOwner || isAdmin) ? `
+                        <div class="lecture-actions">
+                            <button class="action-btn edit" onclick="editLecture('${lecture.id}')" title="تعديل">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn delete" onclick="deleteLecture('${lecture.id}')" title="حذف">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    ` : ''}
+                    <h3 class="lecture-title">${lecture.title || 'بدون عنوان'}</h3>
+                    <div class="lecture-meta">
+                        <span class="lecture-type">${lecture.type || 'محاضرة'}</span>
+                        <span>${formatDate(lecture.createdAt)}</span>
+                    </div>
+                </div>
+                <div class="lecture-body">
+                    <span class="lecture-subject">${lecture.subject || 'عام'}</span>
+                    <div class="lecture-description">${contentWithLinks}</div>
+                    
+                    <div class="lecture-author">
+                        <div class="author-avatar">${firstLetter}</div>
+                        <div class="author-info">
+                            <div class="author-name">${lecture.authorName || 'مستخدم'}</div>
+                            <div class="author-meta">
+                                <span>${lecture.authorGrade || ''}</span>
+                                <span>${formatTime(lecture.createdAt)}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="view-btn" onclick="viewFullLecture('${lecture.id}')">
+                        <i class="fas fa-eye"></i> عرض المحاضرة كاملة
+                    </button>
+                </div>
+            `;
+            
+            // إضافة بسلاسة
+            lectureCard.style.opacity = '0';
+            lectureCard.style.transform = 'translateY(20px)';
+            lecturesGrid.appendChild(lectureCard);
+            
+            // أنيميشن ظهور
+            setTimeout(() => {
+                lectureCard.style.transition = 'all 0.3s ease';
+                lectureCard.style.opacity = '1';
+                lectureCard.style.transform = 'translateY(0)';
+            }, 10);
+        }
+
+        // تحديث قائمة المواد
+        function updateSubjectsList() {
+            // تحديث قائمة الفلترة
+            filterSubject.innerHTML = '<option value="">جميع المواد</option>';
+            allSubjects.forEach(subject => {
+                const option = document.createElement('option');
+                option.value = subject;
+                option.textContent = subject;
+                filterSubject.appendChild(option);
+            });
+            
+            // تحديث قائمة العلامات
+            subjectsList.innerHTML = '';
+            allSubjects.forEach(subject => {
+                const tag = document.createElement('span');
+                tag.className = 'subject-tag';
+                if (subject === currentFilter.subject) {
+                    tag.classList.add('active');
+                }
+                tag.textContent = subject;
+                tag.onclick = () => {
+                    currentFilter.subject = currentFilter.subject === subject ? '' : subject;
+                    loadLecturesPaginated(false);
+                };
+                subjectsList.appendChild(tag);
+            });
+        }
+
+        // تنسيق التاريخ
+        function formatDate(timestamp) {
+            if (!timestamp) return 'تاريخ غير معروف';
+            
+            try {
+                const date = timestamp.toDate();
+                return date.toLocaleDateString('ar-EG', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+            } catch (error) {
+                return 'تاريخ غير معروف';
+            }
+        }
+
+        // تنسيق الوقت
+        function formatTime(timestamp) {
+            if (!timestamp) return '';
+            
+            try {
+                const date = timestamp.toDate();
+                return date.toLocaleTimeString('ar-EG', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            } catch (error) {
+                return '';
+            }
+        }
+
+        // تعديل محاضرة
+        async function editLecture(lectureId) {
+            try {
+                const lectureDoc = await db.collection('lectures').doc(lectureId).get();
+                if (!lectureDoc.exists) {
+                    showNotification('المحاضرة غير موجودة', 'error');
+                    return;
+                }
+
+                const lecture = lectureDoc.data();
+                
+                // التحقق من ملكية المحاضرة أو صلاحية المسؤول
+                if (currentUser.email !== lecture.authorEmail && currentUser.role !== 'admin') {
+                    showNotification('ليس لديك صلاحية لتعديل هذه المحاضرة', 'error');
+                    return;
+                }
+
+                currentEditingLecture = lectureId;
+                
+                // تعبئة النموذج ببيانات المحاضرة
+                document.getElementById('editLectureId').value = lectureId;
+                document.getElementById('editLectureTitle').value = lecture.title || '';
+                document.getElementById('editLectureSubject').value = lecture.subject || '';
+                document.getElementById('editLectureType').value = lecture.type || '';
+                document.getElementById('editLectureContent').value = lecture.content || '';
+                
+                // إظهار نافذة التعديل
+                editPopup.classList.add('active');
+                document.body.style.overflow = 'hidden';
+
+            } catch (error) {
+                console.error('Error loading lecture for edit:', error);
+                showNotification('حدث خطأ في تحميل بيانات المحاضرة', 'error');
+            }
+        }
+
+        // حذف محاضرة
+        async function deleteLecture(lectureId) {
+            if (!confirm('هل أنت متأكد من حذف هذه المحاضرة؟ لا يمكن التراجع عن هذا الإجراء.')) {
+                return;
+            }
+
+            try {
+                // التحقق من ملكية المحاضرة أو صلاحية المسؤول
+                const lectureDoc = await db.collection('lectures').doc(lectureId).get();
+                if (!lectureDoc.exists) {
+                    showNotification('المحاضرة غير موجودة', 'error');
+                    return;
+                }
+
+                const lecture = lectureDoc.data();
+                if (currentUser.email !== lecture.authorEmail && currentUser.role !== 'admin') {
+                    showNotification('ليس لديك صلاحية لحذف هذه المحاضرة', 'error');
+                    return;
+                }
+
+                await db.collection('lectures').doc(lectureId).delete();
+                showNotification('تم حذف المحاضرة بنجاح', 'success');
+                
+                // إزالة العنصر من الواجهة
+                const lectureElement = document.querySelector(`[data-lecture-id="${lectureId}"]`);
+                if (lectureElement) {
+                    lectureElement.style.opacity = '0';
+                    lectureElement.style.transform = 'translateY(-20px)';
+                    setTimeout(() => {
+                        lectureElement.remove();
+                        
+                        // تحديث العداد
+                        const currentCount = parseInt(lecturesCount.textContent) || 0;
+                        lecturesCount.textContent = Math.max(0, currentCount - 1);
+                        
+                        // إذا لم يعد هناك محاضرات، عرض حالة فارغة
+                        if (lecturesGrid.children.length === 0) {
+                            lecturesGrid.innerHTML = `
+                                <div class="empty-state">
+                                    <i class="fas fa-inbox"></i>
+                                    <h3>لا توجد محاضرات متاحة حالياً</h3>
+                                    <p>كن أول من يضيف محاضرة!</p>
+                                </div>
+                            `;
+                        }
+                    }, 300);
+                }
+
+            } catch (error) {
+                console.error('Error deleting lecture:', error);
+                showNotification('حدث خطأ في حذف المحاضرة', 'error');
+            }
+        }
+
+        // إضافة محاضرة جديدة
+        lectureForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (!checkLoginStatus()) {
+                showNotification('يجب تسجيل الدخول لإضافة محاضرات', 'error');
+                return;
+            }
+
+            const title = document.getElementById('lectureTitle').value.trim();
+            const subject = document.getElementById('lectureSubject').value.trim();
+            const type = document.getElementById('lectureType').value;
+            const content = document.getElementById('lectureContent').value.trim();
+
+            // التحقق من صحة البيانات
+            if (!title || !subject || !type || !content) {
+                showNotification('يرجى ملء جميع الحقول المطلوبة', 'error');
+                return;
+            }
+
+            if (content.length < 10) {
+                showNotification('محتوى المحاضرة يجب أن يكون على الأقل 10 أحرف', 'error');
+                return;
+            }
+
+            // التحقق من أن المستخدم مسؤول إذا كان يضيف تحضير
+            if (type === 'تحضير' && currentUser.role !== 'admin') {
+                showNotification('فقط المسؤولون يمكنهم إضافة تحضيرات', 'error');
+                return;
+            }
+
+            const lectureData = {
+                title: title,
+                subject: subject,
+                type: type,
+                content: content,
+                authorName: currentUser.name,
+                authorGrade: currentUser.grade,
+                authorEmail: currentUser.email,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            try {
+                // إظهار حالة التحميل
+                const submitBtn = lectureForm.querySelector('.submit-btn');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري النشر...';
+                submitBtn.disabled = true;
+
+                const docRef = await db.collection('lectures').add(lectureData);
+                lectureData.id = docRef.id;
+                
+                // إعادة تعيين النموذج
+                lectureForm.reset();
+                
+                // إضافة المحاضرة الجديدة إلى الواجهة فوراً
+                addNewLectureToTop(lectureData);
+                
+                // تحديث العداد
+                const currentCount = parseInt(lecturesCount.textContent) || 0;
+                lecturesCount.textContent = currentCount + 1;
+                
+                // إظهار رسالة نجاح
+                showNotification('تم نشر المحاضرة بنجاح!', 'success');
+                
+            } catch (error) {
+                console.error('Error adding lecture:', error);
+                showNotification('حدث خطأ في نشر المحاضرة: ' + error.message, 'error');
+            } finally {
+                // إعادة تعيين الزر
+                const submitBtn = lectureForm.querySelector('.submit-btn');
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> نشر المحاضرة';
+                submitBtn.disabled = false;
+            }
+        });
+
+        // تحديث محاضرة
+        editForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const lectureId = document.getElementById('editLectureId').value;
+            const title = document.getElementById('editLectureTitle').value.trim();
+            const subject = document.getElementById('editLectureSubject').value.trim();
+            const type = document.getElementById('editLectureType').value;
+            const content = document.getElementById('editLectureContent').value.trim();
+
+            // التحقق من صحة البيانات
+            if (!title || !subject || !type || !content) {
+                showNotification('يرجى ملء جميع الحقول المطلوبة', 'error');
+                return;
+            }
+
+            if (content.length < 10) {
+                showNotification('محتوى المحاضرة يجب أن يكون على الأقل 10 أحرف', 'error');
+                return;
+            }
+
+            // التحقق من أن المستخدم مسؤول إذا كان يضيف تحضير
+            if (type === 'تحضير' && currentUser.role !== 'admin') {
+                showNotification('فقط المسؤولون يمكنهم إضافة تحضيرات', 'error');
+                return;
+            }
+
+            try {
+                // إظهار حالة التحميل
+                const submitBtn = editForm.querySelector('.submit-btn');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الحفظ...';
+                submitBtn.disabled = true;
+
+                await db.collection('lectures').doc(lectureId).update({
+                    title: title,
+                    subject: subject,
+                    type: type,
+                    content: content,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                // إغلاق نافذة التعديل
+                editPopup.classList.remove('active');
+                document.body.style.overflow = 'auto';
+                
+                // تحديث المحاضرة في الواجهة
+                updateLectureInGrid(lectureId, { title, subject, type, content });
+                
+                // إظهار رسالة نجاح
+                showNotification('تم تحديث المحاضرة بنجاح!', 'success');
+                
+            } catch (error) {
+                console.error('Error updating lecture:', error);
+                showNotification('حدث خطأ في تحديث المحاضرة: ' + error.message, 'error');
+            } finally {
+                // إعادة تعيين الزر
+                const submitBtn = editForm.querySelector('.submit-btn');
+                submitBtn.innerHTML = '<i class="fas fa-save"></i> حفظ التعديلات';
+                submitBtn.disabled = false;
+            }
+        });
+
+        // تحديث المحاضرة في الواجهة
+        function updateLectureInGrid(lectureId, updatedData) {
+            const lectureElement = document.querySelector(`[data-lecture-id="${lectureId}"]`);
+            if (lectureElement) {
+                // تحديث العنوان
+                const titleElement = lectureElement.querySelector('.lecture-title');
+                if (titleElement) titleElement.textContent = updatedData.title;
+                
+                // تحديث المادة
+                const subjectElement = lectureElement.querySelector('.lecture-subject');
+                if (subjectElement) subjectElement.textContent = updatedData.subject;
+                
+                // تحديث النوع
+                const typeElement = lectureElement.querySelector('.lecture-type');
+                if (typeElement) typeElement.textContent = updatedData.type;
+                
+                // تحديث المحتوى مع تحويل الروابط
+                const contentElement = lectureElement.querySelector('.lecture-description');
+                if (contentElement) {
+                    const truncatedContent = updatedData.content.length > 200 ? 
+                        updatedData.content.substring(0, 200) + '...' : 
+                        updatedData.content;
+                    const contentWithLinks = convertLinks(truncatedContent);
+                    contentElement.innerHTML = contentWithLinks;
+                }
+                
+                // إضافة أنيميشن للتحديث
+                lectureElement.style.background = 'linear-gradient(135deg, #ffffff 0%, #f0f8ff 100%)';
+                lectureElement.style.border = '2px solid var(--info)';
+                
+                setTimeout(() => {
+                    lectureElement.style.background = '';
+                    lectureElement.style.border = '';
+                }, 2000);
+            }
+        }
+
+        // إضافة محاضرة جديدة في الأعلى
+        function addNewLectureToTop(lecture) {
+            const lectureCard = document.createElement('div');
+            lectureCard.className = 'lecture-card new-lecture';
+            lectureCard.setAttribute('data-lecture-id', lecture.id);
+            
+            const firstLetter = lecture.authorName ? lecture.authorName.charAt(0).toUpperCase() : 'م';
+            const truncatedContent = lecture.content.length > 200 ? 
+                lecture.content.substring(0, 200) + '...' : 
+                lecture.content;
+            
+            // تحويل الروابط في المحتوى
+            const contentWithLinks = convertLinks(truncatedContent);
+            
+            lectureCard.innerHTML = `
+                <div class="lecture-header">
+                    <div class="lecture-actions">
+                        <button class="action-btn edit" onclick="editLecture('${lecture.id}')" title="تعديل">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="action-btn delete" onclick="deleteLecture('${lecture.id}')" title="حذف">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    <h3 class="lecture-title">${lecture.title || 'بدون عنوان'}</h3>
+                    <div class="lecture-meta">
+                        <span class="lecture-type">${lecture.type || 'محاضرة'}</span>
+                        <span>الآن</span>
+                    </div>
+                </div>
+                <div class="lecture-body">
+                    <span class="lecture-subject">${lecture.subject || 'عام'}</span>
+                    <div class="lecture-description">${contentWithLinks}</div>
+                    
+                    <div class="lecture-author">
+                        <div class="author-avatar">${firstLetter}</div>
+                        <div class="author-info">
+                            <div class="author-name">${lecture.authorName || 'مستخدم'}</div>
+                            <div class="author-meta">
+                                <span>${lecture.authorGrade || ''}</span>
+                                <span>الآن</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="view-btn" onclick="viewFullLecture('${lecture.id}')">
+                        <i class="fas fa-eye"></i> عرض المحاضرة كاملة
+                    </button>
+                </div>
+            `;
+            
+            // إضافة في البداية مع أنيميشن
+            if (lecturesGrid.firstChild && !lecturesGrid.firstChild.classList.contains('empty-state')) {
+                lecturesGrid.insertBefore(lectureCard, lecturesGrid.firstChild);
+            } else {
+                lecturesGrid.innerHTML = '';
+                lecturesGrid.appendChild(lectureCard);
+            }
+            
+            // أنيميشن خاصة للمحاضرات الجديدة
+            lectureCard.style.opacity = '0';
+            lectureCard.style.transform = 'scale(0.8)';
+            lectureCard.style.background = 'linear-gradient(135deg, #ffffff 0%, #f8fff8 100%)';
+            lectureCard.style.border = '2px solid var(--success)';
+            
+            setTimeout(() => {
+                lectureCard.style.transition = 'all 0.5s ease';
+                lectureCard.style.opacity = '1';
+                lectureCard.style.transform = 'scale(1)';
+            }, 10);
+            
+            setTimeout(() => {
+                lectureCard.style.background = '';
+                lectureCard.style.border = '';
+            }, 3000);
+        }
+
+        // عرض المحاضرة بالكامل
+        async function viewFullLecture(lectureId) {
+            try {
+                const lectureDoc = await db.collection('lectures').doc(lectureId).get();
+                if (!lectureDoc.exists) {
+                    showNotification('المحاضرة غير موجودة', 'error');
+                    return;
+                }
+
+                const lecture = lectureDoc.data();
+                
+                // إنشاء نافذة عرض المحاضرة
+                createLectureViewer(lecture);
+
+            } catch (error) {
+                console.error('Error loading full lecture:', error);
+                showNotification('حدث خطأ في تحميل المحاضرة', 'error');
+            }
+        }
+
+        // إنشاء نافذة عرض المحاضرة الكاملة
+        function createLectureViewer(lecture) {
+            // إنشاء عنصر النافذة
+            const viewer = document.createElement('div');
+            viewer.className = 'lecture-viewer-popup active';
+            viewer.style.cssText = `
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.8);
+                z-index: 4000;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 20px;
+                backdrop-filter: blur(5px);
+            `;
+
+            const firstLetter = lecture.authorName ? lecture.authorName.charAt(0).toUpperCase() : 'م';
+            
+            // تحويل الروابط في المحتوى الكامل
+            const fullContentWithLinks = convertLinks(lecture.content);
+            
+            viewer.innerHTML = `
+                <div class="lecture-viewer-content" style="
+                    background: white;
+                    border-radius: var(--border-radius-lg);
+                    padding: 2rem;
+                    max-width: 800px;
+                    width: 100%;
+                    max-height: 90vh;
+                    overflow-y: auto;
+                    position: relative;
+                    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                ">
+                    <button class="close-viewer" style="
+                        position: absolute;
+                        top: 1rem;
+                        left: 1rem;
+                        background: var(--danger);
+                        color: white;
+                        border: none;
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        cursor: pointer;
+                        font-size: 1.2rem;
+                        z-index: 10;
+                    ">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    
+                    <div class="lecture-viewer-header" style="
+                        background: var(--gradient);
+                        color: white;
+                        padding: 2rem;
+                        border-radius: var(--border-radius);
+                        margin-bottom: 2rem;
+                        position: relative;
+                    ">
+                        <h2 style="margin: 0 0 1rem 0; font-size: 1.8rem; line-height: 1.4;">${lecture.title || 'بدون عنوان'}</h2>
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                            <span style="background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; font-weight: 500;">
+                                ${lecture.type || 'محاضرة'}
+                            </span>
+                            <span>${formatDate(lecture.createdAt)} - ${formatTime(lecture.createdAt)}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="lecture-viewer-body" style="padding: 0 1rem;">
+                        <div style="margin-bottom: 2rem;">
+                            <span class="lecture-subject" style="
+                                background: var(--light);
+                                color: var(--primary);
+                                padding: 8px 16px;
+                                border-radius: 20px;
+                                font-weight: 600;
+                                font-size: 0.9rem;
+                            ">${lecture.subject || 'عام'}</span>
+                        </div>
+                        
+                        <div class="lecture-full-content" style="
+                            line-height: 1.8;
+                            font-size: 1.1rem;
+                            color: var(--dark);
+                            white-space: pre-wrap;
+                            word-wrap: break-word;
+                            margin-bottom: 2rem;
+                            padding: 1.5rem;
+                            background: var(--light);
+                            border-radius: var(--border-radius);
+                            border-right: 4px solid var(--primary);
+                        ">${fullContentWithLinks}</div>
+                        
+                        <div class="lecture-author" style="
+                            display: flex;
+                            align-items: center;
+                            gap: 1rem;
+                            padding: 1.5rem;
+                            background: var(--light-gray);
+                            border-radius: var(--border-radius);
+                            margin-top: 2rem;
+                        ">
+                            <div class="author-avatar" style="
+                                width: 50px;
+                                height: 50px;
+                                border-radius: 50%;
+                                background: var(--gradient-accent);
+                                color: var(--dark);
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                font-weight: 700;
+                                font-size: 1.2rem;
+                            ">${firstLetter}</div>
+                            <div class="author-info" style="flex: 1;">
+                                <div class="author-name" style="font-weight: 600; color: var(--primary); font-size: 1.1rem;">
+                                    ${lecture.authorName || 'مستخدم'}
+                                </div>
+                                <div class="author-meta" style="display: flex; gap: 1rem; font-size: 0.9rem; color: var(--gray); margin-top: 5px;">
+                                    <span>${lecture.authorGrade || ''}</span>
+                                    <span>${lecture.authorEmail || ''}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // إضافة النافذة إلى body
+            document.body.appendChild(viewer);
+            document.body.style.overflow = 'hidden';
+
+            // إضافة event listener لإغلاق النافذة
+            const closeBtn = viewer.querySelector('.close-viewer');
+            closeBtn.addEventListener('click', () => {
+                document.body.removeChild(viewer);
+                document.body.style.overflow = 'auto';
+            });
+
+            // إغلاق النافذة عند النقر خارج المحتوى
+            viewer.addEventListener('click', (e) => {
+                if (e.target === viewer) {
+                    document.body.removeChild(viewer);
+                    document.body.style.overflow = 'auto';
+                }
+            });
+
+            // إغلاق النافذة بالزر Escape
+            const closeOnEscape = (e) => {
+                if (e.key === 'Escape') {
+                    document.body.removeChild(viewer);
+                    document.body.style.overflow = 'auto';
+                    document.removeEventListener('keydown', closeOnEscape);
+                }
+            };
+            document.addEventListener('keydown', closeOnEscape);
+        }
+
+        // إعداد التحديثات في الوقت الحقيقي
+        function setupRealTimeUpdates() {
+            if (!db) return;
+            
+            db.collection('lectures')
+                .orderBy('createdAt', 'desc')
+                .limit(1)
+                .onSnapshot((snapshot) => {
+                    snapshot.docChanges().forEach((change) => {
+                        if (change.type === 'added') {
+                            // إذا كانت هذه محاضرة جديدة وليست التحميل الأولي
+                            const newLectureId = change.doc.id;
+                            if (!document.querySelector(`[data-lecture-id="${newLectureId}"]`)) {
+                                const lecture = {
+                                    id: newLectureId,
+                                    ...change.doc.data()
+                                };
+                                
+                                // التحقق من أن المحاضرة ليست من المستخدم الحالي (لتجنب التكرار)
+                                if (currentUser && lecture.authorEmail !== currentUser.email) {
+                                    // إضافة المحاضرة الجديدة في الأعلى
+                                    addNewLectureToTop(lecture);
+                                    
+                                    // تحديث العداد
+                                    const currentCount = parseInt(lecturesCount.textContent) || 0;
+                                    lecturesCount.textContent = currentCount + 1;
+                                    
+                                    // إضافة المادة إلى مجموعة المواد
+                                    if (lecture.subject) {
+                                        allSubjects.add(lecture.subject);
+                                        updateSubjectsList();
+                                    }
+                                    
+                                    showNotification('تمت إضافة محاضرة جديدة', 'info');
+                                }
+                            }
+                        }
+                    });
+                }, (error) => {
+                    console.error('Real-time update error:', error);
+                });
+        }
+
+        // تقليم النص تلقائياً
+        function truncateText() {
+            const descriptions = document.querySelectorAll('.lecture-description');
+            descriptions.forEach(desc => {
+                const lineHeight = parseInt(getComputedStyle(desc).lineHeight);
+                const maxHeight = lineHeight * 3; // 3 أسطر
+                
+                if (desc.scrollHeight > maxHeight) {
+                    desc.classList.add('truncated');
+                } else {
+                    desc.classList.remove('truncated');
+                }
+            });
+        }
+
+        // إظهار الإشعارات
+        function showNotification(message, type) {
+            // إزالة أي إشعارات سابقة
+            const existingNotifications = document.querySelectorAll('.notification');
+            existingNotifications.forEach(notification => notification.remove());
+            
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${getNotificationIcon(type)}"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // إخفاء الإشعار تلقائياً بعد 5 ثواني
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.style.animation = 'fadeOut 0.3s ease';
+                    setTimeout(() => {
+                        if (notification.parentNode) {
+                            notification.remove();
+                        }
+                    }, 300);
+                }
+            }, 5000);
+        }
+
+        // الحصول على أيقونة الإشعار المناسبة
+        function getNotificationIcon(type) {
+            const icons = {
+                success: 'check-circle',
+                error: 'exclamation-triangle',
+                info: 'info-circle',
+                warning: 'exclamation-circle'
+            };
+            return icons[type] || 'info-circle';
+        }
+
+        // إظهار خطأ
+        function showError(message) {
+            lecturesGrid.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>حدث خطأ في تحميل المحاضرات</h3>
+                    <p>${message}</p>
+                    <button onclick="loadLecturesPaginated(false)" class="view-btn" style="margin-top: 1rem; width: auto;">
+                        <i class="fas fa-redo"></i> إعادة المحاولة
+                    </button>
+                </div>
+            `;
+        }
+
+        // نظام المصادقة في الصفحة
+        showLoginPopup.addEventListener('click', function(e) {
+            e.preventDefault();
+            authPopup.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        closeAuthPopup.addEventListener('click', function() {
+            authPopup.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        authPopup.addEventListener('click', function(e) {
+            if (e.target === authPopup) {
+                authPopup.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // إغلاق نافذة التعديل
+        closeEditPopup.addEventListener('click', function() {
+            editPopup.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            currentEditingLecture = null;
+        });
+
+        cancelEditBtn.addEventListener('click', function() {
+            editPopup.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            currentEditingLecture = null;
+        });
+
+        editPopup.addEventListener('click', function(e) {
+            if (e.target === editPopup) {
+                editPopup.classList.remove('active');
+                document.body.style.overflow = 'auto';
+                currentEditingLecture = null;
+            }
+        });
+
+        // نظام تسجيل الدخول
+        authForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('authEmail').value.trim();
+            const password = document.getElementById('authPassword').value;
+
+            if (!email || !password) {
+                showNotification('يرجى ملء جميع الحقول', 'error');
+                return;
+            }
+
+            try {
+                // إظهار حالة التحميل
+                const submitBtn = authForm.querySelector('.submit-btn');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري تسجيل الدخول...';
+                submitBtn.disabled = true;
+
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+                
+                if (user) {
+                    // الحصول على بيانات المستخدم من Firestore
+                    const userDoc = await db.collection('users').doc(user.uid).get();
+                    
+                    if (userDoc.exists) {
+                        const userData = userDoc.data();
+                        
+                        // حفظ البيانات في localStorage
+                        localStorage.setItem('isLoggedIn', 'true');
+                        localStorage.setItem('userName', userData.name);
+                        localStorage.setItem('userEmail', userData.email);
+                        localStorage.setItem('userGovernorate', userData.governorate || '');
+                        localStorage.setItem('userGrade', userData.grade || '');
+                        localStorage.setItem('userAvatar', userData.name.charAt(0).toUpperCase());
+                        localStorage.setItem('userRole', userData.role || 'user');
+                        
+                        // إغلاق النافذة وتحديث الواجهة
+                        authPopup.classList.remove('active');
+                        document.body.style.overflow = 'auto';
+                        checkLoginStatus();
+                        
+                        showNotification('تم تسجيل الدخول بنجاح!', 'success');
+                    } else {
+                        showNotification('بيانات المستخدم غير موجودة', 'error');
+                    }
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                let errorMessage = 'حدث خطأ في تسجيل الدخول';
+                
+                if (error.code === 'auth/user-not-found') {
+                    errorMessage = 'لا يوجد حساب مرتبط بهذا البريد الإلكتروني';
+                } else if (error.code === 'auth/wrong-password') {
+                    errorMessage = 'كلمة المرور غير صحيحة';
+                } else if (error.code === 'auth/invalid-email') {
+                    errorMessage = 'البريد الإلكتروني غير صحيح';
+                } else if (error.code === 'auth/too-many-requests') {
+                    errorMessage = 'تم محاولة الدخول عدة مرات، يرجى المحاولة لاحقاً';
+                } else if (error.code === 'auth/network-request-failed') {
+                    errorMessage = 'خطأ في الاتصال بالإنترنت';
+                }
+                
+                showNotification(errorMessage, 'error');
+            } finally {
+                // إعادة تعيين الزر
+                const submitBtn = authForm.querySelector('.submit-btn');
+                submitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> تسجيل الدخول';
+                submitBtn.disabled = false;
+            }
+        });
+
+        // إضافة event listeners للفلاتر
+        filterType.addEventListener('change', function() {
+            currentFilter.type = this.value;
+            loadLecturesPaginated(false);
+        });
+
+        filterSubject.addEventListener('change', function() {
+            currentFilter.subject = this.value;
+            loadLecturesPaginated(false);
+        });
+
+        // التحكم في القائمة الجوال
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        mobileMenuClose.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        // إغلاق القائمة عند النقر خارجها
+        document.addEventListener('click', (e) => {
+            if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // إضافة أنيميشن fadeOut إلى CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeOut {
+                from { opacity: 1; transform: translateY(0); }
+                to { opacity: 0; transform: translateY(-20px); }
+            }
+            
+            .lecture-description.truncated {
+                position: relative;
+                max-height: 4.8em;
+                overflow: hidden;
+            }
+            
+            .lecture-description.truncated::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 1.6em;
+                background: linear-gradient(transparent, white);
+            }
+            
+            @media (prefers-color-scheme: dark) {
+                .lecture-description.truncated::after {
+                    background: linear-gradient(transparent, #2d2d2d);
+                }
+                
+                .lecture-viewer-content {
+                    background: #2d2d2d !important;
+                    color: white !important;
+                }
+                
+                .lecture-full-content {
+                    background: #3d3d3d !important;
+                    color: white !important;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // تحميل البيانات عند بدء التشغيل
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("جاري تهيئة التطبيق...");
+            checkLoginStatus();
+            loadLecturesPaginated(false);
+            
+            // إعداد التحديثات في الوقت الحقيقي
+            setupRealTimeUpdates();
+            
+            // الاستماع لتغير حالة المصادقة
+            if (auth) {
+                auth.onAuthStateChanged((user) => {
+                    if (user) {
+                        console.log("User is signed in:", user.uid);
+                    } else {
+                        console.log("User is signed out");
+                        // إذا سجل المستخدم الخروج، نحدث الواجهة
+                        if (currentUser) {
+                            localStorage.removeItem('isLoggedIn');
+                            localStorage.removeItem('userName');
+                            localStorage.removeItem('userEmail');
+                            localStorage.removeItem('userGovernorate');
+                            localStorage.removeItem('userGrade');
+                            localStorage.removeItem('userAvatar');
+                            localStorage.removeItem('userRole');
+                            checkLoginStatus();
+                        }
+                    }
+                });
+            }
+        });
+
+        // جعل الدوال متاحة عالمياً
+        window.editLecture = editLecture;
+        window.deleteLecture = deleteLecture;
+        window.viewFullLecture = viewFullLecture;
+        window.loadLectures = loadLecturesPaginated;
+        window.showAddPreparation = showAddPreparation;
+    </script>
+</body>
+</html>
